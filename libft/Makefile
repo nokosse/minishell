@@ -6,7 +6,7 @@
 #    By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/12 17:26:39 by kvisouth          #+#    #+#              #
-#    Updated: 2023/05/26 14:27:55 by kvisouth         ###   ########.fr        #
+#    Updated: 2023/05/26 14:49:09 by kvisouth         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ SRCS = src/ft_atoi.c \
 	src/ft_memchr.c \
 	src/ft_memcmp.c \
 	src/ft_memcpy.c \
-	src/ft_memccpy.c \
+	src/ft_memcpy.c \
 	src/ft_memmove.c \
 	src/ft_memset.c \
 	src/ft_printf_utils.c \
@@ -63,6 +63,7 @@ SRCS = src/ft_atoi.c \
 	src/ft_toupper.c \
 	src/get_next_line_utils.c \
 	src/get_next_line.c \
+
 OBJS = $(SRCS:src/%.c=obj/%.o)
 RM	 = rm -rf
 AR	 = ar rcs
