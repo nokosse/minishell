@@ -6,8 +6,14 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 15:30:19 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/05/26 13:41:34 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/05/26 14:38:23 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-potit changement
+#include "minishell.h"
+
+int main (void)
+{
+    ft_printf("minishell> ");
+    return (0);
+}
