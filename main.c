@@ -1,19 +1,21 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/05 15:30:19 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/05/26 14:38:23 by kvisouth         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
-int main (void)
+int	main(int argc, char **argv, char **envp)
 {
-    ft_printf("minishell> ");
-    return (0);
+	(void) argc;
+	(void) argv;
+	char	*line;
+
+	while (1)
+	{
+		line = readline("minishell> ");
+		add_history(line);
+		if (!strcmp(line, "exit"))
+		{
+			free (line);
+			break ;
+		}
+		lexer(line, envp);
+	}
+	return (0);
 }

@@ -1,0 +1,64 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: operez <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/19 17:35:52 by operez            #+#    #+#             */
+/*   Updated: 2023/05/26 16:38:21 by operez           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+int	check_path(char **tokens, char **envp)
+{
+	int		i;
+	char	*path;
+	char	**split;
+	char	*command;
+
+	i = 0;
+	path = getenv("PATH");
+	(void) envp;
+	split = ft_split(path, ':');
+	while (split[i])
+	{
+		split[i] = ft_strjoin(split[i], "/");
+		command = ft_strjoin(split[i], tokens[0]);			//gere que la premiere commande pour l instant
+		ft_printf("command = %s\n", command);
+		if (access(command, X_OK) == 0)
+		{
+			tokens[0] = command;
+			ft_printf("command valid\n");
+			return (1);
+		}
+		i++;
+	}
+	ft_printf("Command not found\n");
+	return (0);
+}
+
+void	executor(char **tokens, char **envp)
+{
+	pid_t	pid;
+	int	status;
+
+	if (check_path(tokens, envp))
+	{
+		pid = 0;
+		status = 0;
+		pid = fork();
+		if (pid > 0)
+		{
+			waitpid(pid, &status, 0);
+			kill(pid, SIGTERM);
+		}
+		else
+		{
+			if (execve(tokens[0], tokens, NULL) == -1)
+				perror("error");
+		}
+	}
+}

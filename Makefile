@@ -6,16 +6,18 @@
 #    By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/05 15:30:22 by kvisouth          #+#    #+#              #
-#    Updated: 2023/05/26 14:41:39 by kvisouth         ###   ########.fr        #
+#    Updated: 2023/05/26 16:50:04 by operez           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 SRC = main.c \
+	lexer.c \
+	executor.c \
 	
 OBJ = $(addprefix obj/, $(SRC:.c=.o))
 HEADERS = minishell.h
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g3
 CC = gcc
 
 
