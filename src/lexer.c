@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: operez <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 12:19:51 by operez            #+#    #+#             */
-/*   Updated: 2023/05/26 16:26:39 by operez           ###   ########.fr       */
+/*   Updated: 2023/05/30 12:25:56 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 char	*word_to_array(char *str, int i, int j)
 {
