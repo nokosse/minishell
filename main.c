@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 12:59:05 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/05/30 13:03:19 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/05/30 13:57:14 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 //			gerer les pipes |
 //			gerer les variables d'environnement
 //			gerer $?
-//			gerer les signaux CTRL-C CTRL-D CTRL-\
+//			gerer les signaux CTRL-C CTRL-D CTRL-\ //
 //			gerer les builtins :
 //				- echo (avec option -n)
 //				- cd uniquement avec chemin relatif ou absolu
