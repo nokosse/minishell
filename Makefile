@@ -6,7 +6,7 @@
 #    By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/05 15:30:22 by kvisouth          #+#    #+#              #
-#    Updated: 2023/05/30 12:25:46 by kvisouth         ###   ########.fr        #
+#    Updated: 2023/05/30 18:01:16 by operez           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ NAME = minishell
 SRC = main.c \
 	src/lexer.c \
 	src/executor.c \
+	src/lexer_utils.c \
 	
 OBJ = $(addprefix obj/, $(SRC:.c=.o))
 HEADERS = minishell.h
