@@ -6,14 +6,14 @@
 #    By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/05 15:30:22 by kvisouth          #+#    #+#              #
-#    Updated: 2023/05/26 16:50:04 by operez           ###   ########.fr        #
+#    Updated: 2023/05/30 12:25:46 by kvisouth         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 SRC = main.c \
-	lexer.c \
-	executor.c \
+	src/lexer.c \
+	src/executor.c \
 	
 OBJ = $(addprefix obj/, $(SRC:.c=.o))
 HEADERS = minishell.h
@@ -24,7 +24,7 @@ CC = gcc
 all: libft $(NAME)
 
 $(NAME): $(OBJ) $(HEADERS)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) -Llibft -lft
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) -Llibft -lft -lreadline
 
 obj/%.o: %.c $(HEADERS)
 	mkdir -p $(@D)
