@@ -6,11 +6,19 @@
 /*   By: operez <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 12:19:51 by operez            #+#    #+#             */
-/*   Updated: 2023/05/30 18:11:32 by operez           ###   ########.fr       */
+/*   Updated: 2023/05/31 16:47:58 by operez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	is_whitespace(char c)
+{
+	if (c == ' ' || c == '\n' || c == '\t'
+		|| c == '\v' || c == '\f' || c == '\r')
+		return (1);
+	return (0);
+}
 
 void	create_lst(char *str, t_cmd **cmd)
 {
@@ -77,8 +85,7 @@ void	get_token(char *str, t_cmd **cmd)
 	while (str[i])
 	{
 		j = 0;
-		while (str[i] == ' ' || str[i] == '\n' || str[i] == '\t' || str[i] == '\v'
-				|| str[i] == '\f' || str[i] == '\r')
+		while (str[i] && is_whitespace(str[i]))
 			i++;
 		if (str[i] == '|')
 		{
@@ -87,13 +94,13 @@ void	get_token(char *str, t_cmd **cmd)
 			i++;
 			continue ;
 		}
-		while (str[i + j] && str[i + j] != ' ' && str[i + j] != '\n' && str[i + j] != '\t' && str[i + j] != '\v'
-				&& str[i + j] != '\f' && str[i + j] != '\r' && str[i + j] != '|')
+		if (str[i] == '<' || str[i] == '>')
+			handle_redirection(cmd, str, &i);
+		while (str[i + j] && !(is_whitespace(str[i + j])) && str[i + j + 1] != '|')
 			j++;
 		if (str[i] != '\0')
 			(*cmd)->tokens[k++] = word_to_array(str, i, j);
-		while (str[i] && str[i] != ' ' && str[i] != '\n' && str[i] != '\t' && str[i] != '\v'
-				&& str[i] != '\f' && str[i] != '\r')
+		while (str[i] && !(is_whitespace(str[i])))
 			i++;
 	}
 	*cmd = save;
@@ -108,13 +115,11 @@ void	tokens_count(char *str, t_cmd **cmd)
 	tmp = *cmd;
 	while (str[i])
 	{
-		while (str[i] == ' ' || str[i] == '\n' || str[i] == '\t' || str[i] == '\v'
-				|| str[i] == '\f' || str[i] == '\r')
+		while (str[i] && is_whitespace(str[i]))
 			i++;
-		if (str[i] != '\0' && str[i] != '|')
+		if (str[i] != '\0' && str[i] != '|' && str[i] != '<' && str[i] != '>')
 			tmp->tokens_count++;
-		while (str[i] && str[i] != ' ' && str[i] != '\n' && str[i] != '\t' && str[i] != '\v'
-				&& str[i] != '\f' && str[i] != '\r')
+		while (str[i] && !(is_whitespace(str[i])))
 		{
 			if (str[i] == '|')
 			{
@@ -122,23 +127,14 @@ void	tokens_count(char *str, t_cmd **cmd)
 				tmp = tmp->next;
 				break ;
 			}
+			/*
+			if (str[i] == '<' || str[i] == '>')
+				ignore_param(cmd, str, &i);
+			//creer fonction qui va ignorer la creation d un token si chevron present
+			//voir a deplacer handle_redir ici a la place
+				*/
 			i++;
 		}
-	}
-}
-
-void	ft_print(t_cmd *cmd)
-{
-	int	i;
-
-	i = 0;
-	while (cmd)
-	{
-		while (cmd->tokens[i])
-			ft_printf("%s", cmd->tokens[i++]);
-		cmd = cmd->next;
-		ft_printf("\n");
-		i = 0;
 	}
 }
 
