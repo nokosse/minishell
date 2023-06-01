@@ -6,8 +6,10 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 10:20:53 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/06/01 10:20:59 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/06/01 12:58:07 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+// This function 
