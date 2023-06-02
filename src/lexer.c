@@ -6,7 +6,7 @@
 /*   By: operez <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 12:19:51 by operez            #+#    #+#             */
-/*   Updated: 2023/05/31 16:47:58 by operez           ###   ########.fr       */
+/*   Updated: 2023/06/02 15:09:47 by operez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	*word_to_array(char *str, int i, int j)
 	tokens = malloc (sizeof(char) * (j + 1));
 	if (!tokens)
 		end();
-	while (k <= j)
+	while (str[i] && k <= j)
 		tokens[k++] = str[i++];
 	tokens[k] = '\0';
 	return (tokens);
@@ -96,7 +96,7 @@ void	get_token(char *str, t_cmd **cmd)
 		}
 		if (str[i] == '<' || str[i] == '>')
 			handle_redirection(cmd, str, &i);
-		while (str[i + j] && !(is_whitespace(str[i + j])) && str[i + j + 1] != '|')
+		while (str[i + j] && !(is_whitespace(str[i + j + 1])) && str[i + j + 1] != '|')
 			j++;
 		if (str[i] != '\0')
 			(*cmd)->tokens[k++] = word_to_array(str, i, j);
@@ -106,7 +106,7 @@ void	get_token(char *str, t_cmd **cmd)
 	*cmd = save;
 }
 
-void	tokens_count(char *str, t_cmd **cmd)
+int	tokens_count(char *str, t_cmd **cmd)
 {
 	int		i;
 	t_cmd	*tmp;
@@ -117,7 +117,7 @@ void	tokens_count(char *str, t_cmd **cmd)
 	{
 		while (str[i] && is_whitespace(str[i]))
 			i++;
-		if (str[i] != '\0' && str[i] != '|' && str[i] != '<' && str[i] != '>')
+		if (is_valid_char(str[i]))
 			tmp->tokens_count++;
 		while (str[i] && !(is_whitespace(str[i])))
 		{
@@ -127,15 +127,14 @@ void	tokens_count(char *str, t_cmd **cmd)
 				tmp = tmp->next;
 				break ;
 			}
-			/*
+			if ((str[i] == '\'' || str[i] == '\"') && is_quote(str, i, str[i]))
+				tmp->tokens_count++;
 			if (str[i] == '<' || str[i] == '>')
-				ignore_param(cmd, str, &i);
-			//creer fonction qui va ignorer la creation d un token si chevron present
-			//voir a deplacer handle_redir ici a la place
-				*/
+				handle_redirection(cmd, str, &i);
 			i++;
 		}
 	}
+	return (1);
 }
 
 void	lexer(char *str, char **envp)
@@ -150,7 +149,6 @@ void	lexer(char *str, char **envp)
 		get_token(str, &cmd);
 		ft_print(cmd);
 		executor(cmd->tokens, envp);
+		free_struct(&cmd);
 	}
-	else 
-		end();
 }

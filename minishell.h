@@ -21,25 +21,26 @@
 
 typedef struct s_dir
 {
-	char	*content;
-	int		r_double;
+	char	*content;				//nom du ficher cree
+	int		r_double;			// si = 1 ; double chevron (<< ou >>)
+	int		right;				//si = 1 ; chevron droit >
 	int		left;
-	int		right;
 	struct s_dir	*next;
 }	t_dir;
 
 typedef struct s_cmd
 {
-	char		**tokens;
-	int			tokens_count;
-	int			bool_file;
+	char		**tokens;			//tableau de commandes
+	int			tokens_count;		//nombre de tokens par commande
+	int			bool_file;		//indique si chevron present dans la commande
+	int			quote;			//si quote = 1 => '  quote = 2 => " 
 	struct s_dir	*dir;
 	struct s_cmd	*next;
 }	t_cmd;
 
 void	lexer(char *str, char **envp);
 char	*word_to_array(char *str, int i, int j);
-void	handle_redirection(t_cmd **cmd, char *str, int *i);
+int	handle_redirection(t_cmd **cmd, char *str, int *i);
 void	ignore_param(t_cmd *cmd, char *str, int *i);
 int     check_string(char *str);
 t_cmd	*ft_commandnew();
@@ -47,6 +48,9 @@ t_dir	*ft_dirnew(t_cmd **cmd);
 void	executor(char **tokens, char **envp);
 void	end();
 int     is_whitespace(char c);
+int	is_valid_char(char c);
+int     is_quote(char *str, int i, char c);
+void	free_struct(t_cmd **cmd);
 void	ft_print(t_cmd *cmd);					//delete at the end of project
 
 #endif
