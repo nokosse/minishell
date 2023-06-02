@@ -28,9 +28,10 @@ typedef struct s_dir
 	struct s_dir	*next;
 }	t_dir;
 
-typedef struct s_cmd
+// 2 commandes, 2 listes, 2 structures.
+typedef struct s_cmd //structure de UNE commande (liste chainée)
 {
-	char		**tokens;
+	char		**tokens; //tableau de tableau des commandes et arguments
 	int			tokens_count;
 	int			bool_file;
 	struct s_dir	*dir;
@@ -44,9 +45,16 @@ void	ignore_param(t_cmd *cmd, char *str, int *i);
 int     check_string(char *str);
 t_cmd	*ft_commandnew();
 t_dir	*ft_dirnew(t_cmd **cmd);
-void	executor(char **tokens, char **envp);
 void	end();
 int     is_whitespace(char c);
 void	ft_print(t_cmd *cmd);					//delete at the end of project
+
+// Execution part
+void	executor(char **tokens, char **envp);
+
+// Built-ins part
+void	exec_builtins(char **cmd, char **envp);
+int		check_builtins(char *cmd);
+int 	builtin_echo(char **args);
 
 #endif
