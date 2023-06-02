@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 14:26:17 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/06/02 14:51:24 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/06/02 14:58:54 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 // unset
 // env
 // exit
+
+// TODO : trim cmd before strncmp
 int check_builtins(char *cmd)
 {
 	printf("cmd = %s\n", cmd);
