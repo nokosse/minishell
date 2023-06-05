@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:35:52 by operez            #+#    #+#             */
-/*   Updated: 2023/06/02 14:53:35 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/06/05 12:13:24 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,20 +62,26 @@ int	check_path(char **tokens, char **envp)
 		if (access(command, X_OK) == 0)
 		{
 			tokens[0] = command;
-			// ft_printf("command valid\n");
+			ft_printf("command valid\n");
 			return (1);
 		}
 		i++;
 	}
-	// ft_printf("Command not found\n");
+	ft_printf("Command not found\n");
 	return (0);
 }
 
+// Command is just the command in a string. "echo" for example.
+// token[0] is the path to the command. "/bin/echo" for example.
+// We need command to parse the built-ins. (echo, env, cd, etc.)
+// We need token[0] to execute the command. (ls, cat, etc.)
 void	executor(char **tokens, char **envp)
 {
 	pid_t	pid;
-	int	status;
+	int		status;
+	char	*command;
 
+	command = NULL;
 	if (check_path(tokens, envp))
 	{
 		pid = 0;
@@ -85,17 +91,11 @@ void	executor(char **tokens, char **envp)
 		{
 			waitpid(pid, &status, 0);
 			kill(pid, SIGTERM);
-		}
-		else
+		}		else
 		{
-			// check for builtins command priority
-			printf("check_builtins returned %d\n", check_builtins(tokens[0]));
-			printf("tokens[0] = %s\n", tokens[0]);
-			if (check_builtins(tokens[0]))
-			{
-				printf("Its a built in\n");
+			command = ft_strrchr(tokens[0], '/' ) + 1;
+			if (check_builtins(command))
 				exec_builtins(tokens, envp);
-			}
 			else
 				if (execve(tokens[0], tokens, NULL) == -1)
 					perror("error");

@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 14:26:17 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/06/02 14:58:54 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/06/05 12:10:31 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,24 +23,27 @@
 // TODO : trim cmd before strncmp
 int check_builtins(char *cmd)
 {
-	printf("cmd = %s\n", cmd);
+	// printf("cmd = %s\n", cmd);
 	if (ft_strncmp(cmd, "echo", 4) == 0)
 		return (1);
-	// if (ft_strncmp(cmd, "cd", 2) == 0)
-	// 	return (1);
-	// if (ft_strncmp(cmd, "export", 6) == 0)
-	// 	return (1);
-	// if (ft_strncmp(cmd, "unset", 5) == 0)
-	// 	return (1);
-	// if (ft_strncmp(cmd, "env", 3) == 0)
-	// 	return (1);
-	// if (ft_strncmp(cmd, "exit", 4) == 0)
-	// 	return (1);
+	if (ft_strncmp(cmd, "cd", 2) == 0) // command not found in check_path
+		return (1);
+	if (ft_strncmp(cmd, "export", 6) == 0) // command not found in check_path
+		return (1);
+	if (ft_strncmp(cmd, "unset", 5) == 0) // command not found in check_path
+		return (1);
+	if (ft_strncmp(cmd, "env", 3) == 0)
+		return (1);
+	if (ft_strncmp(cmd, "exit", 4) == 0)
+		return (1);
 	return (0);
 }
 
 void	exec_builtins(char **cmd, char **envp)
 {
+	// printf("executing builtins\n");
+	// printf("cmd[0] = %s\n", cmd[0]);
+	cmd[0] = ft_strrchr(cmd[0], '/') + 1;
 	(void) envp;
 	if (ft_strncmp(cmd[0], "echo", 4) == 0)
 		builtin_echo(cmd);
