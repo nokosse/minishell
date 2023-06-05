@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:35:52 by operez            #+#    #+#             */
-/*   Updated: 2023/06/05 12:27:24 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/06/05 12:41:26 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,12 @@ int	check_path(char **tokens, char **envp)
 	return (0);
 }
 
+// Peut etre je dois deplacer check_builtins au dessus du if check_path parceque
+// les commandes cd, export et unset retournent 0 dans check_path
+// ducoup check_builtins ne sera jamais appele pour ces builtins en question justement
+
+// TODO : implementer clear (variable d'env TERM)
+// TODO : executer exec_builtins pour clear, export et unset (echo, exit, env)
 void	executor(char **tokens, char **envp)
 {
 	pid_t	pid;
