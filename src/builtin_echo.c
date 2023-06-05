@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 10:17:31 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/06/01 11:22:50 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/06/05 12:10:23 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 // If the argument [1] is not '-n' it will return 0.
 int check_flag(char **args)
 {
-	if (args[1] && ft_strcmp(args[1], "-n") == 0)
+	if (args[1] && ft_strncmp(args[1], "-n", 2) == 0)
 		return (1);
 	return (0);
 }
@@ -45,7 +45,7 @@ int builtin_echo(char **args)
 	int n;
 
 	i = 1;
-	n = check_n(args);
+	n = check_flag(args);
 	if (n == 1)
 		i++;
 	while (args[i])
