@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:35:52 by operez            #+#    #+#             */
-/*   Updated: 2023/06/05 12:13:24 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/06/05 12:27:24 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,17 +71,10 @@ int	check_path(char **tokens, char **envp)
 	return (0);
 }
 
-// Command is just the command in a string. "echo" for example.
-// token[0] is the path to the command. "/bin/echo" for example.
-// We need command to parse the built-ins. (echo, env, cd, etc.)
-// We need token[0] to execute the command. (ls, cat, etc.)
 void	executor(char **tokens, char **envp)
 {
 	pid_t	pid;
 	int		status;
-	char	*command;
-
-	command = NULL;
 	if (check_path(tokens, envp))
 	{
 		pid = 0;
@@ -93,8 +86,7 @@ void	executor(char **tokens, char **envp)
 			kill(pid, SIGTERM);
 		}		else
 		{
-			command = ft_strrchr(tokens[0], '/' ) + 1;
-			if (check_builtins(command))
+			if (check_builtins(ft_strrchr(tokens[0], '/' ) + 1))
 				exec_builtins(tokens, envp);
 			else
 				if (execve(tokens[0], tokens, NULL) == -1)
