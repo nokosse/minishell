@@ -63,10 +63,15 @@ char	*word_to_array(char *str, int i, int j)
 	char	*tokens;
 
 	k = 0;
+	if ((str[i] == '\'' || str[i] == '\"') && str[i] == str[i + j - 1])
+	{
+		i++;
+		j -= 2;
+	}
 	tokens = malloc (sizeof(char) * (j + 1));
 	if (!tokens)
 		end();
-	while (str[i] && k <= j)
+	while (str[i] && k < j)
 		tokens[k++] = str[i++];
 	tokens[k] = '\0';
 	return (tokens);
@@ -95,13 +100,15 @@ void	get_token(char *str, t_cmd **cmd)
 			continue ;
 		}
 		if (str[i] == '<' || str[i] == '>')
-			handle_redirection(cmd, str, &i);
-		while (str[i + j] && !(is_whitespace(str[i + j + 1])) && str[i + j + 1] != '|')
+		{
+			set_bool_file(cmd);
+			handle_redirection(cmd, str, &i, 1);
+		}
+		while (str[i + j] && !(is_whitespace(str[i + j])) && str[i + j] != '|')
 			j++;
 		if (str[i] != '\0')
 			(*cmd)->tokens[k++] = word_to_array(str, i, j);
-		while (str[i] && !(is_whitespace(str[i])))
-			i++;
+		i += j;
 	}
 	*cmd = save;
 }
@@ -117,7 +124,7 @@ int	tokens_count(char *str, t_cmd **cmd)
 	{
 		while (str[i] && is_whitespace(str[i]))
 			i++;
-		if (is_valid_char(str[i]))
+		if (is_valid_char(str[i]) || is_quote(str, i, str[i]))
 			tmp->tokens_count++;
 		while (str[i] && !(is_whitespace(str[i])))
 		{
@@ -127,10 +134,11 @@ int	tokens_count(char *str, t_cmd **cmd)
 				tmp = tmp->next;
 				break ;
 			}
-			if ((str[i] == '\'' || str[i] == '\"') && is_quote(str, i, str[i]))
-				tmp->tokens_count++;
 			if (str[i] == '<' || str[i] == '>')
-				handle_redirection(cmd, str, &i);
+			{
+				handle_redirection(cmd, str, &i, 0);
+				break ;
+			}
 			i++;
 		}
 	}

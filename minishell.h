@@ -41,8 +41,8 @@ typedef struct s_cmd //structure de UNE commande (liste chainée)
 
 void	lexer(char *str, char **envp);
 char	*word_to_array(char *str, int i, int j);
-int	handle_redirection(t_cmd **cmd, char *str, int *i);
-void	ignore_param(t_cmd *cmd, char *str, int *i);
+int	handle_redirection(t_cmd **cmd, char *str, int *i, int print);
+void	set_bool_file(t_cmd **cmd);
 int     check_string(char *str);
 t_cmd	*ft_commandnew();
 t_dir	*ft_dirnew(t_cmd **cmd);

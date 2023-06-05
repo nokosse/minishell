@@ -38,21 +38,26 @@ int	is_valid_char(char c)
 	if (c == '\0')
 		return (0);
 	if (c == '/' || c == '\\' || c == ':' || c == '*' || c == '?'
-		|| c == ';' || c == '<' || c == '>' || c == '|' || c == '&'
+		|| c == ';' || c == '|' || c == '&'
 		|| c == '(' || c == ')' || c == '$' || c == '!')
-	{
-		ft_printf("parse error near %c\n", c);
 		return (0);
-	}
 	return (1);
 }
 
 int	is_quote(char *str, int i, char c)
 {
-	while (str[++i])
+	if (c == '\'' || c == '\"')
 	{
-		if (str[i] == c)
-			return (1);
+		while (str[++i])
+		{
+			if (str[i] == c)
+			{
+				if (str[i] == '\'')
+					return (1);
+				if (str[i] == '\"')
+					return (2);
+			}
+		}
 	}
 	return (0);
 }
