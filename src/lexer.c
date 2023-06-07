@@ -62,26 +62,30 @@ char	*word_to_array(char *str, int i, int j)
 	int		k;
 	char	*tokens;
 
-	k = 0;
-	if ((str[i] == '\'' || str[i] == '\"') && str[i] == str[i + j - 1])
+	if (str)
 	{
-		i++;
-		j -= 2;
+		k = 0;
+		if ((str[i] == '\'' || str[i] == '\"') && str[i] == str[i + j - 1])
+		{
+			i++;
+			j -= 2;
+		}
+		tokens = malloc (sizeof(char) * (j + 1));
+		if (!tokens)
+			end();
+		while (str[i] && k < j)
+			tokens[k++] = str[i++];
+		tokens[k] = '\0';
 	}
-	tokens = malloc (sizeof(char) * (j + 1));
-	if (!tokens)
-		end();
-	while (str[i] && k < j)
-		tokens[k++] = str[i++];
-	tokens[k] = '\0';
 	return (tokens);
 }
 
 void	get_token(char *str, t_cmd **cmd)
 {
-	int	i;
-	int	j;
-	int	k;
+	int		i;
+	int		j;
+	int		k;
+	char	quote;
 	t_cmd	*save;
 
 	i = 0;
@@ -92,6 +96,19 @@ void	get_token(char *str, t_cmd **cmd)
 		j = 0;
 		while (str[i] && is_whitespace(str[i]))
 			i++;
+		if (is_quote(str, i, str[i]))
+		{
+			quote = str[i];
+			i++;
+			while (str[i] && is_whitespace(str[i]))
+				i++;
+			while (str[i + j] && str[i + j] != quote)
+				j++;
+			(*cmd)->tokens[k++] = word_to_array(str, i, j);
+			i = i + j + 1;
+			continue ;
+
+		}
 		if (str[i] == '|')
 		{
 			k = 0;
@@ -116,6 +133,7 @@ void	get_token(char *str, t_cmd **cmd)
 int	tokens_count(char *str, t_cmd **cmd)
 {
 	int		i;
+	char	quote;
 	t_cmd	*tmp;
 
 	i = 0;
@@ -124,10 +142,18 @@ int	tokens_count(char *str, t_cmd **cmd)
 	{
 		while (str[i] && is_whitespace(str[i]))
 			i++;
-		if (is_valid_char(str[i]) || is_quote(str, i, str[i]))
+		if (is_valid_char(str[i]))
 			tmp->tokens_count++;
 		while (str[i] && !(is_whitespace(str[i])))
 		{
+			if (is_quote(str, i, str[i]))
+			{
+				quote = str[i];
+				i++;
+				while (str[i] && str[i - 1] != quote)
+					i++;
+				break ;
+			}
 			if (str[i] == '|')
 			{
 				i++;
