@@ -13,12 +13,15 @@
 NAME = minishell
 SRC = main.c \
 	src/lexer.c \
+	src/parse_string.c \
+	src/handle_quotes.c \
 	src/executor.c \
 	src/lexer_utils.c \
 	src/print.c \
 	src/redirection.c \
 	src/builtins.c \
 	src/builtin_echo.c \
+	src/end.c \
 	
 OBJ = $(addprefix obj/, $(SRC:.c=.o))
 HEADERS = minishell.h

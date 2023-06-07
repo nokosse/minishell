@@ -1,0 +1,65 @@
+#include "../minishell.h"
+
+int	check_redir(char *str, int *i, char c)
+{
+	if (str[*i + 1] == '\0')
+	{
+		ft_printf("parse error near '\n''");
+		return (0);
+	}
+	if (!is_valid_char(str[*i + 1]))
+	{
+		ft_printf("parse error near '%c'\n", str[*i + 1]);
+		return (0);
+	}
+	if (str[*i + 1] == c)
+	{
+		if (!is_valid_char(str[*i + 2]) || str[*i + 2] == '|'
+				|| str[*i + 2] == '<' || str[*i + 2] == '>')
+		{
+			ft_printf("parse error near '%c'\n", str[*i + 1]);
+			return (0);
+		}
+		else
+			*i += 1;
+	}
+	*i += 1;
+	return (1);
+}
+
+int	check_string(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] == ' ' || str[i] == '\n' || str[i] == '\t' || str[i] == '\v'
+			|| str[i] == '\f' || str[i] == '\r')
+		i++;
+	if (str[i] == '|')
+	{
+		ft_printf("parse error near '|'\n");
+		return (0);
+	}
+	while (str[i])
+	{
+		if (is_quote(str, i, str[i]))
+		{
+			i = move_through_quote(str, i, str[i]);
+			i++;
+			continue ;
+		}
+		if (!is_valid_char(str[i]))
+		{
+			ft_printf("parse error near '%c'\n", str[i]);
+			return (0);
+		}
+		if (str[i] == '<' || str[i] == '>')
+		{
+			if (!check_redir(str, &i, str[i]))
+				return (0);
+			continue ;
+		}
+		i++;
+	}
+	return (1);
+}

@@ -10,4 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../minishell.h"
 
+int	move_through_quote(char *str, int i, char c)
+{
+	i++;
+	while (str[i] != c)
+		i++;
+	return (i);
+}

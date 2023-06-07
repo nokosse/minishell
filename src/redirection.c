@@ -95,7 +95,7 @@ int	handle_redirection(t_cmd **cmd, char *str, int *i, int print)
 		while (str[*i + j] && !(is_whitespace(str[*i + j])) && str[*i + j] != c)
 			j++;
 		if (print)
-			(*cmd)->dir->content = word_to_array(str, *i, j);
+			(*cmd)->dir->content = word_to_array(str, *i, j, cmd);
 		*i += j;
 		return (1);
 	}

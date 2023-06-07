@@ -28,6 +28,8 @@ void	create_lst(char *str, t_cmd **cmd)
 
 	i = 0;
 	*cmd = ft_commandnew();
+	if (!(*cmd))
+		end(cmd);
 	tmp = *cmd;
 	cmd_nbr = ft_split(str, '|');
 	while (cmd_nbr[i])
@@ -36,6 +38,8 @@ void	create_lst(char *str, t_cmd **cmd)
 	while (i > 1)
 	{
 		tmp->next = ft_commandnew();
+		if (!tmp->next)
+			end(cmd);
 		tmp = tmp->next; 
 		i--;
 	}
@@ -51,13 +55,13 @@ void	malloc_tokens_table(t_cmd **cmd)
 		//ft_printf("tokens_count = %d\n", tmp->tokens_count);
 		tmp->tokens = malloc (sizeof(char *) * ((tmp->tokens_count) + 1));
 		if (!tmp->tokens)
-			end();
+			end(cmd);
 		tmp->tokens[tmp->tokens_count] = 0;
 		tmp = tmp->next;
 	}
 }
 
-char	*word_to_array(char *str, int i, int j)
+char	*word_to_array(char *str, int i, int j, t_cmd **cmd)
 {
 	int		k;
 	char	*tokens;
@@ -72,7 +76,7 @@ char	*word_to_array(char *str, int i, int j)
 		}
 		tokens = malloc (sizeof(char) * (j + 1));
 		if (!tokens)
-			end();
+			end(cmd);
 		while (str[i] && k < j)
 			tokens[k++] = str[i++];
 		tokens[k] = '\0';
@@ -104,7 +108,7 @@ void	get_token(char *str, t_cmd **cmd)
 				i++;
 			while (str[i + j] && str[i + j] != quote)
 				j++;
-			(*cmd)->tokens[k++] = word_to_array(str, i, j);
+			(*cmd)->tokens[k++] = word_to_array(str, i, j, cmd);
 			i = i + j + 1;
 			continue ;
 
@@ -124,7 +128,7 @@ void	get_token(char *str, t_cmd **cmd)
 		while (str[i + j] && !(is_whitespace(str[i + j])) && str[i + j] != '|')
 			j++;
 		if (str[i] != '\0')
-			(*cmd)->tokens[k++] = word_to_array(str, i, j);
+			(*cmd)->tokens[k++] = word_to_array(str, i, j, cmd);
 		i += j;
 	}
 	*cmd = save;
@@ -133,7 +137,6 @@ void	get_token(char *str, t_cmd **cmd)
 int	tokens_count(char *str, t_cmd **cmd)
 {
 	int		i;
-	char	quote;
 	t_cmd	*tmp;
 
 	i = 0;
@@ -148,10 +151,8 @@ int	tokens_count(char *str, t_cmd **cmd)
 		{
 			if (is_quote(str, i, str[i]))
 			{
-				quote = str[i];
+				i = move_through_quote(str, i, str[i]);
 				i++;
-				while (str[i] && str[i - 1] != quote)
-					i++;
 				break ;
 			}
 			if (str[i] == '|')
