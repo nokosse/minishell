@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:35:52 by operez            #+#    #+#             */
-/*   Updated: 2023/06/05 12:41:26 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/06/09 13:44:10 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,27 +76,32 @@ int	check_path(char **tokens, char **envp)
 // ducoup check_builtins ne sera jamais appele pour ces builtins en question justement
 
 // TODO : implementer clear (variable d'env TERM)
-// TODO : executer exec_builtins pour clear, export et unset (echo, exit, env)
+// TODO : executer exec_builtins pour export et unset (echo, exit, env)
 void	executor(char **tokens, char **envp)
 {
 	pid_t	pid;
 	int		status;
-	if (check_path(tokens, envp))
+	if (check_builtins(tokens[0]))
 	{
-		pid = 0;
-		status = 0;
-		pid = fork();
-		if (pid > 0)
+		printf("executing builtins\n");
+		exec_builtins(tokens, envp);
+	}
+	else
+	{
+		if	(check_path(tokens, envp))
 		{
-			waitpid(pid, &status, 0);
-			kill(pid, SIGTERM);
-		}		else
-		{
-			if (check_builtins(ft_strrchr(tokens[0], '/' ) + 1))
-				exec_builtins(tokens, envp);
+			pid = 0;
+			status = 0;
+			pid = fork();
+			if (pid > 0)
+			{
+				waitpid(pid, &status, 0);
+				kill(pid, SIGTERM);
+			}
 			else
 				if (execve(tokens[0], tokens, NULL) == -1)
 					perror("error");
 		}
 	}
+	printf("end of executor\n");
 }
