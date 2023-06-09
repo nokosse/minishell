@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:35:52 by operez            #+#    #+#             */
-/*   Updated: 2023/06/09 13:44:10 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/06/09 14:27:10 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,11 @@ int	check_path(char **tokens, char **envp)
 // ducoup check_builtins ne sera jamais appele pour ces builtins en question justement
 
 // TODO : implementer clear (variable d'env TERM)
-// TODO : executer exec_builtins pour export et unset (echo, exit, env)
 void	executor(char **tokens, char **envp)
 {
 	pid_t	pid;
 	int		status;
+
 	if (check_builtins(tokens[0]))
 	{
 		printf("executing builtins\n");
