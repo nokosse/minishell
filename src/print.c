@@ -15,8 +15,10 @@
 void	ft_print(t_cmd *cmd)
 {
 	int	i;
+	int	j;
 
 	i = 0;
+	j = 0;
 	while (cmd)
 	{
 		if (cmd->bool_file)
@@ -24,16 +26,16 @@ void	ft_print(t_cmd *cmd)
 			if (cmd->dir->left)
 			{
 				if (cmd->dir->r_double)
-					ft_printf("Line Contains '<<' with %s\n as file\n", cmd->dir->content);
+					ft_printf("Command %d contains '<<' with %s\n as file\n", j, cmd->dir->content);
 				else
-					ft_printf("Line Contains '<' with %s\n as file\n", cmd->dir->content);
+					ft_printf("Command %d contains '<' with %s\n as file\n", j, cmd->dir->content);
 			}
 			if (cmd->dir->right)
 			{
 				if (cmd->dir->r_double)
-					ft_printf("Line Contains '>>' with %s as file\n", cmd->dir->content);
+					ft_printf("Command %d contains '>>' with %s as file\n", j, cmd->dir->content);
 				else
-					ft_printf("Line Contains '>' with %s as file\n", cmd->dir->content);
+					ft_printf("Command %d contains '>' with %s as file\n", j, cmd->dir->content);
 			}
 		}
 		while (cmd->tokens[i])
@@ -46,6 +48,7 @@ void	ft_print(t_cmd *cmd)
 			ft_printf("Parameter = %s ", cmd->tokens[i++]);
 		}
 		cmd = cmd->next;
+		j++;
 		ft_printf("\n");
 		i = 0;
 	}

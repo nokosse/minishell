@@ -15,6 +15,7 @@
 void	free_struct(t_cmd **cmd)
 {
 	t_cmd	*tmp;
+	t_dir	*save;
 	int	i;
 
 	i = 0;
@@ -22,14 +23,22 @@ void	free_struct(t_cmd **cmd)
 	if (tmp->tokens)
 	{
 		while (tmp->tokens[i])
+		{
+			ft_printf("11111111\n");
 			free(tmp->tokens[i++]);
+		}
 		free (tmp->tokens);
 	}
 	if (tmp->dir)
 	{
-		if (tmp->dir->content)
-			free(tmp->dir->content);
-		free(tmp->dir);
+		while (tmp->dir)
+		{
+			save = tmp->dir;
+			if (tmp->dir->content)
+				free(tmp->dir->content);
+			tmp->dir = tmp->dir->next;
+			free(save);
+		}
 	}
 }
 
