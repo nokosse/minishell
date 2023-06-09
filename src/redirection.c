@@ -67,7 +67,6 @@ void	set_bool_file(t_cmd **cmd)
 {
 	if ((*cmd)->bool_file == 1)
 	{
-		ft_printf("okkkk\n");
 		(*cmd)->dir->next = ft_dirnew(cmd);
 		(*cmd)->dir = (*cmd)->dir->next;
 		(*cmd)->bool_file = 1;

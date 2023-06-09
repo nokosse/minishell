@@ -51,7 +51,7 @@ void	malloc_tokens_table(t_cmd **cmd)
 	tmp = *cmd;
 	while (tmp)
 	{
-		ft_printf("Nbr de Tokens = %d\n", tmp->tokens_count);
+//		ft_printf("Nbr de Tokens = %d\n", tmp->tokens_count);
 		tmp->tokens = malloc (sizeof(char *) * ((tmp->tokens_count) + 1));
 		if (!tmp->tokens)
 			end(cmd);
@@ -74,7 +74,7 @@ char	*word_to_array(char *str, int i, int j, t_cmd **cmd)
 			j -= 1;
 		}
 		tokens = malloc (sizeof(char) * (j + 1));
-		ft_printf("Nbr de char alloue = %d\n", sizeof(char) * (j + 1));
+//		ft_printf("Nbr de char alloue = %d\n", sizeof(char) * (j + 1));
 		if (!tokens)
 			end(cmd);
 		while (str[i] && k < j)
