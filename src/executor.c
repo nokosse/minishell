@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:35:52 by operez            #+#    #+#             */
-/*   Updated: 2023/06/10 19:47:46 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/06/10 19:52:46 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,11 @@ int	check_path(char **tokens, char **envp)
 // ducoup check_builtins ne sera jamais appele pour ces builtins en question justement
 
 // TODO : implementer clear (variable d'env TERM)
+// TODO : executer toute les commandes entre pipes
+// TODO : gerer les redirections < > << >>
+// TODO : gerer les variables d'environnement (un $ suivi d'un mot)
+// TODO : gerer $? ? qui doit être substitué par le statut de sortie
+//		de la dernière pipeline exécutée au premier plan
 
 // OLD EXECUTOR WITH CHAR **TOKENS, NEW EXECUTOR WILL TAKE A T_LIST *CMD.
 
