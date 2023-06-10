@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:35:52 by operez            #+#    #+#             */
-/*   Updated: 2023/06/09 14:27:10 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/06/10 19:47:46 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,9 @@ int	check_path(char **tokens, char **envp)
 // ducoup check_builtins ne sera jamais appele pour ces builtins en question justement
 
 // TODO : implementer clear (variable d'env TERM)
+
+// OLD EXECUTOR WITH CHAR **TOKENS, NEW EXECUTOR WILL TAKE A T_LIST *CMD.
+
 void	executor(char **tokens, char **envp)
 {
 	pid_t	pid;
@@ -105,3 +108,34 @@ void	executor(char **tokens, char **envp)
 	}
 	printf("end of executor\n");
 }
+
+// NEW EXECUTOR WITH T_LIST *CMD, OLD EXECUTOR TAKES CHAR **TOKENS
+
+// void	executor(t_cmd cmd, char **envp)
+// {
+// 	pid_t	pid;
+// 	int		status;
+	
+// 	if (check_builtins(cmd->tokens[0]))
+// 	{
+// 		printf("executing builtins\n");
+// 		exec_builtins(cmd->tokens, envp);
+// 	}
+// 	else
+// 	{
+// 		if	(check_path(cmd->tokens, envp))
+// 		{
+// 			pid = 0;
+// 			status = 0;
+// 			pid = fork();
+// 			if (pid > 0)
+// 			{
+// 				waitpid(pid, &status, 0);
+// 				kill(pid, SIGTERM);
+// 			}
+// 			else
+// 				if (execve(cmd->tokens[0], cmd->tokens, NULL) == -1)
+// 					perror("error");
+// 		}
+// 	}
+// }
