@@ -6,7 +6,7 @@
 /*   By: operez <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 12:02:46 by operez            #+#    #+#             */
-/*   Updated: 2023/06/02 15:21:19 by operez           ###   ########.fr       */
+/*   Updated: 2023/06/13 17:08:37 by operez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,17 @@ int	is_quote(char *str, int i, char c)
 
 t_dir	*ft_dirnew(t_cmd **cmd)
 {
-	t_cmd	*tmp;
+	t_dir	*tmp;
 
-	tmp = *cmd;
-	tmp->dir = malloc(sizeof(t_dir));
-	if (!tmp->dir)
+	tmp = malloc(sizeof(t_dir));
+	if (!tmp)
 		end(cmd);
-	tmp->dir->content= NULL;
-	tmp->dir->r_double= 0;
-	tmp->dir->left= 0;
-	tmp->dir->right= 0;
-	tmp->dir->next= NULL;
-	return (tmp->dir);
+	tmp->content= NULL;
+	tmp->r_double= 0;
+	tmp->left= 0;
+	tmp->right= 0;
+	tmp->next= NULL;
+	return (tmp);
 }
 
 t_cmd	*ft_commandnew()

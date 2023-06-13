@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 12:59:05 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/05/30 13:57:14 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/06/13 10:50:21 by operez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,15 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		line = readline("minishell> ");
+		if (!ft_strlen(line))
+		{
+			free(line);
+			continue ;
+		}
 		add_history(line);
 		if (!strcmp(line, "exit"))
 		{
-			free (line);
+			free(line);
 			break ;
 		}
 		lexer(line, envp);

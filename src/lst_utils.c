@@ -1,48 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   end.c                                              :+:      :+:    :+:   */
+/*   lst_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: operez <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/30 11:35:28 by operez            #+#    #+#             */
-/*   Updated: 2023/06/13 17:25:19 by operez           ###   ########.fr       */
+/*   Created: 2023/06/13 14:11:19 by operez            #+#    #+#             */
+/*   Updated: 2023/06/13 15:52:05 by operez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	free_struct(t_cmd **cmd)
+t_dir	*ft_dirlast(t_dir *dir)
 {
-	t_cmd	*tmp;
-//	t_dir	*save;
-	int	i;
-
-	i = 0;
-	tmp = *cmd;
-	if (tmp->tokens)
-	{
-		while (tmp->tokens[i])
-			free(tmp->tokens[i++]);
-		free (tmp->tokens);
-	}
-	/*
-	if (tmp->dir)
-	{
-		while (tmp->dir)
-		{
-			save = tmp->dir;
-			if (tmp->dir->content)
-				free(tmp->dir->content);
-			tmp->dir = tmp->dir->next;
-			free(save);
-		}
-	}*/
+	if (!dir)
+		return (NULL);
+	while (dir->next != NULL)
+		dir = dir->next;
+	return (dir);
 }
 
-void	end(t_cmd **cmd)
+t_cmd	*ft_cmdlast(t_cmd *cmd)
 {
-	if (cmd)
-		free_struct(cmd);
-	exit(EXIT_SUCCESS);
+	if (!cmd)
+		return (NULL);
+	while (cmd->next != NULL)
+		cmd = cmd->next;
+	return (cmd);
 }

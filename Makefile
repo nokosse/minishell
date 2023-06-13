@@ -6,12 +6,13 @@
 #    By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/05 15:30:22 by kvisouth          #+#    #+#              #
-#    Updated: 2023/06/02 14:43:43 by kvisouth         ###   ########.fr        #
+#    Updated: 2023/06/13 14:28:21 by operez           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 SRC = main.c \
+	src/lst_utils.c \
 	src/lexer.c \
 	src/parse_string.c \
 	src/handle_quotes.c \

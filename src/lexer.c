@@ -6,7 +6,7 @@
 /*   By: operez <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 12:19:51 by operez            #+#    #+#             */
-/*   Updated: 2023/06/02 15:09:47 by operez           ###   ########.fr       */
+/*   Updated: 2023/06/13 17:23:03 by operez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ void	malloc_tokens_table(t_cmd **cmd)
 	tmp = *cmd;
 	while (tmp)
 	{
-//		ft_printf("Nbr de Tokens = %d\n", tmp->tokens_count);
+		//ft_printf("Address cmd = %p\n", *cmd);
+		//ft_printf("Nbr de Tokens = %d\n", tmp->tokens_count);
 		tmp->tokens = malloc (sizeof(char *) * ((tmp->tokens_count) + 1));
 		if (!tmp->tokens)
 			end(cmd);
@@ -120,10 +121,8 @@ void	get_token(char *str, t_cmd **cmd)
 			continue ;
 		}
 		if (str[i] == '<' || str[i] == '>')
-		{
-			set_bool_file(cmd);
-			handle_redirection(cmd, str, &i, 1);
-		}
+			if (is_valid_dir(cmd, str, &i) && is_valid_char(str[i]))
+				handle_redirection(cmd, str, &i, 1);
 		while (str[i + j] && !(is_whitespace(str[i + j])) && str[i + j] != '|')
 			j++;
 		if (str[i] != '\0')
@@ -163,8 +162,12 @@ int	tokens_count(char *str, t_cmd **cmd)
 			}
 			if (str[i] == '<' || str[i] == '>')
 			{
-				handle_redirection(cmd, str, &i, 0);
-				break ;
+				if (is_valid_dir(cmd, str, &i) && is_valid_char(str[i]))
+				{
+					set_bool_file(cmd);
+					handle_redirection(cmd, str, &i, 0);
+					break ;
+				}
 			}
 			i++;
 		}
