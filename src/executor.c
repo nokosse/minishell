@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:35:52 by operez            #+#    #+#             */
-/*   Updated: 2023/06/10 19:52:46 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/06/13 10:43:15 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,13 +89,18 @@ void	executor(char **tokens, char **envp)
 	pid_t	pid;
 	int		status;
 
+	// Il check d'abord si la commande est un commande built-in
 	if (check_builtins(tokens[0]))
 	{
 		printf("executing builtins\n");
 		exec_builtins(tokens, envp);
 	}
+
+	// Si c'est pas une commande built-in (echo, cd, export etc..)
+	// On va check pour executer la commande avec PATH (ls, cat etc..)
 	else
 	{
+		printf("executing path\n");
 		if	(check_path(tokens, envp))
 		{
 			pid = 0;
