@@ -6,11 +6,17 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:35:52 by operez            #+#    #+#             */
-/*   Updated: 2023/06/10 19:52:46 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/06/13 12:49:01 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+// This function will duplicate the envp.
+// void	dup_env(char **envp)
+// {
+	
+// }
 
 // int	check_path(char **tokens, char **envp)
 // {
@@ -88,12 +94,16 @@ void	executor(char **tokens, char **envp)
 {
 	pid_t	pid;
 	int		status;
+	char	*envcpy; //copie de envp
 
+	// On met une copie de envp (environment) dans envp_copy
+
+	// Il check d'abord si la commande est un commande built-in
 	if (check_builtins(tokens[0]))
-	{
-		printf("executing builtins\n");
 		exec_builtins(tokens, envp);
-	}
+
+	// Si c'est pas une commande built-in (echo, cd, export etc..)
+	// On va check pour executer la commande avec PATH (ls, cat etc..)
 	else
 	{
 		if	(check_path(tokens, envp))
@@ -111,7 +121,6 @@ void	executor(char **tokens, char **envp)
 					perror("error");
 		}
 	}
-	printf("end of executor\n");
 }
 
 // NEW EXECUTOR WITH T_LIST *CMD, OLD EXECUTOR TAKES CHAR **TOKENS
