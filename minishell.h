@@ -22,7 +22,7 @@
 typedef struct s_dir
 {
 	char	*content;				//nom du ficher cree
-	int		r_double;			// si = 1 ; double chevron (<< ou >>)
+	int		type;				// 1 = simple ; 2 = double
 	int		right;				//si = 1 ; chevron droit >
 	int		left;
 	struct s_dir	*next;
@@ -42,9 +42,9 @@ typedef struct s_cmd //structure de UNE commande (liste chainée)
 void	lexer(char *str, char **envp);
 char	*word_to_array(char *str, int i, int j, t_cmd **cmd);
 int	move_through_quote(char *str, int i, char c);
-int	handle_redirection(t_cmd **cmd, char *str, int *i, int print);
-int	is_valid_dir(t_cmd **cmd, char *str, int *i);
-void	set_bool_file(t_cmd **cmd);
+int	move_thrgh_redir(t_cmd **cmd, char *str, int *i, int print);
+int	is_valid_dir(char *str, int i);
+void    handle_dir(t_cmd **cmd, char *str, int i);
 int     check_string(char *str);
 t_cmd	*ft_commandnew();
 t_dir	*ft_dirnew(t_cmd **cmd);

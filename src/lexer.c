@@ -120,9 +120,11 @@ void	get_token(char *str, t_cmd **cmd)
 			i++;
 			continue ;
 		}
-		if (str[i] == '<' || str[i] == '>')
-			if (is_valid_dir(cmd, str, &i) && is_valid_char(str[i]))
-				handle_redirection(cmd, str, &i, 1);
+		if ((str[i] == '<' || str[i] == '>') && is_valid_dir(str, i))
+		{
+			i += (*cmd)->dir->type;
+			move_thrgh_redir(cmd, str, &i, 1);
+		}
 		while (str[i + j] && !(is_whitespace(str[i + j])) && str[i + j] != '|')
 			j++;
 		if (str[i] != '\0')
@@ -160,14 +162,12 @@ int	tokens_count(char *str, t_cmd **cmd)
 				tmp = tmp->next;
 				break ;
 			}
-			if (str[i] == '<' || str[i] == '>')
+			if ((str[i] == '<' || str[i] == '>') && is_valid_dir(str, i))
 			{
-				if (is_valid_dir(cmd, str, &i) && is_valid_char(str[i]))
-				{
-					set_bool_file(cmd);
-					handle_redirection(cmd, str, &i, 0);
-					break ;
-				}
+				handle_dir(cmd, str, i);
+				move_thrgh_redir(cmd, str, &i, 0);
+				i += tmp->dir->type;
+				break ;
 			}
 			i++;
 		}

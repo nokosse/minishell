@@ -49,7 +49,7 @@ t_dir	*ft_dirnew(t_cmd **cmd)
 	if (!tmp)
 		end(cmd);
 	tmp->content= NULL;
-	tmp->r_double= 0;
+	tmp->type= 0;
 	tmp->left= 0;
 	tmp->right= 0;
 	tmp->next= NULL;
@@ -65,6 +65,7 @@ t_cmd	*ft_commandnew()
 		end(NULL);
 	tmp->tokens_count = 0;
 	tmp->bool_file = 0;
+	tmp->dir = NULL;
 	tmp->quote = 0;
 	tmp->next = NULL;
 	ft_dirnew(&tmp);

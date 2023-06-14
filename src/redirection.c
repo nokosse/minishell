@@ -12,90 +12,101 @@
 
 #include "../minishell.h"
 
-int	handle_right(t_cmd **cmd, char *str, int *i)
-{
-	t_cmd	*tmp;
-	t_dir	*dir;
-
-	tmp = ft_cmdlast(*cmd);
-	dir = ft_dirlast(tmp->dir);
-	if (str[*i + 1] == '>')
-	{
-		dir->right= 1;
-		dir->r_double = 1;
-		*i += 2;
-		return (1);
-	}
-	else if (is_valid_char(str[*i + 1]))
-	{
-		dir->right= 1;
-		*i += 1;
-		return (1);
-	}
-	return (0);
-}
-
-int	handle_left(t_cmd **cmd, char *str, int *i)
-{
-	t_cmd	*tmp;
-	t_dir	*dir;
-
-	tmp = ft_cmdlast(*cmd);
-	dir = ft_dirlast(tmp->dir);
-	if (str[*(i + 1)] == '<')
-	{
-		dir->left = 1;
-		dir->r_double = 1;
-		*i += 2;
-		return (1);
-	}
-	else if (is_valid_char(str[*(i + 1)]))
-	{
-		dir->left = 1;
-		*i += 1;
-		return (1);
-	}
-	return (0);
-}
-
-int	is_valid_dir(t_cmd **cmd, char *str, int *i)
-{
-	if (str[*i] == '<')
-	{
-		if (handle_left(cmd, str, i))
-			return (1);
-	}
-	else if (str[*i] == '>')
-	{
-		if (handle_right(cmd, str, i))
-			return (1);
-	}
-	return (0);
-}
-
 void	set_bool_file(t_cmd **cmd)
 {
 	t_dir	*tmp;
 	t_cmd	*copy;
 
-	copy = *cmd;
+	copy = ft_cmdlast(*cmd);
 	if (copy->bool_file == 1)
 	{
 		ft_printf("bool_file = 1\n");
 		tmp = copy->dir;
 		while (tmp->next)
 			tmp = tmp->next;
-		tmp = ft_dirnew(&copy);
+		tmp->next = ft_dirnew(cmd);
 		copy->bool_file = 1;
 	}
 	else
 	{
 		copy->bool_file = 1;
-		copy->dir = ft_dirnew(&copy);
+		copy->dir = ft_dirnew(cmd);
+		ft_printf("adress dir = %p\n", copy->dir);
 	}
 }
 
-int	handle_redirection(t_cmd **cmd, char *str, int *i, int print)
+int	handle_right(t_cmd **cmd, char *str, int i)
+{
+	t_cmd	*tmp;
+	t_dir	*dir;
+
+	set_bool_file(cmd);
+	tmp = ft_cmdlast(*cmd);
+	if (str[i + 1] == '>')
+	{
+		dir = ft_dirlast(tmp->dir);
+		dir->right= 1;
+		dir->type= 2;
+		return (2);
+	}
+	else if (is_valid_char(str[i + 1]))
+	{
+		dir = ft_dirlast(tmp->dir);
+		dir->right= 1;
+		dir->type= 1;
+		return (1);
+	}
+	return (0);
+}
+
+int	handle_left(t_cmd **cmd, char *str, int i)
+{
+	t_cmd	*tmp;
+	t_dir	*dir;
+
+	set_bool_file(cmd);
+	tmp = ft_cmdlast(*cmd);
+	if (str[i + 1] == '<')
+	{
+		dir = ft_dirlast(tmp->dir);
+		dir->left = 1;
+		dir->type= 2;
+		return (2);
+	}
+	else if (is_valid_char(str[i + 1]))
+	{
+		dir = ft_dirlast(tmp->dir);
+		dir->left = 1;
+		dir->type= 1;
+		return (1);
+	}
+	return (0);
+}
+
+int	is_valid_dir(char *str, int i)
+{
+	if (str[i] == '<')
+	{
+		if (str[i + 1] == '<' || is_valid_char(str[i + 1]))
+			return (1);
+	}
+	else if (str[i] == '>')
+	{
+		if (str[i + 1] == '>' || is_valid_char(str[i + 1]))
+			return (1);
+	}
+	return (0);
+}
+
+
+void	handle_dir(t_cmd **cmd, char *str, int i)
+{
+	if (str[i] == '<')
+		handle_left(cmd, str, i);
+	if (str[i] == '>')
+		handle_right(cmd, str, i);
+}
+int	move_thrgh_redir(t_cmd **cmd, char *str, int *i, int print)
 {
 	char	c;
 	int		j;

@@ -36,16 +36,16 @@ void	ft_print(t_cmd *cmd)
 			ft_printf("Nbr de redirection = %d\n", k);
 			if (cmd->dir->left)
 			{
-				if (cmd->dir->r_double)
+				if (cmd->dir->type == 2)
 					ft_printf("Command %d contains '<<' with %s\n as file\n", j, cmd->dir->content);
-				else
+				if (cmd->dir->type == 1)
 					ft_printf("Command %d contains '<' with %s\n as file\n", j, cmd->dir->content);
 			}
 			if (cmd->dir->right)
 			{
-				if (cmd->dir->r_double)
+				if (cmd->dir->type == 2)
 					ft_printf("Command %d contains '>>' with %s as file\n", j, cmd->dir->content);
-				else
+				if (cmd->dir->type == 1)
 					ft_printf("Command %d contains '>' with %s as file\n", j, cmd->dir->content);
 			}
 		}
