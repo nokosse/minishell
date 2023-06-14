@@ -17,10 +17,9 @@ void	set_bool_file(t_cmd **cmd)
 	t_dir	*tmp;
 	t_cmd	*copy;
 
-	copy = ft_cmdlast(*cmd);
+	copy = *cmd;
 	if (copy->bool_file == 1)
 	{
-		ft_printf("bool_file = 1\n");
 		tmp = copy->dir;
 		while (tmp->next)
 			tmp = tmp->next;
@@ -31,7 +30,6 @@ void	set_bool_file(t_cmd **cmd)
 	{
 		copy->bool_file = 1;
 		copy->dir = ft_dirnew(cmd);
-		ft_printf("adress dir = %p\n", copy->dir);
 	}
 }
 
@@ -41,7 +39,7 @@ int	handle_right(t_cmd **cmd, char *str, int i)
 	t_dir	*dir;
 
 	set_bool_file(cmd);
-	tmp = ft_cmdlast(*cmd);
+	tmp = *cmd;
 	if (str[i + 1] == '>')
 	{
 		dir = ft_dirlast(tmp->dir);
@@ -65,7 +63,7 @@ int	handle_left(t_cmd **cmd, char *str, int i)
 	t_dir	*dir;
 
 	set_bool_file(cmd);
-	tmp = ft_cmdlast(*cmd);
+	tmp = *cmd;
 	if (str[i + 1] == '<')
 	{
 		dir = ft_dirlast(tmp->dir);
@@ -106,23 +104,33 @@ void	handle_dir(t_cmd **cmd, char *str, int i)
 	if (str[i] == '>')
 		handle_right(cmd, str, i);
 }
+
+void	string_to_filename(t_cmd **cmd, char *str, int i, int j)
+{
+	t_dir	*print;
+
+	print = (*cmd)->dir;
+	while (print && print->content)
+		print = print->next;
+	print->content = word_to_array(str, i, j, cmd);
+}
+
 int	move_thrgh_redir(t_cmd **cmd, char *str, int *i, int print)
 {
 	char	c;
 	int		j;
 
 	j = 0;
+	c = 0;
 	while (str[*i] && is_whitespace(str[*i]))
 		*i += 1;
 	if (is_quote(str, *i, str[*i]))
-		c = str[*i];
-	else
-		c = '|';
+		c = str[*i++];
 	while (str[*i + j] && !(is_whitespace(str[*i + j])) && str[*i + j] != c
-		&& str[*i + j] != '>' && str[*i + j] != '<')
+		&& str[*i + j] != '>' && str[*i + j] != '<' && str[*i + j] != '|')
 		j++;
 	if (print)
-		(*cmd)->dir->content = word_to_array(str, *i, j, cmd);
+		string_to_filename(cmd, str, *i, j);
 	if (str[*i + j] == str[*i] && (str[*i] == '\'' || str[*i] == '\"'))
 		j++;
 	*i += j;

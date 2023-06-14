@@ -68,6 +68,5 @@ t_cmd	*ft_commandnew()
 	tmp->dir = NULL;
 	tmp->quote = 0;
 	tmp->next = NULL;
-	ft_dirnew(&tmp);
 	return (tmp);
 }

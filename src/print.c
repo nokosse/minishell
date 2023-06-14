@@ -21,34 +21,9 @@ void	ft_print(t_cmd *cmd)
 
 	i = 0;
 	j = 0;
-	k = 0;
 	//ft_printf("Address cmd = %p\n", cmd);
 	while (cmd)
 	{
-		if (cmd->bool_file)
-		{
-			print = cmd->dir;
-			while (print)
-			{
-				print = print->next;
-				k++;
-			}
-			ft_printf("Nbr de redirection = %d\n", k);
-			if (cmd->dir->left)
-			{
-				if (cmd->dir->type == 2)
-					ft_printf("Command %d contains '<<' with %s\n as file\n", j, cmd->dir->content);
-				if (cmd->dir->type == 1)
-					ft_printf("Command %d contains '<' with %s\n as file\n", j, cmd->dir->content);
-			}
-			if (cmd->dir->right)
-			{
-				if (cmd->dir->type == 2)
-					ft_printf("Command %d contains '>>' with %s as file\n", j, cmd->dir->content);
-				if (cmd->dir->type == 1)
-					ft_printf("Command %d contains '>' with %s as file\n", j, cmd->dir->content);
-			}
-		}
 		while (cmd->tokens[i])
 		{
 			if (i == 0)
@@ -57,6 +32,36 @@ void	ft_print(t_cmd *cmd)
 				continue ;
 			}
 			ft_printf("Parameter = %s ", cmd->tokens[i++]);
+		}
+		ft_printf("\n");
+		if (cmd->bool_file)
+		{
+			k = 0;
+			print = cmd->dir;
+			while (print)
+			{
+				print = print->next;
+				k++;
+			}
+			ft_printf("Command %d contains %d redirection:\n", j, k);
+			while (cmd->dir)
+			{
+				if (cmd->dir->left)
+				{
+					if (cmd->dir->type == 2)
+						ft_printf("<< with \"%s\" as file\n", cmd->dir->content);
+					if (cmd->dir->type == 1)
+						ft_printf("< with %s\" as file\n", cmd->dir->content);
+				}
+				if (cmd->dir->right)
+				{
+					if (cmd->dir->type == 2)
+						ft_printf(">> with \"%s\"as file\n", cmd->dir->content);
+					if (cmd->dir->type == 1)
+						ft_printf("> with \"%s\" as file\n", cmd->dir->content);
+				}
+				cmd->dir = cmd->dir->next;
+			}
 		}
 		cmd = cmd->next;
 		j++;

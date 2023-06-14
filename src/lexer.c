@@ -51,8 +51,6 @@ void	malloc_tokens_table(t_cmd **cmd)
 	tmp = *cmd;
 	while (tmp)
 	{
-		//ft_printf("Address cmd = %p\n", *cmd);
-		//ft_printf("Nbr de Tokens = %d\n", tmp->tokens_count);
 		tmp->tokens = malloc (sizeof(char *) * ((tmp->tokens_count) + 1));
 		if (!tmp->tokens)
 			end(cmd);
@@ -75,7 +73,6 @@ char	*word_to_array(char *str, int i, int j, t_cmd **cmd)
 			j -= 1;
 		}
 		tokens = malloc (sizeof(char) * (j + 1));
-//		ft_printf("Nbr de char alloue = %d\n", sizeof(char) * (j + 1));
 		if (!tokens)
 			end(cmd);
 		while (str[i] && k < j)
@@ -91,11 +88,11 @@ void	get_token(char *str, t_cmd **cmd)
 	int		j;
 	int		k;
 	char	quote;
-	t_cmd	*save;
+	t_cmd	*tmp;
 
 	i = 0;
 	k = 0;
-	save = *cmd;
+	tmp = *cmd;
 	while (str[i])
 	{
 		j = 0;
@@ -109,29 +106,30 @@ void	get_token(char *str, t_cmd **cmd)
 				i++;
 			while (str[i + j] && str[i + j] != quote)
 				j++;
-			(*cmd)->tokens[k++] = word_to_array(str, i, j, cmd);
+			tmp->tokens[k++] = word_to_array(str, i, j, &tmp);
 			i = i + j + 1;
 			continue ;
 		}
+		while (str[i + j] && !(is_whitespace(str[i + j])) && str[i + j] != '|'
+				&& str[i + j] != '<' && str[i + j] != '>')
+			j++;
+		if (j)
+			tmp->tokens[k++] = word_to_array(str, i, j, &tmp);
+		i += j;
+		j = 0;
 		if (str[i] == '|')
 		{
 			k = 0;
-			*cmd = (*cmd)->next;
+			tmp = tmp->next;
 			i++;
 			continue ;
 		}
 		if ((str[i] == '<' || str[i] == '>') && is_valid_dir(str, i))
 		{
-			i += (*cmd)->dir->type;
-			move_thrgh_redir(cmd, str, &i, 1);
+			i += tmp->dir->type;
+			move_thrgh_redir(&tmp, str, &i, 1);
 		}
-		while (str[i + j] && !(is_whitespace(str[i + j])) && str[i + j] != '|')
-			j++;
-		if (str[i] != '\0')
-			(*cmd)->tokens[k++] = word_to_array(str, i, j, cmd);
-		i += j;
 	}
-	*cmd = save;
 }
 
 int	tokens_count(char *str, t_cmd **cmd)
@@ -164,9 +162,9 @@ int	tokens_count(char *str, t_cmd **cmd)
 			}
 			if ((str[i] == '<' || str[i] == '>') && is_valid_dir(str, i))
 			{
-				handle_dir(cmd, str, i);
-				move_thrgh_redir(cmd, str, &i, 0);
+				handle_dir(&tmp, str, i);
 				i += tmp->dir->type;
+				move_thrgh_redir(&tmp, str, &i, 0);
 				break ;
 			}
 			i++;
