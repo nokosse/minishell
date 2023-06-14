@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:35:52 by operez            #+#    #+#             */
-/*   Updated: 2023/06/13 12:49:01 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/06/14 10:24:36 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ void	executor(char **tokens, char **envp)
 	pid_t	pid;
 	int		status;
 	char	*envcpy; //copie de envp
+	(void) envcpy;
 
 	// On met une copie de envp (environment) dans envp_copy
 
