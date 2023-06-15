@@ -19,6 +19,8 @@
 # include <sys/ioctl.h>
 # include <termios.h>
 
+extern int	g_signal;
+
 typedef struct s_dir
 {
 	char	*content;				//nom du ficher cree

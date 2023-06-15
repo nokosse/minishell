@@ -6,7 +6,7 @@
 /*   By: operez <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 10:40:07 by operez            #+#    #+#             */
-/*   Updated: 2023/06/13 10:58:59 by operez           ###   ########.fr       */
+/*   Updated: 2023/06/15 13:23:41 by operez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@ int	check_redir(char *str, int *i, char c)
 		return (0);
 	}
 	if (!is_valid_char(str[*i + 1]))
+	{
+		ft_printf("parse error near '%c'\n", str[*i + 1]);
+		return (0);
+	}
+	if ((str[*i] == '<' && str[*i + 1] == '>') || (str[*i] == '>' && str[*i + 1] == '<'))
 	{
 		ft_printf("parse error near '%c'\n", str[*i + 1]);
 		return (0);
@@ -54,6 +59,8 @@ int	check_string(char *str)
 	}
 	while (str[i])
 	{
+		if (str[i] == '|' && str[i + 1] == '|')
+			ft_printf("parse error near '|'\n");
 		if (is_quote(str, i, str[i]))
 		{
 			i = move_through_quote(str, i, str[i]);
