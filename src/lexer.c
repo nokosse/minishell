@@ -6,19 +6,11 @@
 /*   By: operez <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 12:19:51 by operez            #+#    #+#             */
-/*   Updated: 2023/06/15 12:09:39 by operez           ###   ########.fr       */
+/*   Updated: 2023/06/15 17:46:59 by operez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	is_whitespace(char c)
-{
-	if (c == ' ' || c == '\n' || c == '\t'
-		|| c == '\v' || c == '\f' || c == '\r')
-		return (1);
-	return (0);
-}
 
 void	create_lst(char *str, t_cmd **cmd)
 {
@@ -57,29 +49,6 @@ void	malloc_tokens_table(t_cmd **cmd)
 		tmp->tokens[tmp->tokens_count] = 0;
 		tmp = tmp->next;
 	}
-}
-
-char	*word_to_array(char *str, int i, int j, t_cmd **cmd)
-{
-	int		k;
-	char	*tokens;
-
-	if (str)
-	{
-		k = 0;
-		if ((str[i] == '\'' || str[i] == '\"') && str[i] == str[i + j])
-		{
-			j--;
-			i++;
-		}
-		tokens = malloc (sizeof(char) * (j + 1));
-		if (!tokens)
-			end(cmd);
-		while (str[i] && k < j)
-			tokens[k++] = str[i++];
-		tokens[k] = '\0';
-	}
-	return (tokens);
 }
 
 void	get_token(char *str, t_cmd **cmd)
@@ -167,6 +136,13 @@ int	tokens_count(char *str, t_cmd **cmd)
 				move_thrgh_redir(&tmp, str, &i, 0);
 				break ;
 			}
+			if (str[i] == '$')
+			{
+				if (is_bracket(str, i, str[i]))
+				{
+					ft_printf("do something\n");
+				}
+			}
 			i++;
 		}
 	}
@@ -184,7 +160,7 @@ void	lexer(char *str, char **envp)
 		malloc_tokens_table(&cmd);
 		get_token(str, &cmd);
 		ft_print(cmd);
-		executor(cmd->tokens, envp);
+		executor(cmd, envp);
 		free_struct(&cmd);
 	}
 }

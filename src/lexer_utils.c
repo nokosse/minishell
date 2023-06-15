@@ -6,39 +6,33 @@
 /*   By: operez <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 12:02:46 by operez            #+#    #+#             */
-/*   Updated: 2023/06/13 17:08:37 by operez           ###   ########.fr       */
+/*   Updated: 2023/06/15 16:55:10 by operez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	is_valid_char(char c)
+char	*word_to_array(char *str, int i, int j, t_cmd **cmd)
 {
-	if (c == '\0')
-		return (0);
-	if ( c == '\\' || c == ':' || c == '*' || c == '?' || c == ';'
-		|| c == '&' || c == '(' || c == ')'
-		|| c == '$' || c == '!')
-		return (0);
-	return (1);
-}
+	int		k;
+	char	*tokens;
 
-int	is_quote(char *str, int i, char c)
-{
-	if (c == '\'' || c == '\"')
+	if (str)
 	{
-		while (str[++i])
+		k = 0;
+		if ((str[i] == '\'' || str[i] == '\"') && str[i] == str[i + j])
 		{
-			if (str[i] == c)
-			{
-				if (str[i] == '\'')
-					return (1);
-				if (str[i] == '\"')
-					return (2);
-			}
+			j--;
+			i++;
 		}
+		tokens = malloc (sizeof(char) * (j + 1));
+		if (!tokens)
+			end(cmd);
+		while (str[i] && k < j)
+			tokens[k++] = str[i++];
+		tokens[k] = '\0';
 	}
-	return (0);
+	return (tokens);
 }
 
 t_dir	*ft_dirnew(t_cmd **cmd)

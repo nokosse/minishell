@@ -56,6 +56,7 @@ void	end(t_cmd **cmd);
 int     	is_whitespace(char c);
 int		is_valid_char(char c);
 int     	is_quote(char *str, int i, char c);
+int		is_bracket(char *str, int i, char c);
 int		move_through_quote(char *str, int i, char c);
 void	free_struct(t_cmd **cmd);
 void	ft_print(t_cmd *cmd);					//delete at the end of project
