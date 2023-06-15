@@ -6,7 +6,7 @@
 /*   By: operez <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 12:19:51 by operez            #+#    #+#             */
-/*   Updated: 2023/06/13 17:23:03 by operez           ###   ########.fr       */
+/*   Updated: 2023/06/15 12:09:39 by operez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ char	*word_to_array(char *str, int i, int j, t_cmd **cmd)
 		k = 0;
 		if ((str[i] == '\'' || str[i] == '\"') && str[i] == str[i + j])
 		{
+			j--;
 			i++;
-			j -= 1;
 		}
 		tokens = malloc (sizeof(char) * (j + 1));
 		if (!tokens)
@@ -87,12 +87,14 @@ void	get_token(char *str, t_cmd **cmd)
 	int		i;
 	int		j;
 	int		k;
-	char	quote;
+	char	c;
 	t_cmd	*tmp;
+	t_dir	*copy;
 
 	i = 0;
 	k = 0;
 	tmp = *cmd;
+	copy = (*cmd)->dir;
 	while (str[i])
 	{
 		j = 0;
@@ -100,14 +102,11 @@ void	get_token(char *str, t_cmd **cmd)
 			i++;
 		if (is_quote(str, i, str[i]))
 		{
-			quote = str[i];
-			i++;
-			while (str[i] && is_whitespace(str[i]))
-				i++;
-			while (str[i + j] && str[i + j] != quote)
+			c = str[i];
+			while (str[i + 1 + j] != c)
 				j++;
-			tmp->tokens[k++] = word_to_array(str, i, j, &tmp);
-			i = i + j + 1;
+			tmp->tokens[k++] = word_to_array(str, i, j + 1, &tmp);
+			i += j + 2;
 			continue ;
 		}
 		while (str[i + j] && !(is_whitespace(str[i + j])) && str[i + j] != '|'
@@ -126,7 +125,8 @@ void	get_token(char *str, t_cmd **cmd)
 		}
 		if ((str[i] == '<' || str[i] == '>') && is_valid_dir(str, i))
 		{
-			i += tmp->dir->type;
+			i += copy->type;
+			copy = copy->next;
 			move_thrgh_redir(&tmp, str, &i, 1);
 		}
 	}
@@ -163,7 +163,7 @@ int	tokens_count(char *str, t_cmd **cmd)
 			if ((str[i] == '<' || str[i] == '>') && is_valid_dir(str, i))
 			{
 				handle_dir(&tmp, str, i);
-				i += tmp->dir->type;
+				i += ft_dirlast(tmp->dir)->type;
 				move_thrgh_redir(&tmp, str, &i, 0);
 				break ;
 			}

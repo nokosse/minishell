@@ -41,20 +41,20 @@ typedef struct s_cmd //structure de UNE commande (liste chainée)
 
 void	lexer(char *str, char **envp);
 char	*word_to_array(char *str, int i, int j, t_cmd **cmd);
-int	move_through_quote(char *str, int i, char c);
-int	move_thrgh_redir(t_cmd **cmd, char *str, int *i, int print);
+int		move_through_quote(char *str, int i, char c);
+void	move_thrgh_redir(t_cmd **cmd, char *str, int *i, int print);
 int	is_valid_dir(char *str, int i);
 void    handle_dir(t_cmd **cmd, char *str, int i);
-int     check_string(char *str);
+int     	check_string(char *str);
 t_cmd	*ft_commandnew();
 t_dir	*ft_dirnew(t_cmd **cmd);
 t_cmd	*ft_cmdlast(t_cmd *cmd);
 t_dir	*ft_dirlast(t_dir *dir);
 void	end(t_cmd **cmd);
-int     is_whitespace(char c);
-int	is_valid_char(char c);
-int     is_quote(char *str, int i, char c);
-int	move_through_quote(char *str, int i, char c);
+int     	is_whitespace(char c);
+int		is_valid_char(char c);
+int     	is_quote(char *str, int i, char c);
+int		move_through_quote(char *str, int i, char c);
 void	free_struct(t_cmd **cmd);
 void	ft_print(t_cmd *cmd);					//delete at the end of project
 

@@ -6,7 +6,7 @@
 /*   By: operez <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 09:53:18 by operez            #+#    #+#             */
-/*   Updated: 2023/06/13 17:26:18 by operez           ###   ########.fr       */
+/*   Updated: 2023/06/15 12:10:47 by operez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void	string_to_filename(t_cmd **cmd, char *str, int i, int j)
 	print->content = word_to_array(str, i, j, cmd);
 }
 
-int	move_thrgh_redir(t_cmd **cmd, char *str, int *i, int print)
+void	move_thrgh_redir(t_cmd **cmd, char *str, int *i, int print)
 {
 	char	c;
 	int		j;
@@ -125,14 +125,21 @@ int	move_thrgh_redir(t_cmd **cmd, char *str, int *i, int print)
 	while (str[*i] && is_whitespace(str[*i]))
 		*i += 1;
 	if (is_quote(str, *i, str[*i]))
-		c = str[*i++];
-	while (str[*i + j] && !(is_whitespace(str[*i + j])) && str[*i + j] != c
-		&& str[*i + j] != '>' && str[*i + j] != '<' && str[*i + j] != '|')
-		j++;
-	if (print)
-		string_to_filename(cmd, str, *i, j);
-	if (str[*i + j] == str[*i] && (str[*i] == '\'' || str[*i] == '\"'))
-		j++;
-	*i += j;
-	return (0);
+	{
+		c = str[*i];
+		while (str[*i + 1 + j] != c)
+			j++;
+		if (print)
+			string_to_filename(cmd, str, *i, j + 1);
+		*i += j + 2;
+	}
+	else 
+	{
+		while (str[*i + j] && !(is_whitespace(str[*i + j])) && str[*i + j] != '>'
+			&& str[*i + j] != '<' && str[*i + j] != '|')
+			j++;
+		if (print)
+			string_to_filename(cmd, str, *i, j);
+		*i += j;
+	}
 }

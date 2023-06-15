@@ -6,7 +6,7 @@
 /*   By: operez <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 15:09:05 by operez            #+#    #+#             */
-/*   Updated: 2023/06/13 16:45:26 by operez           ###   ########.fr       */
+/*   Updated: 2023/06/15 10:49:00 by operez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_print(t_cmd *cmd)
 		{
 			if (i == 0)
 			{
-				ft_printf("Command = %s ", cmd->tokens[i++]);
+				ft_printf("Command %d = %s ", j, cmd->tokens[i++]);
 				continue ;
 			}
 			ft_printf("Parameter = %s ", cmd->tokens[i++]);
@@ -51,12 +51,12 @@ void	ft_print(t_cmd *cmd)
 					if (cmd->dir->type == 2)
 						ft_printf("<< with \"%s\" as file\n", cmd->dir->content);
 					if (cmd->dir->type == 1)
-						ft_printf("< with %s\" as file\n", cmd->dir->content);
+						ft_printf("< with \"%s\" as file\n", cmd->dir->content);
 				}
 				if (cmd->dir->right)
 				{
 					if (cmd->dir->type == 2)
-						ft_printf(">> with \"%s\"as file\n", cmd->dir->content);
+						ft_printf(">> with \"%s\" as file\n", cmd->dir->content);
 					if (cmd->dir->type == 1)
 						ft_printf("> with \"%s\" as file\n", cmd->dir->content);
 				}
