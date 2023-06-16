@@ -62,7 +62,7 @@ void	free_struct(t_cmd **cmd);
 void	ft_print(t_cmd *cmd);					//delete at the end of project
 
 // Execution part
-void	executor(char **tokens, char **envp);
+void	executor(t_cmd *cmd, char **envp);
 
 // Built-ins part
 void	exec_builtins(char **cmd, char **envp);
