@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:35:52 by operez            #+#    #+#             */
-/*   Updated: 2023/06/16 18:16:52 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/06/16 19:11:35 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,29 +77,31 @@ void	executor(t_cmd *cmd, char **envp)
 	// si count_cmd > 1 : il y a au moins 1 pipe.
 	// donc on execute la fonction pour executer les commandes avec pipes.
 	if (count_cmd(cmd) > 1)
-		printf("NBR OF PIPEs : %d\n", count_cmd(cmd) - 1);
- 
-	// Il check d'abord si la commande est un commande built-in
-	if (check_builtins(cmd->tokens[0]))
-		exec_builtins(cmd->tokens, envp); 
+		exec_pipe(cmd, envp); 
 
-	// Si c'est pas une commande built-in (echo, cd, export etc..)
-	// On va check pour executer la commande avec PATH (ls, cat etc..)
 	else
 	{
-		if	(check_path(cmd->tokens, envp))
+		// Il check d'abord si la commande est un commande built-in
+		if (check_builtins(cmd->tokens[0]))
+			exec_builtins(cmd->tokens, envp); 
+		// Si c'est pas une commande built-in (echo, cd, export etc..)
+		// On va check pour executer la commande avec PATH (ls, cat etc..)
+		else
 		{
-			pid = 0;
-			status = 0;
-			pid = fork();
-			if (pid > 0)
+			if	(check_path(cmd->tokens, envp))
 			{
-				waitpid(pid, &status, 0);
-				kill(pid, SIGTERM);
+				pid = 0;
+				status = 0;
+				pid = fork();
+				if (pid > 0)
+				{
+					waitpid(pid, &status, 0);
+					kill(pid, SIGTERM);
+				}
+				else
+					if (execve(cmd->tokens[0], cmd->tokens, NULL) == -1)
+						perror("error");
 			}
-			else
-				if (execve(cmd->tokens[0], cmd->tokens, NULL) == -1)
-					perror("error");
 		}
 	}
 }
