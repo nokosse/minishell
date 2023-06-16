@@ -6,7 +6,7 @@
 #    By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/05 15:30:22 by kvisouth          #+#    #+#              #
-#    Updated: 2023/06/15 16:56:38 by operez           ###   ########.fr        #
+#    Updated: 2023/06/16 19:06:46 by kvisouth         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ SRC = main.c \
 	src/parse_string.c \
 	src/handle_quotes.c \
 	src/executor.c \
+	src/exec_pipe.c \
 	src/lexer_utils.c \
 	src/print.c \
 	src/redirection.c \
