@@ -6,20 +6,20 @@
 /*   By: operez <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 12:19:51 by operez            #+#    #+#             */
-/*   Updated: 2023/06/15 17:46:59 by operez           ###   ########.fr       */
+/*   Updated: 2023/06/20 16:25:48 by operez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	create_lst(char *str, t_cmd **cmd)
+void	create_lst(char *str, t_cmd **cmd, char **envp)
 {
 	t_cmd	*tmp;
 	char	**cmd_nbr;
 	int	i;
 
 	i = 0;
-	*cmd = ft_commandnew();
+	*cmd = ft_commandnew(envp);
 	if (!(*cmd))
 		end(cmd);
 	tmp = *cmd;
@@ -28,7 +28,7 @@ void	create_lst(char *str, t_cmd **cmd)
 		i++;
 	while (i > 1)
 	{
-		tmp->next = ft_commandnew();
+		tmp->next = ft_commandnew(envp);
 		if (!tmp->next)
 			end(cmd);
 		tmp = tmp->next; 
@@ -71,11 +71,13 @@ void	get_token(char *str, t_cmd **cmd)
 			i++;
 		if (is_quote(str, i, str[i]))
 		{
+			tmp->quote = is_quote(str, i, str[i]);
 			c = str[i];
 			while (str[i + 1 + j] != c)
 				j++;
 			tmp->tokens[k++] = word_to_array(str, i, j + 1, &tmp);
 			i += j + 2;
+			tmp->quote = 0;
 			continue ;
 		}
 		while (str[i + j] && !(is_whitespace(str[i + j])) && str[i + j] != '|'
@@ -155,7 +157,7 @@ void	lexer(char *str, char **envp)
 
 	if (str && check_string(str))
 	{
-		create_lst(str, &cmd);
+		create_lst(str, &cmd, envp);
 		tokens_count(str, &cmd);
 		malloc_tokens_table(&cmd);
 		get_token(str, &cmd);

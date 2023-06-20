@@ -34,6 +34,7 @@ typedef struct s_dir
 typedef struct s_cmd //structure de UNE commande (liste chainée)
 {
 	char		**tokens;			//tableau de commandes
+	char		**ptr_env;
 	int			tokens_count;		//nombre de tokens par commande
 	int			bool_file;		//indique si chevron present dans la commande
 	int			quote;			//si quote = 1 => '  quote = 2 => " 
@@ -48,7 +49,7 @@ void	move_thrgh_redir(t_cmd **cmd, char *str, int *i, int print);
 int	is_valid_dir(char *str, int i);
 void    handle_dir(t_cmd **cmd, char *str, int i);
 int     	check_string(char *str);
-t_cmd	*ft_commandnew();
+t_cmd	*ft_commandnew(char **envp);
 t_dir	*ft_dirnew(t_cmd **cmd);
 t_cmd	*ft_cmdlast(t_cmd *cmd);
 t_dir	*ft_dirlast(t_dir *dir);
