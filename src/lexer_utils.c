@@ -9,29 +9,36 @@
 /*   Updated: 2023/06/20 17:07:33 by operez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-/*
-				var = malloc(sizeof(char) * i + 1);
-				if (!var)
-					end(&cmd);
-				var = ft_strncpy(var, env[k], i);
-				return (var);*/
 #include "../minishell.h"
 
-char	*ft_strncpy(char *s1, char *s2, int size)
+void	replace_var(t_cmd **cmd, char **tokens, int *k, int *i)
 {
-	int	i;
+	char	**env;
+	char	*str;
+	int		j;
+	int		l;
+	int		index;
 
-	i = 0;
-	while (i < size)
+	str = *tokens;
+	index = (*cmd)->env_line_nbr;
+	env = (*cmd)->ptr_env;
+	j = 0;
+	l = 0;
+	while (env[index][j] != '=')
+		j++;
+	j++;
+	while (env[index][j + l])
 	{
-		s1[i] = s2[i];
-		i++;
+		//ft_printf("Adress in fct = %p\n", str);
+		ft_printf("k = %d\n", *k);
+		str[*k] = env[index][j + l];
+		*k += 1;
+		l++;
 	}
-	s1[i] = '\0';
-	return (s1);
+	*i += j;
 }
 
-int	is_env_var(t_cmd *cmd, char *str, int i)
+int	is_env_var(t_cmd **cmd, char *str, int i)
 {
 	char	**env;
 	int		j;
@@ -40,7 +47,7 @@ int	is_env_var(t_cmd *cmd, char *str, int i)
 
 	k = 0;
 	save = i;
-	env = cmd->ptr_env;
+	env = (*cmd)->ptr_env;
 	while (env[k])
 	{
 		i = save;
@@ -54,6 +61,7 @@ int	is_env_var(t_cmd *cmd, char *str, int i)
 			}
 			if (env[k][j] == '=')
 			{
+				(*cmd)->env_line_nbr = k;
 				ft_printf("is env\n");
 				return (1);
 			}
@@ -93,14 +101,15 @@ int	size_var(t_cmd *cmd, char *str, int i)
 
 int	get_name_size(char *str, int i)
 {
-	while (str[i] && !is_whitespace(str[i]) && is_valid_char(str[i]) && str[i] != '\"'
-		&& str[i] != '\'' && str[i] != '|')
-		i++;
-	ft_printf("size name = %d\n", i - 1);
-	return (i - 1);
+	int	j;
+
+	j = 0;
+	while (str[i + j] && !is_whitespace(str[i + j]) && is_valid_char(str[i + j]) && str[i + j] != '\"' && str[i + j] != '\'' && str[i + j] != '|')
+		j++;
+	return (j);
 }
 
-int	size_string(t_cmd *cmd, char *str, int *i, int j)
+int	size_string(t_cmd **cmd, char *str, int *i, int j)
 {
 	int	k;
 	int	size_name;
@@ -113,18 +122,19 @@ int	size_string(t_cmd *cmd, char *str, int *i, int j)
 	}
 	while (str[k])
 	{
-		if (str[k] == '$' && cmd->quote != 2)
+		if (str[k] == '$' && (*cmd)->quote != 2)
 		{
 			size_name = get_name_size(str, ++k);
+			ft_printf("Size name = %d\n", size_name);
 			if (!is_env_var(cmd, str, k))
 			{
 				j -= size_name;
 				continue ;
 			}
-			j += size_var(cmd, str, k) - size_name;
+			j += size_var((*cmd), str, k) - size_name;
 			continue ;
 		}
-			k++;
+		k++;
 	}
 	return (j);
 }
@@ -136,13 +146,22 @@ char	*word_to_array(char *str, int i, int j, t_cmd **cmd)
 
 	if (str)
 	{
-		j = size_string(*cmd, str, &i, j);
+		j = size_string(cmd, str, &i, j);
 		k = 0;
+		//ft_printf("Size malloc = %d\n", j);
 		tokens = malloc (sizeof(char) * (j + 1));
+		//ft_printf("Adress in main = %p\n", tokens);
 		if (!tokens)
 			end(cmd);
 		while (str[i] && k < j)
+		{
+			if (str[i] == '$' && (*cmd)->quote != 2)
+			{
+				if (is_env_var(cmd, str, i + 1)) 
+					replace_var(cmd, &tokens, &k, &i);
+			}
 			tokens[k++] = str[i++];
+		}
 		tokens[k] = '\0';
 	}
 	return (tokens);

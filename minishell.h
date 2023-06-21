@@ -38,6 +38,7 @@ typedef struct s_cmd //structure de UNE commande (liste chainée)
 	int			tokens_count;		//nombre de tokens par commande
 	int			bool_file;		//indique si chevron present dans la commande
 	int			quote;			//si quote = 1 => '  quote = 2 => " 
+	int			env_line_nbr;		//sauvegarde le numero de la ligne de la variable recherchee
 	struct s_dir	*dir;
 	struct s_cmd	*next;
 }	t_cmd;
