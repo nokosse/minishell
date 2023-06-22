@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nokosse <nokosse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 18:33:42 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/06/20 16:04:06 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/06/22 17:00:10 by nokosse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@
 // "wc -l" s'execute avec le path avec comme entree : la sortie de "ls -l".
 void	exec_pipe(t_cmd *cmd, char **envp)
 {
-	(void)	envp;
-	(void)	cmd;
 	printf("DEBUT fonction exec_pipe\n");
 	int i = 0;
-	while (cmd)
+	t_cmd *tmp = cmd;
+	while (tmp)
 	{
-		printf ("Command %d : %s / ", i, cmd->tokens[0]);
-		printf ("Parameter is : %s\n", cmd->tokens[1]);
+		printf ("Command %d : %s / ", i, tmp->tokens[0]);
+		printf ("Parameter is : %s\n", tmp->tokens[1]);
 		i++;
-		cmd = cmd->next;
+		tmp = tmp->next;
 	}
 	printf("FIN fonction exec_pipe\n");
+	(void)	envp;
 }
