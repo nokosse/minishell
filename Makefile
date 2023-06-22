@@ -17,12 +17,12 @@ SRC = main.c \
 	src/check_char.c \
 	src/parse_string.c \
 	src/handle_quotes.c \
-	src/executor.c \
+	src/exec_main.c \
 	src/exec_pipe.c \
 	src/lexer_utils.c \
 	src/print.c \
 	src/redirection.c \
-	src/builtins.c \
+	src/builtin_main.c \
 	src/builtin_echo.c \
 	src/end.c \
 	
