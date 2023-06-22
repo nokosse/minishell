@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor.c                                         :+:      :+:    :+:   */
+/*   exec_main.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nokosse <nokosse@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:35:52 by operez            #+#    #+#             */
-/*   Updated: 2023/06/16 19:11:35 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/06/22 18:06:26 by nokosse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,37 @@ int	count_cmd(t_cmd *cmd)
 	return (i);
 }
 
+void	exec_cmd(t_cmd *cmd, char **envp)
+{
+	pid_t	pid;
+	int		status;
+
+	// Il check d'abord si la commande est un commande built-in
+	if (check_builtins(cmd->tokens[0]))
+		exec_builtins(cmd->tokens, envp); 
+	// Si c'est pas une commande built-in (echo, cd, export etc..)
+	// On va check pour executer la commande avec PATH (ls, cat etc..)
+	else
+	{
+		if	(check_path(cmd->tokens, envp))
+		{
+			pid = 0;
+			status = 0;
+			pid = fork();
+			if (pid > 0)
+			{
+				waitpid(pid, &status, 0);
+				kill(pid, SIGTERM);
+			}
+			else
+			{
+				if (execve(cmd->tokens[0], cmd->tokens, NULL) == -1)
+					perror("error");
+			}
+		}
+	}
+}
+
 // TODO : implementer clear (variable d'env TERM)
 // TODO : executer toute les commandes entre pipes
 // TODO : gerer les redirections < > << >>
@@ -71,9 +102,6 @@ int	count_cmd(t_cmd *cmd)
 
 void	executor(t_cmd *cmd, char **envp)
 {
-	pid_t	pid;
-	int		status;
-
 	// si count_cmd > 1 : il y a au moins 1 pipe.
 	// donc on execute la fonction pour executer les commandes avec pipes.
 	if (count_cmd(cmd) > 1)
@@ -81,27 +109,6 @@ void	executor(t_cmd *cmd, char **envp)
 
 	else
 	{
-		// Il check d'abord si la commande est un commande built-in
-		if (check_builtins(cmd->tokens[0]))
-			exec_builtins(cmd->tokens, envp); 
-		// Si c'est pas une commande built-in (echo, cd, export etc..)
-		// On va check pour executer la commande avec PATH (ls, cat etc..)
-		else
-		{
-			if	(check_path(cmd->tokens, envp))
-			{
-				pid = 0;
-				status = 0;
-				pid = fork();
-				if (pid > 0)
-				{
-					waitpid(pid, &status, 0);
-					kill(pid, SIGTERM);
-				}
-				else
-					if (execve(cmd->tokens[0], cmd->tokens, NULL) == -1)
-						perror("error");
-			}
-		}
+		exec_cmd(cmd, envp);
 	}
 }

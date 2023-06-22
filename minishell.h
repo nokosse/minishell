@@ -66,6 +66,7 @@ void	ft_print(t_cmd *cmd);					//delete at the end of project
 // Execution part
 void	executor(t_cmd *cmd, char **envp);
 void	exec_pipe(t_cmd *cmd, char **envp);
+void	exec_cmd(t_cmd *cmd, char **envp);
 
 // Built-ins part
 void	exec_builtins(char **cmd, char **envp);
