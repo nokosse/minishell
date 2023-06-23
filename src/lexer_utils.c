@@ -29,8 +29,6 @@ void	replace_var(t_cmd **cmd, char **tokens, int *k, int *i)
 	j++;
 	while (env[index][j + l])
 	{
-		//ft_printf("Adress in fct = %p\n", str);
-		ft_printf("k = %d\n", *k);
 		str[*k] = env[index][j + l];
 		*k += 1;
 		l++;
@@ -62,13 +60,13 @@ int	is_env_var(t_cmd **cmd, char *str, int i)
 			if (env[k][j] == '=')
 			{
 				(*cmd)->env_line_nbr = k;
-				ft_printf("is env\n");
+				//ft_printf("is env\n");
 				return (1);
 			}
 		}
 		k++;
 	}
-	ft_printf("is not env\n");
+	//ft_printf("is not env\n");
 	return (0);
 }
 
@@ -77,21 +75,32 @@ int	size_var(t_cmd *cmd, char *str, int i)
 	int		j;
 	int		k;
 	int		l;
+	int		save;
 	char	**env;
 
 	k = 0;
-	j = 0;
 	env = cmd->ptr_env;
+	save = i;
 	while (env[k])
 	{
 		l = 0;
+		i = save;
+		j = 0;
 		if (str[i] == env[k][l])
 		{
-			while (env[k][l] && env[k][l] != '=')
+			while (str[i] == env[k][l])
+			{
+				i++;
 				l++;
+			}
+			if (env[k][l] != '=')
+			{
+				k++;
+				continue ;
+			}
 			while (env[k][l + j])
 				j++;
-			ft_printf("size var = %d\n", j - 1);
+			//ft_printf("size var = %d\n", j - 1);
 			return (j - 1);
 		}
 		k++;
@@ -104,35 +113,35 @@ int	get_name_size(char *str, int i)
 	int	j;
 
 	j = 0;
-	while (str[i + j] && !is_whitespace(str[i + j]) && is_valid_char(str[i + j]) && str[i + j] != '\"' && str[i + j] != '\'' && str[i + j] != '|')
+	while (str[i + j] && !is_whitespace(str[i + j]) && is_valid_char(str[i + j]) && str[i + j] != '\"' && str[i + j] != '\'' && str[i + j] != '|' && str[i + j] != '$')
 		j++;
-	return (j);
+	//ft_printf("Size name = %d\n", j + 1);
+	return (j + 1);
 }
 
 int	size_string(t_cmd **cmd, char *str, int *i, int j)
 {
 	int	k;
-	int	size_name;
+	int	save;
 
 	k = 0;
+	save = j;
 	if ((str[*i] == '\'' || str[*i] == '\"') && str[*i] == str[*i + j])
 	{
 		j -= 1;
 		*i += 1;
 	}
-	while (str[k])
+	while (str[*i + k] && k < save)
 	{
-		if (str[k] == '$' && (*cmd)->quote != 2)
+		if (str[*i + k] == '$' && (*cmd)->quote != 2)
 		{
-			size_name = get_name_size(str, ++k);
-			ft_printf("Size name = %d\n", size_name);
-			if (!is_env_var(cmd, str, k))
+			if (!is_env_var(cmd, str, *i + k + 1))
 			{
-				j -= size_name;
+				j = j - get_name_size(str, *i + k + 1);
+				k++;
 				continue ;
 			}
-			j += size_var((*cmd), str, k) - size_name;
-			continue ;
+			j = j - (get_name_size(str, *i + k + 1) - size_var((*cmd), str, *i + k + 1));
 		}
 		k++;
 	}
@@ -148,9 +157,8 @@ char	*word_to_array(char *str, int i, int j, t_cmd **cmd)
 	{
 		j = size_string(cmd, str, &i, j);
 		k = 0;
-		//ft_printf("Size malloc = %d\n", j);
+		//ft_printf("Size malloc = %d\n", j + 1);
 		tokens = malloc (sizeof(char) * (j + 1));
-		//ft_printf("Adress in main = %p\n", tokens);
 		if (!tokens)
 			end(cmd);
 		while (str[i] && k < j)
@@ -158,7 +166,10 @@ char	*word_to_array(char *str, int i, int j, t_cmd **cmd)
 			if (str[i] == '$' && (*cmd)->quote != 2)
 			{
 				if (is_env_var(cmd, str, i + 1)) 
+				{
 					replace_var(cmd, &tokens, &k, &i);
+					continue ;
+				}
 			}
 			tokens[k++] = str[i++];
 		}

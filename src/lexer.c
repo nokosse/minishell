@@ -138,13 +138,6 @@ int	tokens_count(char *str, t_cmd **cmd)
 				move_thrgh_redir(&tmp, str, &i, 0);
 				break ;
 			}
-			if (str[i] == '$')
-			{
-				if (is_bracket(str, i, str[i]))
-				{
-					ft_printf("do something\n");
-				}
-			}
 			i++;
 		}
 	}
