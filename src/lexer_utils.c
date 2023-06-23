@@ -44,8 +44,10 @@ int	is_env_var(t_cmd **cmd, char *str, int i)
 	int		save;
 
 	k = 0;
-	save = i;
 	env = (*cmd)->ptr_env;
+	if (is_bracket(str, i, str[i]))
+		i++;
+	save = i;
 	while (env[k])
 	{
 		i = save;
@@ -80,6 +82,8 @@ int	size_var(t_cmd *cmd, char *str, int i)
 
 	k = 0;
 	env = cmd->ptr_env;
+	if (is_bracket(str, i, str[i]))
+		i++;
 	save = i;
 	while (env[k])
 	{
