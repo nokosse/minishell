@@ -54,33 +54,37 @@ int	main(int argc, char **argv, char **envp)
 	char		*line;
 	struct sigaction	sa;
 
-	(void) argc;
-	(void) argv;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_handler = handle_signal;
-	sa.sa_flags = 0;
-	sigaction(SIGINT, &sa, NULL);
-	sigaction(SIGQUIT, &sa, NULL);
-	while (1)
+	if (argc == 1)
 	{
-		line = readline("minishell> ");
-		if (!line)
+		(void) argv;
+		sigemptyset(&sa.sa_mask);
+		sa.sa_handler = handle_signal;
+		sa.sa_flags = 0;
+		sigaction(SIGINT, &sa, NULL);
+		sigaction(SIGQUIT, &sa, NULL);
+		while (1)
 		{
-			free (line);
-			exit(EXIT_SUCCESS);
+			line = readline("minishell> ");
+			if (!line)
+			{
+				free (line);
+				rl_clear_history();
+				break ;
+			}
+			if (!ft_strlen(line))
+			{
+				free(line);
+				continue ;
+			}
+			add_history(line);
+			if (!strcmp(line, "exit"))
+			{
+				free(line);
+				rl_clear_history();
+				break ;
+			}
+			lexer(line, envp);
 		}
-		if (!ft_strlen(line))
-		{
-			free(line);
-			continue ;
-		}
-		add_history(line);
-		if (!strcmp(line, "exit"))
-		{
-			free(line);
-			break ;
-		}
-		lexer(line, envp);
 	}
 	return (0);
 }

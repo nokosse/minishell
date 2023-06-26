@@ -15,30 +15,36 @@
 void	free_struct(t_cmd **cmd)
 {
 	t_cmd	*tmp;
+	t_cmd	*copy;
 	t_dir	*save;
 	int	i;
 
-	i = 0;
 	tmp = *cmd;
 	// penser a free ensemble liste chaine de commandes 
-	if (tmp->tokens)
+	while (tmp)
 	{
-		while (tmp->tokens[i])
-			free(tmp->tokens[i++]);
-		free (tmp->tokens);
-	}
-	if (tmp->dir)
-	{
-		while (tmp->dir)
+		i = 0;
+		if (tmp->tokens)
 		{
-			save = tmp->dir;
-			if (tmp->dir->content)
-				free(tmp->dir->content);
-			tmp->dir = tmp->dir->next;
-			free(save);
+			while (tmp->tokens[i])
+				free(tmp->tokens[i++]);
+			free (tmp->tokens);
 		}
+		if (tmp->dir)
+		{
+			while (tmp->dir)
+			{
+				save = tmp->dir;
+				if (tmp->dir->content)
+					free(tmp->dir->content);
+				tmp->dir = tmp->dir->next;
+				free(save);
+			}
+		}
+		copy = tmp;
+		tmp = tmp->next;
+		free(copy);
 	}
-	free(tmp);
 }
 
 void	end(t_cmd **cmd)

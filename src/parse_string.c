@@ -52,8 +52,10 @@ int	check_redir(char *str, int *i, char c)
 int	check_string(char *str)
 {
 	int	i;
+	int	j;
 
 	i = 0;
+	j = 0;
 	while (str[i] == ' ' || str[i] == '\n' || str[i] == '\t' || str[i] == '\v'
 			|| str[i] == '\f' || str[i] == '\r')
 		i++;
@@ -64,10 +66,16 @@ int	check_string(char *str)
 	}
 	while (str[i])
 	{
-		if (str[i] == '|' && str[i + 1] == '|')
+		if (str[i] == '|')
 		{
-			ft_printf("parse error near '|'\n");
-			return (0);
+			while (str[i + j] && is_whitespace(str[i + j]))
+				j++;
+			if (str[i + j] == '|' && j != 0)
+			{
+				ft_printf("parse error near '|'\n");
+				return (0);
+			}
+			j = 0;
 		}
 		if (is_quote(str, i, str[i]))
 		{

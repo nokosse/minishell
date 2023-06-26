@@ -43,7 +43,7 @@ void	malloc_tokens_table(t_cmd **cmd)
 	tmp = *cmd;
 	while (tmp)
 	{
-		ft_printf("tokens count = %d\n", tmp->tokens_count);
+		//		ft_printf("tokens count = %d\n", tmp->tokens_count);
 		tmp->tokens = malloc (sizeof(char *) * ((tmp->tokens_count) + 1));
 		if (!tmp->tokens)
 			end(cmd);
