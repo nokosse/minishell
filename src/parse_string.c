@@ -11,7 +11,12 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
+/*
+int	check_var(char *str, int *i, char c)
+{
 
+}
+*/
 int	check_redir(char *str, int *i, char c)
 {
 	if (str[*i + 1] == '\0')
@@ -60,7 +65,10 @@ int	check_string(char *str)
 	while (str[i])
 	{
 		if (str[i] == '|' && str[i + 1] == '|')
+		{
 			ft_printf("parse error near '|'\n");
+			return (0);
+		}
 		if (is_quote(str, i, str[i]))
 		{
 			i = move_through_quote(str, i, str[i]);

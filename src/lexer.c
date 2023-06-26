@@ -43,6 +43,7 @@ void	malloc_tokens_table(t_cmd **cmd)
 	tmp = *cmd;
 	while (tmp)
 	{
+		ft_printf("tokens count = %d\n", tmp->tokens_count);
 		tmp->tokens = malloc (sizeof(char *) * ((tmp->tokens_count) + 1));
 		if (!tmp->tokens)
 			end(cmd);
@@ -56,7 +57,6 @@ void	get_token(char *str, t_cmd **cmd)
 	int		i;
 	int		j;
 	int		k;
-	char	c;
 	t_cmd	*tmp;
 	t_dir	*copy;
 
@@ -69,17 +69,6 @@ void	get_token(char *str, t_cmd **cmd)
 		j = 0;
 		while (str[i] && is_whitespace(str[i]))
 			i++;
-		if (is_quote(str, i, str[i]))
-		{
-			tmp->quote = is_quote(str, i, str[i]);
-			c = str[i];
-			while (str[i + 1 + j] != c)
-				j++;
-			tmp->tokens[k++] = word_to_array(str, i, j + 1, &tmp);
-			i += j + 2;
-			tmp->quote = 0;
-			continue ;
-		}
 		while (str[i + j] && !(is_whitespace(str[i + j])) && str[i + j] != '|'
 				&& str[i + j] != '<' && str[i + j] != '>')
 			j++;
@@ -123,7 +112,7 @@ int	tokens_count(char *str, t_cmd **cmd)
 			{
 				i = move_through_quote(str, i, str[i]);
 				i++;
-				break ;
+				continue ;
 			}
 			if (str[i] == '|')
 			{

@@ -20,6 +20,15 @@ int     is_whitespace(char c)
 	return (0);
 }
 
+int	all_unvalid_char(char c)
+{
+	if ( c == '\\' || c == ':' || c == '*' || c == '?' || c == ';'
+			|| c == '&' || c == '(' || c == ')'|| c == '!'
+			|| c == '/' || c == '$' || c == '|'|| c == '<'
+			|| c == '>' || c == '\0')
+		return (1);
+	return (0);
+}
 int	is_valid_char(char c)
 {
 	if (c == '\0')

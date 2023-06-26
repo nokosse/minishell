@@ -130,16 +130,26 @@ int	size_string(t_cmd **cmd, char *str, int *i, int j)
 
 	k = 0;
 	save = j;
-	if ((str[*i] == '\'' || str[*i] == '\"') && str[*i] == str[*i + j])
-	{
-		j -= 1;
-		*i += 1;
-	}
 	while (str[*i + k] && k < save)
 	{
+		if (is_quote(str, *i + k, str[*i + k]) && !(*cmd)->quote)
+		{
+			(*cmd)->quote = is_quote(str, *i + k, str[*i + k]);
+			k += 1;
+			j -= 2;
+		}
+		if ((str[*i + k] == '\'' && (*cmd)->quote == 1)
+				|| (str[*i + k] == '\"' && (*cmd)->quote == 2))
+			(*cmd)->quote = 0;
 		if (str[*i + k] == '$' && (*cmd)->quote != 2)
 		{
-			if (!is_env_var(cmd, str, *i + k + 1))
+			if (str[*i + k] == '$' && (is_whitespace(str[*i + k + 1])
+					|| all_unvalid_char(str[*i + k + 1])))
+			{
+				k++;
+				continue ;
+			}
+			else if (!is_env_var(cmd, str, *i + k + 1))
 			{
 				j = j - get_name_size(str, *i + k + 1);
 				k++;
@@ -174,6 +184,17 @@ char	*word_to_array(char *str, int i, int j, t_cmd **cmd)
 					replace_var(cmd, &tokens, &k, &i);
 					continue ;
 				}
+			}
+			if (is_quote(str, i, str[i]) && !(*cmd)->quote)
+			{
+				(*cmd)->quote = is_quote(str, i, str[i]);
+				i++;
+			}
+			if ((str[i] == '\'' && (*cmd)->quote == 1)
+					|| (str[i] == '\"' && (*cmd)->quote == 2))
+			{
+				(*cmd)->quote = 0;
+				i++;
 			}
 			tokens[k++] = str[i++];
 		}

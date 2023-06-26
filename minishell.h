@@ -57,6 +57,7 @@ t_dir	*ft_dirlast(t_dir *dir);
 void	end(t_cmd **cmd);
 int     	is_whitespace(char c);
 int		is_valid_char(char c);
+int		all_unvalid_char(char c);
 int     	is_quote(char *str, int i, char c);
 int		is_bracket(char *str, int i, char c);
 int		move_through_quote(char *str, int i, char c);
