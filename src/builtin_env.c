@@ -12,5 +12,11 @@
 
 #include "../minishell.h"
 
-// This function will print the environment variables.
-// It will act like the command 'env'.
+void	builtin_env(char **env)
+{
+	int	i;
+
+	i = 0;
+	while (env[i])
+		printf("%s\n", env[i++]);
+}

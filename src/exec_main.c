@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-int	check_path(char **tokens, char **envp)
+int	check_path(char **tokens, char **env)
 {
 	int		i;
 	char	*path;
@@ -21,7 +21,7 @@ int	check_path(char **tokens, char **envp)
 
 	i = 0;
 		path = ft_strdup(getenv("PATH"));
-	(void) envp;
+	(void) env;
 	split = ft_split(path, ':');
 	while (split[i])
 	{
@@ -59,19 +59,19 @@ int	count_cmd(t_cmd *cmd)
 	return (i);
 }
 
-void	exec_cmd(t_cmd *cmd, char **envp)
+void	exec_cmd(t_cmd *cmd, char ***env)
 {
 	pid_t	pid;
 	int		status;
 
 	// Il check d'abord si la commande est un commande built-in
 	if (check_builtins(cmd->tokens[0]))
-		exec_builtins(cmd->tokens, envp); 
+		exec_builtins(cmd->tokens, env); 
 	// Si c'est pas une commande built-in (echo, cd, export etc..)
 	// On va check pour executer la commande avec PATH (ls, cat etc..)
 	else
 	{
-		if	(check_path(cmd->tokens, envp))
+		if	(check_path(cmd->tokens, *env))
 		{
 			pid = 0;
 			status = 0;
@@ -100,15 +100,15 @@ void	exec_cmd(t_cmd *cmd, char **envp)
 // 1. check si il y a des pipe.
 // 2. check si il y a des redirections.
 
-void	executor(t_cmd *cmd, char **envp)
+void	executor(t_cmd *cmd, char ***env)
 {
 	// si count_cmd > 1 : il y a au moins 1 pipe.
 	// donc on execute la fonction pour executer les commandes avec pipes.
 	if (count_cmd(cmd) > 1)
-		exec_pipe(cmd, envp); 
+		exec_pipe(cmd, *env); 
 
 	else
 	{
-		exec_cmd(cmd, envp);
+		exec_cmd(cmd, env);
 	}
 }

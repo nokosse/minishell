@@ -34,7 +34,7 @@ typedef struct s_dir
 typedef struct s_cmd //structure de UNE commande (liste chainée)
 {
 	char		**tokens;			//tableau de commandes
-	char		**ptr_env;
+	char		**ptr_env;			//ptr sur **env
 	int			tokens_count;		//nombre de tokens par commande
 	int			bool_file;		//indique si chevron present dans la commande
 	int			quote;			//si quote = 1 => '  quote = 2 => " 
@@ -43,18 +43,17 @@ typedef struct s_cmd //structure de UNE commande (liste chainée)
 	struct s_cmd	*next;
 }	t_cmd;
 
-void	lexer(char *str, char **envp);
+void	lexer(char *str, char ***env);
 char	*word_to_array(char *str, int i, int j, t_cmd **cmd);
 int		move_through_quote(char *str, int i, char c);
 void	move_thrgh_redir(t_cmd **cmd, char *str, int *i, int print);
 int	is_valid_dir(char *str, int i);
 void    handle_dir(t_cmd **cmd, char *str, int i);
 int     	check_string(char *str);
-t_cmd	*ft_commandnew(char **envp);
+t_cmd	*ft_commandnew(char **env);
 t_dir	*ft_dirnew(t_cmd **cmd);
 t_cmd	*ft_cmdlast(t_cmd *cmd);
 t_dir	*ft_dirlast(t_dir *dir);
-void	end(t_cmd **cmd);
 int     	is_whitespace(char c);
 int		is_valid_char(char c);
 int		all_unvalid_char(char c);
@@ -64,14 +63,21 @@ int		move_through_quote(char *str, int i, char c);
 void	free_struct(t_cmd **cmd);
 void	ft_print(t_cmd *cmd);					//delete at the end of project
 
+// Utils
+void	free_array(char **array);
+void	end(t_cmd **cmd);
+char	*ft_strcpy(char *s1, char *s2);
+
 // Execution part
-void	executor(t_cmd *cmd, char **envp);
-void	exec_pipe(t_cmd *cmd, char **envp);
-void	exec_cmd(t_cmd *cmd, char **envp);
+void	executor(t_cmd *cmd, char ***env);
+void	exec_pipe(t_cmd *cmd, char **env);
+void	exec_cmd(t_cmd *cmd, char ***env);
 
 // Built-ins part
-void	exec_builtins(char **cmd, char **envp);
+void	exec_builtins(char **tokens, char ***env);
 int		check_builtins(char *cmd);
 int 	builtin_echo(char **args);
+void	builtin_env(char **env);
+void	builtin_export(char **tokens, char ***env);
 
 #endif

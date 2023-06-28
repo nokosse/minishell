@@ -49,11 +49,38 @@ void	handle_signal(int signal)
 	}
 }
 
+char	**set_env(char ***env, char **envp)
+{
+	int		i;
+	char	**copy;
+
+	i = 0;
+	copy = *env;
+	while (envp[i])
+		i++;
+	copy = malloc (sizeof(char *) * i + 1);
+	if (!copy)
+		exit(EXIT_FAILURE);
+	i = 0;
+	while (envp[i])
+	{
+		copy[i] = malloc(sizeof(char) * (ft_strlen(envp[i]) + 1));
+		if (!copy[i])
+			free_array(copy);
+		copy[i] = ft_strcpy(copy[i], envp[i]);
+		i++;
+	}
+	return (copy);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
-	char		*line;
+	char			*line;
+	static char		**env;
 	struct sigaction	sa;
 
+	env = NULL;
+	env = set_env(&env, envp);
 	if (argc == 1)
 	{
 		(void) argv;
@@ -83,7 +110,9 @@ int	main(int argc, char **argv, char **envp)
 				rl_clear_history();
 				break ;
 			}
-			lexer(line, envp);
+			ft_printf("env2 = %p\n", env);
+			lexer(line, &env);
+			free(line);
 		}
 	}
 	return (0);

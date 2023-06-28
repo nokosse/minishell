@@ -12,14 +12,14 @@
 
 #include "../minishell.h"
 
-void	create_lst(char *str, t_cmd **cmd, char **envp)
+void	create_lst(char *str, t_cmd **cmd, char **env)
 {
 	t_cmd	*tmp;
 	char	**cmd_nbr;
 	int	i;
 
 	i = 0;
-	*cmd = ft_commandnew(envp);
+	*cmd = ft_commandnew(env);
 	if (!(*cmd))
 		end(cmd);
 	tmp = *cmd;
@@ -28,7 +28,7 @@ void	create_lst(char *str, t_cmd **cmd, char **envp)
 		i++;
 	while (i > 1)
 	{
-		tmp->next = ft_commandnew(envp);
+		tmp->next = ft_commandnew(env);
 		if (!tmp->next)
 			end(cmd);
 		tmp = tmp->next; 
@@ -133,18 +133,18 @@ int	tokens_count(char *str, t_cmd **cmd)
 	return (1);
 }
 
-void	lexer(char *str, char **envp)
+void	lexer(char *str, char ***env)
 {
 	t_cmd	*cmd;
 
 	if (str && check_string(str))
 	{
-		create_lst(str, &cmd, envp);
+		create_lst(str, &cmd, *env);
 		tokens_count(str, &cmd);
 		malloc_tokens_table(&cmd);
 		get_token(str, &cmd);
 		ft_print(cmd);
-		executor(cmd, envp);
+		executor(cmd, env);
 		free_struct(&cmd);
 	}
 }
