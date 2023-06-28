@@ -78,6 +78,8 @@ void	exec_builtins(char **tokens, char ***env);
 int		check_builtins(char *cmd);
 int 	builtin_echo(char **args);
 void	builtin_env(char **env);
-void	builtin_export(char **tokens, char ***env);
+int		check_trgh_env(char **tokens, char **env);
+char	**builtin_export(char **tokens, char **env);
+char	**builtin_unset(char **tokens, char **env);
 
 #endif

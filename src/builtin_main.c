@@ -49,10 +49,9 @@ void	exec_builtins(char **tokens, char ***env)
 	if (ft_strcmp(tokens[0], "pwd") == 0)
 		printf("Normalement on execute builtin_pwd ici <<<<<<<<<<<\n");
 	if (ft_strcmp(tokens[0], "export") == 0)
-	 	builtin_export(tokens, env);
+	 	*env = builtin_export(tokens, *env);
 	if (ft_strcmp(tokens[0], "unset") == 0)
-		printf("Normalement on execute builtin_unset ici <<<<<<<<<<<\n");
-	// 	builtin_unset(tokens, env);
+	 	*env = builtin_unset(tokens, *env);
 	if (ft_strcmp(tokens[0], "env") == 0)
 	 	builtin_env(*env);
 	if (ft_strcmp(tokens[0], "exit") == 0)

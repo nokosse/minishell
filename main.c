@@ -49,38 +49,37 @@ void	handle_signal(int signal)
 	}
 }
 
-char	**set_env(char ***env, char **envp)
+char	**set_env(char **env, char **envp)
 {
 	int		i;
-	char	**copy;
 
 	i = 0;
-	copy = *env;
 	while (envp[i])
 		i++;
-	copy = malloc (sizeof(char *) * i + 1);
-	if (!copy)
+	env = malloc (sizeof(char *) * (i + 1));
+	if (!env)
 		exit(EXIT_FAILURE);
 	i = 0;
 	while (envp[i])
 	{
-		copy[i] = malloc(sizeof(char) * (ft_strlen(envp[i]) + 1));
-		if (!copy[i])
-			free_array(copy);
-		copy[i] = ft_strcpy(copy[i], envp[i]);
+		env[i] = malloc(sizeof(char) * (ft_strlen(envp[i]) + 1));
+		if (!env[i])
+			free_array(env);
+		env[i] = ft_strcpy(env[i], envp[i]);
 		i++;
 	}
-	return (copy);
+	env[i] = '\0';
+	return (env);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	char			*line;
-	static char		**env;
+	char		**env;
 	struct sigaction	sa;
 
 	env = NULL;
-	env = set_env(&env, envp);
+	env = set_env(env, envp);
 	if (argc == 1)
 	{
 		(void) argv;
@@ -94,6 +93,7 @@ int	main(int argc, char **argv, char **envp)
 			line = readline("minishell> ");
 			if (!line)
 			{
+				free_array(env);
 				free (line);
 				rl_clear_history();
 				break ;
@@ -106,11 +106,11 @@ int	main(int argc, char **argv, char **envp)
 			add_history(line);
 			if (!strcmp(line, "exit"))
 			{
+				free_array(env);
 				free(line);
 				rl_clear_history();
 				break ;
 			}
-			ft_printf("env2 = %p\n", env);
 			lexer(line, &env);
 			free(line);
 		}

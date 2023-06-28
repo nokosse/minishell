@@ -62,13 +62,11 @@ int	is_env_var(t_cmd **cmd, char *str, int i)
 			if (env[k][j] == '=')
 			{
 				(*cmd)->env_line_nbr = k;
-				//ft_printf("is env\n");
 				return (1);
 			}
 		}
 		k++;
 	}
-	//ft_printf("is not env\n");
 	return (0);
 }
 

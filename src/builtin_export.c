@@ -33,49 +33,51 @@ char	*ft_strcpy(char *s1, char *s2)
 	s1[i] = '\0';
 	return (s1);
 }
-char	*ft_strcat(char *s1, char *s2)
+
+int	check_trgh_env(char **tokens, char **env)
 {
 	int	i;
-	int	j;
 
 	i = 0;
-	j = 0;
-	while (s1[i])
+	while (env[i])
+	{
+		if (!ft_strcmp(tokens[1], env[i]))
+			return (0);
 		i++;
-	while (s2[j])
-		s1[i++] = s2[j++];
-	s1[i] = '\0';
-	return (s1);
-
+	}
+	return (1);
 }
-void	builtin_export(char **tokens, char ***env)
+
+char	**builtin_export(char **tokens, char **env)
 {
 	int		len;
 	int		i;
 	char	**array;
-	char	**ev;
 
-	len = 0;
-	i = 0;
-	ev = *env;
-	while (ev[len])
-		len++;
-	array = malloc(sizeof(char *) * (len + 3));
-	if (!array)
-		return ;			//suivi de malloc
-	while (ev[i])
+	if (check_trgh_env(tokens, env))
 	{
-		array[i] = malloc(sizeof(char) * (ft_strlen(ev[i]) + 1));
+		len = 0;
+		i = 0;
+		while (env[len])
+			len++;
+		array = malloc(sizeof(char *) * (len + 3));
+		if (!array)
+			return (0);			//suivi de malloc
+		while (env[i])
+		{
+			array[i] = malloc(sizeof(char) * (ft_strlen(env[i]) + 1));
+			if (!array[i])
+				free_array(array);
+			array[i] = ft_strcpy(array[i], env[i]);
+			i++;
+		}
+		array[i] = malloc(sizeof(char) * (ft_strlen(tokens[0]) + 1));
 		if (!array[i])
 			free_array(array);
-		array[i] = ft_strcpy(array[i], ev[i]);
-		i++;
+		array[i] = ft_strcpy(array[i], tokens[1]);
+		array[++i] = '\0';
+		free(env);
+		env = array;
 	}
-	array[i] = malloc(sizeof(char) * (ft_strlen(tokens[0]) + 1));
-	if (!array[i])
-		free_array(array);
-	array[i] = ft_strcpy(array[i], tokens[1]);
-	free(ev);
-	ev = array;
-	*env = ev;
+	return (env);
 }
