@@ -81,5 +81,7 @@ void	builtin_env(char **env);
 int		check_trgh_env(char **tokens, char **env);
 char	**builtin_export(char **tokens, char **env);
 char	**builtin_unset(char **tokens, char **env);
+void	builtin_pwd(void);
+void	builtin_cd(char **tokens);
 
 #endif
