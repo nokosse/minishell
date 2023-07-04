@@ -35,6 +35,7 @@ typedef struct s_cmd //structure de UNE commande (liste chainée)
 {
 	char		**tokens;			//tableau de commandes
 	char		**ptr_env;			//ptr sur **env
+	char		*ptr_line;			//ptr sur **env
 	int			tokens_count;		//nombre de tokens par commande
 	int			bool_file;		//indique si chevron present dans la commande
 	int			quote;			//si quote = 1 => '  quote = 2 => " 
@@ -50,7 +51,7 @@ void	move_thrgh_redir(t_cmd **cmd, char *str, int *i, int print);
 int	is_valid_dir(char *str, int i);
 void    handle_dir(t_cmd **cmd, char *str, int i);
 int     	check_string(char *str);
-t_cmd	*ft_commandnew(char **env);
+t_cmd	*ft_commandnew(char **env, char *str);
 t_dir	*ft_dirnew(t_cmd **cmd);
 t_cmd	*ft_cmdlast(t_cmd *cmd);
 t_dir	*ft_dirlast(t_dir *dir);
@@ -69,12 +70,12 @@ void	end(t_cmd **cmd);
 char	*ft_strcpy(char *s1, char *s2);
 
 // Execution part
-void	executor(t_cmd *cmd, char ***env);
-void	exec_pipe(t_cmd *cmd, char **env);
-void	exec_cmd(t_cmd *cmd, char ***env);
+void	executor(t_cmd **cmd, char ***env);
+void	exec_pipe(t_cmd **cmd, char ***env);
+void	exec_cmd(t_cmd **cmd, char ***env);
 
 // Built-ins part
-void	exec_builtins(char **tokens, char ***env);
+void	exec_builtins(t_cmd **cmd, char **tokens, char ***env);
 int		check_builtins(char *cmd);
 int 	builtin_echo(char **args);
 void	builtin_env(char **env);
@@ -83,5 +84,6 @@ char	**builtin_export(char **tokens, char **env);
 char	**builtin_unset(char **tokens, char **env);
 void	builtin_pwd(void);
 void	builtin_cd(char **tokens);
+void	builtin_exit(t_cmd **cmd, char ***env);
 
 #endif

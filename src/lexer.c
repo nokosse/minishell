@@ -19,16 +19,17 @@ void	create_lst(char *str, t_cmd **cmd, char **env)
 	int	i;
 
 	i = 0;
-	*cmd = ft_commandnew(env);
+	*cmd = ft_commandnew(env, str);
 	if (!(*cmd))
 		end(cmd);
 	tmp = *cmd;
 	cmd_nbr = ft_split(str, '|');
 	while (cmd_nbr[i])
 		i++;
+	free_array(cmd_nbr);
 	while (i > 1)
 	{
-		tmp->next = ft_commandnew(env);
+		tmp->next = ft_commandnew(env, str);
 		if (!tmp->next)
 			end(cmd);
 		tmp = tmp->next; 
@@ -144,7 +145,7 @@ void	lexer(char *str, char ***env)
 		malloc_tokens_table(&cmd);
 		get_token(str, &cmd);
 		ft_print(cmd);
-		executor(cmd, env);
+		executor(&cmd, env);
 		free_struct(&cmd);
 	}
 }

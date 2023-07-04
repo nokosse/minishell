@@ -39,7 +39,7 @@ int check_builtins(char *cmd)
 }
 
 // This function will execute the right builtin function depending on the cmd
-void	exec_builtins(char **tokens, char ***env)
+void	exec_builtins(t_cmd **cmd, char **tokens, char ***env)
 {
 	if (ft_strcmp(tokens[0], "echo") == 0)
 		builtin_echo(tokens);
@@ -54,6 +54,5 @@ void	exec_builtins(char **tokens, char ***env)
 	if (ft_strcmp(tokens[0], "env") == 0)
 	 	builtin_env(*env);
 	if (ft_strcmp(tokens[0], "exit") == 0)
-		printf("Normalement on execute builtin_exit ici <<<<<<<<<<<\n");
-	// 	builtin_exit(cmd, env);
+	 	builtin_exit(cmd, env);
 }

@@ -104,15 +104,7 @@ int	main(int argc, char **argv, char **envp)
 				continue ;
 			}
 			add_history(line);
-			if (!strcmp(line, "exit"))
-			{
-				free_array(env);
-				free(line);
-				rl_clear_history();
-				break ;
-			}
 			lexer(line, &env);
-			free(line);
 		}
 	}
 	return (0);

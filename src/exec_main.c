@@ -59,19 +59,21 @@ int	count_cmd(t_cmd *cmd)
 	return (i);
 }
 
-void	exec_cmd(t_cmd *cmd, char ***env)
+void	exec_cmd(t_cmd **cmd, char ***env)
 {
 	pid_t	pid;
 	int		status;
+	t_cmd	*tmp;
 
+	tmp = *cmd;
 	// Il check d'abord si la commande est un commande built-in
-	if (check_builtins(cmd->tokens[0]))
-		exec_builtins(cmd->tokens, env); 
+	if (check_builtins(tmp->tokens[0]))
+		exec_builtins(cmd, tmp->tokens, env); 
 	// Si c'est pas une commande built-in (echo, cd, export etc..)
 	// On va check pour executer la commande avec PATH (ls, cat etc..)
 	else
 	{
-		if	(check_path(cmd->tokens, *env))
+		if	(check_path(tmp->tokens, *env))
 		{
 			pid = 0;
 			status = 0;
@@ -83,7 +85,7 @@ void	exec_cmd(t_cmd *cmd, char ***env)
 			}
 			else
 			{
-				if (execve(cmd->tokens[0], cmd->tokens, NULL) == -1)
+				if (execve(tmp->tokens[0], tmp->tokens, NULL) == -1)
 					perror("error");
 			}
 		}
@@ -100,15 +102,12 @@ void	exec_cmd(t_cmd *cmd, char ***env)
 // 1. check si il y a des pipe.
 // 2. check si il y a des redirections.
 
-void	executor(t_cmd *cmd, char ***env)
+void	executor(t_cmd **cmd, char ***env)
 {
 	// si count_cmd > 1 : il y a au moins 1 pipe.
 	// donc on execute la fonction pour executer les commandes avec pipes.
-	if (count_cmd(cmd) > 1)
-		exec_pipe(cmd, *env); 
-
+	if (count_cmd(*cmd) > 1)
+		exec_pipe(cmd, env); 
 	else
-	{
 		exec_cmd(cmd, env);
-	}
 }

@@ -12,5 +12,9 @@
 
 #include "../minishell.h"
 
-// Exit already works.
-// We just need to free the memory before exiting.
+void	builtin_exit(t_cmd **cmd, char ***env)
+{
+	rl_clear_history();
+	free_array(*env);
+	end(cmd);
+}

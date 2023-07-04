@@ -16,11 +16,11 @@
 // ls -l | wc -l
 // la sortie de "ls -l" n'est pas affichee dans le terminal mais est envoyee a l'entree de "wc -l".
 // "wc -l" s'execute avec le path avec comme entree : la sortie de "ls -l".
-void exec_pipe(t_cmd *cmd, char **env)
+void exec_pipe(t_cmd **cmd, char ***env)
 {
-    int num_cmds = 0;
-    t_cmd *tmp = cmd;
 
+    int num_cmds = 0;
+    t_cmd *tmp = *cmd;
     while (tmp)
     {
         num_cmds++;
@@ -40,7 +40,7 @@ void exec_pipe(t_cmd *cmd, char **env)
     }
 
     i = 0;
-    tmp = cmd;
+    tmp = *cmd;
     int status;
     pid_t pid;
 
@@ -84,7 +84,7 @@ void exec_pipe(t_cmd *cmd, char **env)
             }
 
             // Exécution de la commande
-            exec_cmd(tmp, &env);
+            exec_cmd(&tmp, env);
             exit(1);
         }
         else
@@ -117,5 +117,4 @@ void exec_pipe(t_cmd *cmd, char **env)
     while (wait(&status) > 0);
 
     free(pipes);
-    (void)env;			//attention, risque de supprimer environnement lors de pipes
 }

@@ -20,7 +20,6 @@ void	free_struct(t_cmd **cmd)
 	int	i;
 
 	tmp = *cmd;
-	// penser a free ensemble liste chaine de commandes 
 	while (tmp)
 	{
 		i = 0;
@@ -30,6 +29,8 @@ void	free_struct(t_cmd **cmd)
 				free(tmp->tokens[i++]);
 			free (tmp->tokens);
 		}
+		if (tmp->ptr_line)
+			free(tmp->ptr_line);
 		if (tmp->dir)
 		{
 			while (tmp->dir)

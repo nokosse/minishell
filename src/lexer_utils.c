@@ -216,7 +216,7 @@ t_dir	*ft_dirnew(t_cmd **cmd)
 	return (tmp);
 }
 
-t_cmd	*ft_commandnew(char **env)
+t_cmd	*ft_commandnew(char **env, char *str)
 {
 	t_cmd	*tmp;
 
@@ -225,6 +225,7 @@ t_cmd	*ft_commandnew(char **env)
 		end(NULL);
 	tmp->tokens_count = 0;
 	tmp->ptr_env = env;
+	tmp->ptr_line = str;
 	tmp->bool_file = 0;
 	tmp->dir = NULL;
 	tmp->quote = 0;
