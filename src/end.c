@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   end.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: operez <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 11:35:28 by operez            #+#    #+#             */
-/*   Updated: 2023/06/13 17:25:19 by operez           ###   ########.fr       */
+/*   Updated: 2023/07/10 11:34:22 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+// Double free detectee quand on execute plusieurs commande avec un pipe
 void	free_struct(t_cmd **cmd)
 {
 	t_cmd	*tmp;
