@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_main.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nokosse <nokosse@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:35:52 by operez            #+#    #+#             */
-/*   Updated: 2023/06/22 18:06:26 by nokosse          ###   ########.fr       */
+/*   Updated: 2023/07/10 14:27:22 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,5 @@ void	exec_cmd(t_cmd **cmd, char ***env)
 
 void	executor(t_cmd **cmd, char ***env)
 {
-	// si count_cmd > 1 : il y a au moins 1 pipe.
-	// donc on execute la fonction pour executer les commandes avec pipes.
-	if (count_cmd(*cmd) > 1)
-		exec_pipe(cmd, env); 
-	else
-		exec_cmd(cmd, env);
+ 	exec_pipe(cmd, env); 
 }
