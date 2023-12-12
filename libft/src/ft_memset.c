@@ -1,18 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/12 14:42:48 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/12 15:34:48 by kvisouth         ###   ########.fr       */
+/*   Created: 2022/11/15 10:05:20 by kvisouth          #+#    #+#             */
+/*   Updated: 2022/12/08 17:06:58 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../inc/libft.h"
 
-int	main(int ac, char **av, char **envp)
+void	*ft_memset(void *s, int c, size_t n)
 {
-	return (0);
+	char	*str;
+	size_t	i;
+
+	str = s;
+	i = 0;
+	while (i < n)
+	{
+		str[i] = (char)c;
+		i++;
+	}
+	return (s);
 }

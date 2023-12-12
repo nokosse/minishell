@@ -1,18 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/12 14:42:48 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/12 15:34:48 by kvisouth         ###   ########.fr       */
+/*   Created: 2022/11/14 22:43:11 by nok               #+#    #+#             */
+/*   Updated: 2022/12/08 16:22:52 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../inc/libft.h"
 
-int	main(int ac, char **av, char **envp)
+void	ft_putnbr_fd(int n, int fd)
 {
-	return (0);
+	if (n == -2147483648)
+		ft_putstr_fd ("-2147483648", fd);
+	else if (n >= 0 && n < 10)
+		ft_putchar_fd (n + '0', fd);
+	else if (n < 0)
+	{
+		ft_putchar_fd('-', fd);
+		ft_putnbr_fd(n * (-1), fd);
+	}
+	else
+	{
+		ft_putnbr_fd(n / 10, fd);
+		ft_putnbr_fd(n % 10, fd);
+	}
 }

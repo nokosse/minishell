@@ -1,18 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/12 14:42:48 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/12 15:34:48 by kvisouth         ###   ########.fr       */
+/*   Created: 2022/11/08 16:03:25 by kvisouth          #+#    #+#             */
+/*   Updated: 2022/12/08 16:24:47 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../inc/libft.h"
 
-int	main(int ac, char **av, char **envp)
+char	*ft_strrchr(const char *s, int c)
 {
-	return (0);
+	char	*last_occur;
+
+	last_occur = 0;
+	while (*s != '\0')
+	{
+		if ((unsigned char)*s == (unsigned char)c)
+			last_occur = (char *)s + 1;
+		s++;
+	}
+	if (c == 0)
+		return ((char *)s);
+	return (last_occur);
 }

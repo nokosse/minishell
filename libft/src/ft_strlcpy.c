@@ -1,18 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/12 14:42:48 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/12 15:34:48 by kvisouth         ###   ########.fr       */
+/*   Created: 2022/11/08 19:29:39 by kvisouth          #+#    #+#             */
+/*   Updated: 2022/12/08 16:24:05 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../inc/libft.h"
 
-int	main(int ac, char **av, char **envp)
+size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 {
-	return (0);
+	size_t	i;
+
+	i = 0;
+	while (src[i] && size > 1)
+	{
+		dest[i] = src[i];
+		i++;
+		size--;
+	}
+	if (size > 0)
+		dest[i] = '\0';
+	return (ft_strlen(src));
 }

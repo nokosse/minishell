@@ -1,18 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/12 14:42:48 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/12 15:34:48 by kvisouth         ###   ########.fr       */
+/*   Created: 2022/11/16 12:01:59 by kvisouth          #+#    #+#             */
+/*   Updated: 2023/01/13 18:51:06 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../inc/libft.h"
 
-int	main(int ac, char **av, char **envp)
+void	*ft_calloc(size_t nmemb, size_t size)
 {
-	return (0);
+	void	*p;
+	int		len;
+	int		i;
+	char	*str;
+
+	if (size && SIZE_MAX / size < nmemb)
+		return (NULL);
+	len = nmemb * size;
+	p = malloc(len);
+	if (!p)
+		return (NULL);
+	i = 0;
+	str = p;
+	while (i < len)
+	{
+		str[i] = '\0';
+		i++;
+	}
+	return (p);
 }
