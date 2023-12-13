@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+         #
+#    By: kevso <kevso@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/16 17:39:04 by operez            #+#    #+#              #
-#    Updated: 2023/10/25 13:52:36 by kvisouth         ###   ########.fr        #
+#    Updated: 2023/12/13 20:23:44 by kevso            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,8 @@ SRCS = src/ft_atoi.c \
 	src/ft_striteri.c \
 	src/ft_strjoin.c \
 	src/ft_strlcat.c \
+	src/ft_strcpy.c \
+	src/ft_strcat.c \
 	src/ft_strlcpy.c \
 	src/ft_strlen.c \
 	src/ft_strmapi.c \

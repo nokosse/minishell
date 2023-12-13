@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kevso <kevso@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 10:24:09 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/10/16 17:48:06 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/13 20:23:20 by kevso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 long	ft_atol(const char *str);
 char	*ft_strncpy(char *dest, const char *src, unsigned int n);
+char	*ft_strcpy(char *dest, const char *src);
+char	*ft_strcat(char *dest, const char *src);
 
 //chained lists
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
