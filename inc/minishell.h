@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kevso <kevso@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 14:42:53 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/12 15:33:28 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/13 11:33:40 by kevso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,6 @@
 
 extern int	g_sig;
 
-// Parsing functions
+char	**ft_init(char **env_cpy, char **env_og);
 
 #endif

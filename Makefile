@@ -3,16 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+         #
+#    By: kevso <kevso@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/12 14:42:57 by kvisouth          #+#    #+#              #
-#    Updated: 2023/12/12 15:43:52 by kvisouth         ###   ########.fr        #
+#    Updated: 2023/12/13 11:33:59 by kevso            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 SRCS = src/main.c \
+		src/init.c \
 
 OBJS = $(addprefix obj/, $(notdir $(SRCS:.c=.o)))
 
