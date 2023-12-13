@@ -5,46 +5,49 @@
 #                                                     +:+ +:+         +:+      #
 #    By: kevso <kevso@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/12/12 14:42:57 by kvisouth          #+#    #+#              #
-#    Updated: 2023/12/13 11:33:59 by kevso            ###   ########.fr        #
+#    Created: 2023/12/13 20:38:47 by kevso             #+#    #+#              #
+#    Updated: 2023/12/13 20:41:11 by kevso            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = minishell
+# Compiler and flags
+CC := gcc
+CFLAGS := -Wall -Wextra -Werror
+LDFLAGS := -Llibft -lft
+INC_DIR := -Iinc -Ilibft/inc
 
-SRCS = src/main.c \
-		src/init.c \
+# Directories
+SRC_DIR := src
+OBJ_DIR := obj
+LIBFT_DIR := libft
 
-OBJS = $(addprefix obj/, $(notdir $(SRCS:.c=.o)))
+# Files
+SRCS := $(wildcard $(SRC_DIR)/*.c)
+OBJS := $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g3
+# Main executable
+NAME := minishell
 
-LIBFT_MAKEFILE = libft/Makefile
-MINILIBX_MAKEFILE = minilibx-linux/Makefile
+.PHONY: all clean fclean re
 
-all: $(NAME)
+all: $(LIBFT_DIR)/libft.a $(NAME)
 
 $(NAME): $(OBJS)
-	@make -C libft
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) -L libft
+	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $@
 
-obj/%.o: src/%.c
-	@mkdir -p obj
-	@$(CC) $(CFLAGS) -c $< -o $@
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) $(INC_DIR) -c $< -o $@
 
-obj/%.o: src/parsing/%.c
-	@mkdir -p obj
-	@$(CC) $(CFLAGS) -c $< -o $@
+$(LIBFT_DIR)/libft.a:
+	@$(MAKE) -C $(LIBFT_DIR)
 
 clean:
-	@make -C libft clean
-	@rm -rf obj
+	@$(MAKE) -C $(LIBFT_DIR) clean
+	@rm -rf $(OBJ_DIR)
 
 fclean: clean
-	@make -C libft fclean
+	@$(MAKE) -C $(LIBFT_DIR) fclean
 	@rm -f $(NAME)
 
 re: fclean all
-
-.PHONY: all clean fclean re
