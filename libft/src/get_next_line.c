@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kevso <kevso@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 19:26:38 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/02/04 18:11:33 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/13 11:01:36 by kevso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,6 @@ static int	check_line(char *str)
 	}
 	return (-1);
 }
-
-/*
-	I used this function to make GNL less than 25 lines.
-	This block of code was between the variable declaration and the while loop.
-	This function is checking the validity of fd, BUFFER_SIZE and the stash.
-	And it's initializing our stash for the rest of GNL if the verification passed.
-*/
 
 static char	*stash_checking(int fd, char *stash, char *buff, int readed)
 {
