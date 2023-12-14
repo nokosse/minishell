@@ -6,7 +6,7 @@
 /*   By: kevso <kevso@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2023/12/14 14:32:23 by kevso            ###   ########.fr       */
+/*   Updated: 2023/12/14 15:08:07 by kevso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,14 @@ void	minishell_loop(t_mini *shell)
 
 	while (1)
 	{
+		signal(SIGINT, handle_signal);
+		signal(SIGQUIT, SIG_IGN);
 		cmdline = readline("minishell$> ");
 		if (!cmdline)
 		{
 			handle_readline_error(shell->env, cmdline);
 			break ;
 		}
-		signal(SIGINT, handle_signal);
-		signal(SIGQUIT, SIG_IGN);
 		add_history(cmdline);
 		shell->cmdline = cmdline;
 		start_minishell(shell);
