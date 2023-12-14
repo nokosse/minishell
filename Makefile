@@ -6,7 +6,7 @@
 #    By: kevso <kevso@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/13 20:38:47 by kevso             #+#    #+#              #
-#    Updated: 2023/12/14 10:43:07 by kevso            ###   ########.fr        #
+#    Updated: 2023/12/14 11:34:13 by kevso            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ SRC_DIR := src
 OBJ_DIR := obj
 LIBFT_DIR := libft
 
-# Files
+# Files /!\ ENLEVER WILDCARD ET METTRE LES SOURCES 1 PAR 1 AVANT LE PUSH FINAL /!\ 
 SRCS := $(wildcard $(SRC_DIR)/*.c)
 OBJS := $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 
