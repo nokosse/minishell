@@ -6,7 +6,7 @@
 /*   By: kevso <kevso@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 14:42:48 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/14 11:03:40 by kevso            ###   ########.fr       */
+/*   Updated: 2023/12/14 11:25:24 by kevso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ Then we will have to create a clean env with only PWD, SHLVL and _.
 
 int	main(int ac, char **av, char **envp)
 {
-	char	**env;
+	t_mini	mini;
 
-	env = NULL;
-	env = ft_init_env(env, envp);
-	if (ac == 1 && env != NULL)
+	mini.env = NULL;
+	mini.env = ft_init_env(mini.env, envp);
+	if (ac == 1 && mini.env != NULL)
 	{
-		minishell_loop(&env);
+		minishell_loop(&mini);
 	}
 	return (0);
 	(void)av;

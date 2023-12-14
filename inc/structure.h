@@ -6,7 +6,7 @@
 /*   By: kevso <kevso@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 14:42:51 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/14 10:59:37 by kevso            ###   ########.fr       */
+/*   Updated: 2023/12/14 11:30:31 by kevso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ about minishell we could need everytime, like the env for example.
 typedef struct s_mini
 {
 	t_cmd	*cmd;
-	int		nb_cmd;
+	char	**env;
+	char	*cmdline;
 }	t_mini;
 
 #endif
