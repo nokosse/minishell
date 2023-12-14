@@ -6,7 +6,7 @@
 /*   By: kevso <kevso@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 14:42:53 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/14 10:44:05 by kevso            ###   ########.fr       */
+/*   Updated: 2023/12/14 10:49:54 by kevso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,14 @@
 
 extern int	g_sig;
 
+// Frees
+void	free_arr(char **arr);
+void	free_arrplus(char **arr);
+
+// Error handling
+void	handle_readline_error(char **env, char *cmdline);
+
 char	**ft_init_env(char **env_cpy, char **env_og);
 void	minishell_loop(char ***env);
-void	free_arr(char **arr);
-void	handle_readline_error(char **env, char *cmdline);
 
 #endif

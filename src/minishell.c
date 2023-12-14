@@ -1,0 +1,47 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kevso <kevso@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
+/*   Updated: 2023/12/14 11:05:21 by kevso            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../inc/minishell.h"
+
+void	start_minishell(char *cmdline, char ***env)
+{
+	printf("cmdline = %s\n", cmdline);
+	(void)env;
+}
+
+/*
+This is the loop where we will be able to type commands in our minishell.
+start_minishell() will be the core of minishell, where the lexer, paser and
+executor will be called.
+*/
+void	minishell_loop(char ***env)
+{
+	char	*cmdline;
+
+	while (1)
+	{
+		cmdline = readline("minishell$> ");
+		if (!cmdline)
+		{
+			handle_readline_error(*env, cmdline);
+			break ;
+		}
+		if (!ft_strlen(cmdline))
+		{
+			free(cmdline);
+			continue ;
+		}
+		add_history(cmdline);
+		start_minishell(cmdline, env);
+	}
+	(void)env;
+}
