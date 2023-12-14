@@ -1,34 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kevso <kevso@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/12 14:42:48 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/14 14:41:20 by kevso            ###   ########.fr       */
+/*   Created: 2023/12/14 14:33:24 by kevso             #+#    #+#             */
+/*   Updated: 2023/12/14 14:41:29 by kevso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-extern int	g_sig;
-
-/*
-'envp' is litteraly all the output you have when you type 'env' in your terminal
-We will copy all the envp to out own env, exept if we start with env -i
-*/
-
-int	main(int ac, char **av, char **envp)
+void	handle_signal(int sig)
 {
-	t_mini				mini;
-
-	mini.env = NULL;
-	mini.env = ft_init_env(mini.env, envp);
-	if (ac == 1 && mini.env != NULL)
+	if (sig == SIGINT)
 	{
-		minishell_loop(&mini);
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
 	}
-	return (0);
-	(void)av;
 }

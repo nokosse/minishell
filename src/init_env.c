@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   init_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kevso <kevso@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 11:09:37 by kevso             #+#    #+#             */
-/*   Updated: 2023/12/14 10:11:06 by kevso            ###   ########.fr       */
+/*   Updated: 2023/12/14 14:03:23 by kevso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,8 @@ char	**ft_init_env(char **env_cpy, char **env_og)
 	if (ft_check_empty(env_og))
 	{
 		env_cpy = create_env(env_cpy);
+		if (env_cpy == NULL)
+			return (NULL);
 		return (env_cpy);
 	}
 	else
