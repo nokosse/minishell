@@ -6,12 +6,16 @@
 /*   By: kevso <kevso@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2023/12/14 11:06:47 by kevso            ###   ########.fr       */
+/*   Updated: 2023/12/14 11:16:52 by kevso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
+/*
+This is where hell begins, the core of minishell.
+lexer, parser, and executor will be called here.
+*/
 void	start_minishell(char *cmdline, char ***env)
 {
 	printf("cmdline = %s\n", cmdline);
