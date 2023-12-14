@@ -6,7 +6,7 @@
 /*   By: kevso <kevso@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 14:42:48 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/13 20:21:29 by kevso            ###   ########.fr       */
+/*   Updated: 2023/12/14 10:01:32 by kevso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,12 @@ int	main(int ac, char **av, char **envp)
 	env = ft_init_env(env, envp);
 	if (ac == 1 && env != NULL)
 	{
-		printf("welcome to minishell\n");
+		int i = 0;
+		while (env[i])
+		{
+			printf("%s\n", env[i]);
+			i++;
+		}
 	}
 	return (0);
 	(void)ac;

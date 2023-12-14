@@ -6,7 +6,7 @@
 /*   By: kevso <kevso@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 11:09:37 by kevso             #+#    #+#             */
-/*   Updated: 2023/12/13 20:29:18 by kevso            ###   ########.fr       */
+/*   Updated: 2023/12/14 10:06:28 by kevso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,17 @@ int	ft_check_empty(char **envp)
 
 	i = 0;
 	while (envp[i])
-	{
-		if (envp[i][0] == '\0')
-			return (1);
 		i++;
-	}
+	if (i == 0)
+		return (1);
 	return (0);
 }
 
 /*
-We will get the current directory with getcwd().
-Then we will create a string with "PWD=" and the current directory.
+We will get the current directory path with getcwd() in variable 'buffer'.
+Then we will create a string with "PWD=" and the path (buffer).
 We malloc len + 5 because len is only the path, and the 5 is for "PWD=" and '\0'
+We will just concat "PWD=" and buffer to have for example "PWD=/users/kevso"
 */
 char	*ft_get_pwd(void)
 {
@@ -60,11 +59,7 @@ char	*ft_get_pwd(void)
 We will create a clean env with only PWD, SHLVL and _. (That's why we malloc 4)
 - PWD is the current directory, nothing new
 - SHLVL is the current level of the shell, SH for shell, lvl for level..
-  1 by default, incremented by 1 each time you start a new shell.
 - _ (underscore) is just the name of the last command you typed.
-  if I type 'ls', then '_' will be 'ls'
-  if I type 'echo hello', then '_' will be 'echo'
-  if I type 'echo hello | cat -e', then '_' will be 'cat'
 */
 char	**create_env(char **env_cpy)
 {
