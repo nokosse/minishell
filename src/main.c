@@ -6,11 +6,40 @@
 /*   By: kevso <kevso@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 14:42:48 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/14 10:01:32 by kevso            ###   ########.fr       */
+/*   Updated: 2023/12/14 10:45:24 by kevso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+/*
+This is the loop where we will be able to type commands in our minishell.
+The loop will go trough the lexer, if it doesn't fail, it will go through the
+parser, if it doesn't fail, it will go through the executor. If something fails
+we will print an error just like in bash.
+*/
+void	minishell_loop(char ***env)
+{
+	char	*cmdline;
+
+	cmdline = NULL;
+	while (1)
+	{
+		cmdline = readline("minishell$> ");
+		if (!cmdline)
+		{
+			handle_readline_error(*env, cmdline);
+			break ;
+		}
+		if (!ft_strlen(cmdline))
+		{
+			free(cmdline);
+			continue ;
+		}
+		
+	}
+	(void)env;
+}
 
 /*
 'envp' is litteraly all the output you have when you type 'env' in your terminal
@@ -27,15 +56,8 @@ int	main(int ac, char **av, char **envp)
 	env = ft_init_env(env, envp);
 	if (ac == 1 && env != NULL)
 	{
-		int i = 0;
-		while (env[i])
-		{
-			printf("%s\n", env[i]);
-			i++;
-		}
+		minishell_loop(&env);
 	}
 	return (0);
-	(void)ac;
 	(void)av;
-	(void)envp;
 }
