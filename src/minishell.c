@@ -6,7 +6,7 @@
 /*   By: kevso <kevso@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2023/12/14 15:08:07 by kevso            ###   ########.fr       */
+/*   Updated: 2023/12/14 15:39:15 by kevso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@ void	start_minishell(t_mini *shell)
 This is the loop where we will be able to type commands in our minishell.
 start_minishell() will be the core of minishell, where the lexer, paser and
 executor will be called.
+
+With signal(SIGINT, handle_signal) we handle the ctrl + c signal which just
+display a new prompt line.
+With signal(SIGQUIT, SIG_IGN) we handle the ctrl + \ signal which just
+does nothing thanks to SIG_IGN. (IGN for IGNORE)
 */
 void	minishell_loop(t_mini *shell)
 {
