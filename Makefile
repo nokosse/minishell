@@ -6,14 +6,14 @@
 #    By: kevso <kevso@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/13 20:38:47 by kevso             #+#    #+#              #
-#    Updated: 2023/12/13 20:41:11 by kevso            ###   ########.fr        #
+#    Updated: 2023/12/14 10:27:02 by kevso            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Compiler and flags
 CC := gcc
 CFLAGS := -Wall -Wextra -Werror
-LDFLAGS := -Llibft -lft
+LDFLAGS := -Llibft -lft -lreadline
 INC_DIR := -Iinc -Ilibft/inc
 
 # Directories
