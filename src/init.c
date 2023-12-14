@@ -6,7 +6,7 @@
 /*   By: kevso <kevso@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 11:09:37 by kevso             #+#    #+#             */
-/*   Updated: 2023/12/14 10:06:28 by kevso            ###   ########.fr       */
+/*   Updated: 2023/12/14 10:11:06 by kevso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,8 @@ We will just return a copy of env_og.
 */
 char	**copy_env(char **env_og)
 {
-	int	i;
-	int	max;
+	int		i;
+	int		max;
 	char	**env_cpy;
 
 	i = 0;
@@ -112,7 +112,7 @@ Of course we handle malloc errors that can occur in copy_env().
 
 char	**ft_init_env(char **env_cpy, char **env_og)
 {
-	if (ft_check_empty(env_og))	
+	if (ft_check_empty(env_og))
 	{
 		env_cpy = create_env(env_cpy);
 		return (env_cpy);
