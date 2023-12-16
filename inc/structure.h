@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structure.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kevso <kevso@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 14:42:51 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/14 11:30:31 by kevso            ###   ########.fr       */
+/*   Updated: 2023/12/16 14:24:58 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ about minishell we could need everytime, like the env for example.
 typedef struct s_mini
 {
 	t_cmd	*cmd;
+	char	**tokens;
+	char	*path;
 	char	**env;
 	char	*cmdline;
 }	t_mini;

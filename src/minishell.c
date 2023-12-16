@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kevso <kevso@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2023/12/14 15:50:00 by kevso            ###   ########.fr       */
+/*   Updated: 2023/12/16 16:18:58 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,13 @@
 /*
 This is where hell begins, the core of minishell.
 lexer, parser, and executor will be called here.
+The lexer can only fail malloc errors.
+The parser can use exit codes if the syntax is wrong.
+The executor can use exit codes if the command is wrong.
 */
 void	start_minishell(t_mini *shell)
 {
-	printf("cmdline = %s\n", shell->cmdline);
+	lexer(shell);
 }
 
 /*
@@ -49,5 +52,6 @@ void	minishell_loop(t_mini *shell)
 		shell->cmdline = cmdline;
 		start_minishell(shell);
 		free(cmdline);
+		free_arrplus(shell->tokens);
 	}
 }
