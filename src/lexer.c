@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 13:42:22 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/16 16:33:47 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/16 16:38:46 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	count_tokens(char *cmdl)
 
 /*
 This function will return a token from the command line.
-
+It will return the token and increment the index 'j' to the next token.
 */
 char	*get_token(char *cmdl, int *j)
 {
