@@ -1,0 +1,78 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/18 18:35:15 by kvisouth          #+#    #+#             */
+/*   Updated: 2023/12/18 18:35:59 by kvisouth         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../inc/minishell.h"
+
+/*
+This function will count the number of tokens in 'cmdl' to malloc the
+right size for the array of tokens in the lexer.
+
+We take care not to split the tokens if they are between simple/double quotes !
+*/
+int	count_tokens(char *cmdl)
+{
+	int	i;
+	int	nb_tokens;
+
+	i = 0;
+	nb_tokens = 0;
+	while (cmdl[i])
+	{
+		if (cmdl[i] == '\'' || cmdl[i] == '\"')
+		{
+			i++;
+			while (cmdl[i] && cmdl[i] != '\'' && cmdl[i] != '\"')
+				i++;
+		}
+		if (cmdl[i] && cmdl[i] != ' ')
+		{
+			nb_tokens++;
+			while (cmdl[i] && cmdl[i] != ' ')
+				i++;
+		}
+		if (cmdl[i] && cmdl[i] == ' ')
+			i++;
+	}
+	return (nb_tokens);
+}
+
+/*
+This function will return a token from the command line.
+It will return the token and increment the index 'j' to the next token.
+*/
+char	*get_token(char *cmdl, int *j)
+{
+	int		i;
+	int		k;
+	char	*token;
+
+	i = *j;
+	k = 0;
+	token = ft_calloc(ft_strlen(cmdl) + 1, sizeof(char));
+	if (!token)
+		return (NULL);
+	while (cmdl[i] && cmdl[i] == ' ')
+		i++;
+	while (cmdl[i] && cmdl[i] != ' ')
+	{
+		if (cmdl[i] == '\'' || cmdl[i] == '\"')
+		{
+			token[k++] = cmdl[i++];
+			while (cmdl[i] && cmdl[i] != '\'' && cmdl[i] != '\"')
+				token[k++] = cmdl[i++];
+		}
+		token[k++] = cmdl[i++];
+	}
+	token[k] = '\0';
+	*j = i;
+	return (token);
+}
