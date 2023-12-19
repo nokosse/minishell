@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 13:42:22 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/19 17:26:57 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/19 17:34:41 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,11 @@ void	assign_token(t_mini *shell)
 	}
 }
 
+/*
+This function will free every 'word' in the t_lex structure.
+As well as every node of the linked list.
+And finally, it will free the last node.
+*/
 void	free_lex(t_mini *shell)
 {
 	t_lex	*tmp;
