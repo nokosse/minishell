@@ -6,16 +6,14 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 18:35:15 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/19 16:59:16 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/19 17:16:46 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
 /*
-This function will count the number of tokens in 'cmdl' to malloc the
-right size for the array of tokens in the lexer.
-
+Count the number of tokens in the command line.
 We take care not to split the tokens if they are between simple/double quotes !
 */
 int	count_tokens(char *cmdl)
@@ -46,8 +44,7 @@ int	count_tokens(char *cmdl)
 }
 
 /*
-This function will return a token from the command line.
-It will return the token and increment the index 'j' to the next token.
+Returns a token from the command line and a static index.
 */
 char	*get_token(char *cmdl, int *j)
 {
