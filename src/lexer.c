@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 13:42:22 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/19 16:50:52 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/19 16:58:39 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,13 +99,21 @@ void	assign_token(t_mini *shell)
 void	free_lex(t_mini *shell)
 {
 	t_lex	*tmp;
+	t_lex	*tmp2;
+	int		i;
 
+	i = 0;
 	tmp = shell->lex;
-	while (tmp)
+	tmp2 = tmp;
+	while (i < shell->nb_tokens)
 	{
-		free(tmp->word);
 		tmp = tmp->next;
+		free(tmp2->word);
+		free(tmp2);
+		tmp2 = tmp;
+		i++;
 	}
+	free(tmp);
 }
 
 void	lexer(t_mini *shell)
@@ -114,5 +122,5 @@ void	lexer(t_mini *shell)
 	init_lex(shell);
 	assign_word(shell);
 	assign_token(shell);
-	// free_lex(shell);
+	free_lex(shell);
 }

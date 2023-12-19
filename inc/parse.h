@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:29:05 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/19 16:47:09 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/19 16:59:26 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@ char	*get_token(char *cmdl, int *j);
 void	init_lex(t_mini *shell);
 void	assign_word(t_mini *shell);
 void	assign_token(t_mini *shell);
-void    free_lex(t_mini *shell);
+void	free_lex(t_mini *shell);
 
 #endif
