@@ -1,33 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.h                                            :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/12 15:29:05 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/19 17:28:16 by kvisouth         ###   ########.fr       */
+/*   Created: 2023/12/19 17:21:56 by kvisouth          #+#    #+#             */
+/*   Updated: 2023/12/19 17:28:21 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSE_H
-# define PARSE_H
+#include "../inc/minishell.h"
 
-# include "minishell.h"
-# include "structure.h"
-
-/* LEXER PART */
-void	lexer(t_mini *shell);
-void	init_lex(t_mini *shell);
-void	assign_word(t_mini *shell);
-void	assign_token(t_mini *shell);
-void	free_lex(t_mini *shell);
-int		count_tokens(char *cmdl);
-char	*get_token(char *cmdl, int *j);
-
-/* PARSER PART */
-void	parser(t_mini *shell);
-
-/* EXPANDER PART */
-
-#endif
+void	parser(t_mini *shell)
+{
+	printf("parser\n");
+	(void)shell;
+}
