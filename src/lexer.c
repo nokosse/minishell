@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 13:42:22 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/19 17:17:00 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/19 17:26:57 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,11 +116,15 @@ void	free_lex(t_mini *shell)
 	free(tmp);
 }
 
+/*
+The Lexer is a lexical analyser, meaning it will not check for syntax errors.
+It will just analyse what is a letter, what is a pipe, what is a redirection.
+After analysing, it will store these informations in a structure.
+*/
 void	lexer(t_mini *shell)
 {
 	shell->nb_tokens = count_tokens(shell->cmdline);
 	init_lex(shell);
 	assign_word(shell);
 	assign_token(shell);
-	free_lex(shell);
 }
