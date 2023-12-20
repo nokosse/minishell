@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 17:21:56 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/20 18:35:33 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/20 18:36:50 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	get_clean_cmdline(t_mini *shell)
 /*
 Returns all characters found before a PIPE if there is 1 or +.
 Otherwise, if there is no PIPE, just returns cmdl.
+Again, we take care to ignore the pipe if it is between simple/double quotes.
 */
 char	*get_cmd(char *cmdl, int *j)
 {

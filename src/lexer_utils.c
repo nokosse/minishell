@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 18:35:15 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/20 18:26:51 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/20 18:37:18 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int	count_tokens(char *cmdl)
 
 /*
 Returns a token from the command line and a static index.
+We take care to ignore the space if it is between simple/double quotes.
 */
 char	*get_token(char *cmdl, int *j)
 {
