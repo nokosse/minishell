@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 17:21:56 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/20 17:57:34 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/20 18:35:33 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,15 +63,71 @@ void	get_clean_cmdline(t_mini *shell)
 }
 
 /*
+Returns all characters found before a PIPE if there is 1 or +.
+Otherwise, if there is no PIPE, just returns cmdl.
+*/
+char	*get_cmd(char *cmdl, int *j)
+{
+	int		i;
+	int		k;
+	char	*cmd;
+
+	i = *j;
+	k = 0;
+	cmd = ft_calloc(ft_strlen(cmdl) + 1, sizeof(char));
+	if (!cmd)
+		return (NULL);
+	// Handle malloc error
+	while (cmdl[i] && cmdl[i] == ' ')
+		i++;
+	while (cmdl[i] && cmdl[i] != '|')
+	{
+		if (cmdl[i] == '\'' || cmdl[i] == '\"')
+		{
+			cmd[k++] = cmdl[i++];
+			while (cmdl[i] && cmdl[i] != '\'' && cmdl[i] != '\"')
+				cmd[k++] = cmdl[i++];
+		}
+		if (cmdl[i] && cmdl[i] != '|')
+			cmd[k++] = cmdl[i++];
+	}
+	*j = i;
+	return (cmd);
+}
+
+/*
+This function will use 'parsed_cmdline'.
+It will put everything before a PIPE in the 'str' var in each nodes of t_cmd.
+The last command is not before a pipe, so it will be the last node.
+You can notice that this function is very similar to assign_word() in lexer.c
+*/
+void	get_cmdlines_in_nodes(t_mini *shell)
+{
+	t_cmd		*tmp;
+	int			i;
+	static int	j;
+
+	i = 0;
+	j = 0;
+	tmp = shell->cmd;
+	while (i < shell->nb_commands)
+	{
+		tmp->str = get_cmd(shell->parsed_cmdline, &j);
+		// Handle malloc error
+		tmp = tmp->next;
+		i++;
+		j++;
+	}
+}
+
+/*
 This function will create the command. (It's a big one)
-The content of the node is everything before a pipe.
-With the command 'ls -la | wc -l > out | cat -e < in'
-the first node will be 'ls -la' and the second one 'wc -l > out'
-and the third one 'cat -e < in'.
+It will call multiple functions to fill every nodes of the t_cmd linked list.
 */
 void	create_cmd(t_mini *shell)
 {
 	get_clean_cmdline(shell);
+	get_cmdlines_in_nodes(shell);
 }
 
 /*
@@ -122,6 +178,6 @@ path = NULL and 	 cmd = NULL and 	redir = NULL 		*end*
 void	parser(t_mini *shell)
 {
 	count_pipes_and_commands(shell);
-	// init_cmd(shell);
+	init_cmd(shell);
 	create_cmd(shell);
 }
