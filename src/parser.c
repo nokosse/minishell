@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 17:21:56 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/20 18:36:50 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/20 18:53:48 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ char	*get_cmd(char *cmdl, int *j)
 }
 
 /*
-This function will use 'parsed_cmdline'.
+This function will use 'parsed_cmdline' and will fill 'str' in t_cmd.
 It will put everything before a PIPE in the 'str' var in each nodes of t_cmd.
 The last command is not before a pipe, so it will be the last node.
 You can notice that this function is very similar to assign_word() in lexer.c
@@ -120,6 +120,15 @@ void	get_cmdlines_in_nodes(t_mini *shell)
 		j++;
 	}
 }
+/*
+This function will use 'str' and will fill 'cmd' in t_cmd.
+cmd being an array of strings, cmd[0] will always be the command. (ls, wc..)
+cmd[1-n] will be the argument(s) of the command. It is NULL if no arguments.
+*/
+void	get_cmd_in_nodes(t_mini *shell)
+{
+
+}
 
 /*
 This function will create the command. (It's a big one)
@@ -129,6 +138,7 @@ void	create_cmd(t_mini *shell)
 {
 	get_clean_cmdline(shell);
 	get_cmdlines_in_nodes(shell);
+	get_cmd_in_nodes(shell);
 }
 
 /*
