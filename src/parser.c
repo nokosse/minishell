@@ -6,11 +6,98 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 17:21:56 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/19 17:48:19 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/20 17:57:34 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+/*
+This function will simply count the number of pipes in the t_lex linked list.
+*/
+void	count_pipes_and_commands(t_mini *shell)
+{
+	int		i;
+	t_lex	*tmp;
+
+	i = 0;
+	shell->nb_pipes = 0;
+	shell->nb_commands = 0;
+	tmp = shell->lex;
+	while (i < shell->nb_tokens)
+	{
+		if (tmp->token == PIPE)
+			shell->nb_pipes++;
+		tmp = tmp->next;
+		i++;
+	}
+	shell->nb_commands = shell->nb_pipes + 1;
+}
+
+/*
+This function will recreate the command line. (shell->parsed_cmdline)
+At the moment, the command line is what the user typed.
+It can have junk spaces, tabs, etc.. But now that the lexer has done its job,
+we can just concatene all the 'words' in the t_lex linked list.
+*/
+void	get_clean_cmdline(t_mini *shell)
+{
+	t_lex	*tmp;
+	int		len;
+	int		i;
+
+	len = ft_strlen(shell->cmdline);
+	shell->parsed_cmdline = ft_calloc(len + 1, sizeof(char));
+	if (!shell->parsed_cmdline)
+		return ;
+	tmp = shell->lex;
+	i = 0;
+	while (i < shell->nb_tokens)
+	{
+		ft_strcat(shell->parsed_cmdline, tmp->word);
+		if (shell->nb_tokens - i > 1)
+			ft_strcat(shell->parsed_cmdline, " ");
+		tmp = tmp->next;
+		i++;
+	}
+}
+
+/*
+This function will create the command. (It's a big one)
+The content of the node is everything before a pipe.
+With the command 'ls -la | wc -l > out | cat -e < in'
+the first node will be 'ls -la' and the second one 'wc -l > out'
+and the third one 'cat -e < in'.
+*/
+void	create_cmd(t_mini *shell)
+{
+	get_clean_cmdline(shell);
+}
+
+/*
+This function will initialize the t_cmd linked list.
+The number of nodes is the number of commands. Simple as that.
+*/
+void	init_cmd(t_mini *shell)
+{
+	t_cmd	*tmp;
+	int		i;
+
+	i = 0;
+	shell->cmd = malloc(sizeof(t_cmd));
+	tmp = shell->cmd;
+	while (i < shell->nb_commands)
+	{
+		tmp->str = NULL;
+		tmp->cmd = NULL;
+		tmp->path = NULL;
+		tmp->redir = NULL;
+		tmp->next = malloc(sizeof(t_cmd));
+		tmp = tmp->next;
+		i++;
+	}
+	tmp->next = NULL;
+}
 
 /*
 The parser will read the lexer linked list and will first : check the syntax.
@@ -34,6 +121,7 @@ path = NULL and 	 cmd = NULL and 	redir = NULL 		*end*
 */
 void	parser(t_mini *shell)
 {
-	printf("parser\n");
-	(void)shell;
+	count_pipes_and_commands(shell);
+	// init_cmd(shell);
+	create_cmd(shell);
 }

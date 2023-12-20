@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 14:42:51 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/19 16:19:35 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/20 16:56:32 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,10 @@ t_lex will be the structure that will store all the informations about a token
 'i' is just an index.
 'word' is the token. It can be 'ls', '>', '|', ' "hello" ' ...
 'token' is the TYPE of the token. 'ls' will be a WORD, '>' will be RIGHT1, etc..
+
+This function will also be used as 'redir' in t_cmd for a complete different use.
+'word' will be the filename or the delimitor of a redirection/heredoc
+'token' will be the type of redirection (RIGHT1, LEFT2, etc..)
 */
 typedef struct s_lex
 {
@@ -54,16 +58,19 @@ typedef struct s_lex
 
 /*
 t_cmd will be the structure that will store all the informations about a command
-It has a next pointer because minishell handle multiple commands via pipes (|)
-Example : ls -la | wc -l
-t_cmd will store all the informations about 'ls -la' like the path, the command
-the arguments, etc...
-We will need to use pointer next to have all the informations about 'wc -l' etc.
+This will be the result of the parser.
+'str' will only be for parsing purposes, not used in executor.
+it is the raw command line, a result of the lexer nodes concatenated.
+'cmd' will be the command and its arguments. ['ls', '-la', NULL]
+'path' will be the path of the command. "/bin/ls"
+'redir' will be the redirections and it's filename or delimitor.
 */
 typedef struct s_cmd
 {
+	char			*str;
 	char			**cmd;
 	char			*path;
+	t_lex			*redir;
 	struct s_cmd	*next;
 }	t_cmd;
 
@@ -77,9 +84,12 @@ typedef struct s_mini
 {
 	t_cmd	*cmd;
 	t_lex	*lex;
+	int		nb_pipes;
+	int		nb_commands;
 	int		nb_tokens;
 	char	*path;
 	char	**env;
+	char	*parsed_cmdline;
 	char	*cmdline;
 }	t_mini;
 
