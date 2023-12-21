@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 17:21:56 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/21 16:24:28 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/21 17:43:55 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ void	get_cmdlines_in_nodes(t_mini *shell)
 		tmp->str = get_cmd(shell->parsed_cmdline, &j);
 		if (!tmp->str)
 			return ;
+		printf("str = %s\n", tmp->str);
 		// Handle malloc error
 		tmp = tmp->next;
 		i++;
@@ -146,6 +147,19 @@ void	get_cmd_in_nodes(t_mini *shell)
 }
 
 /*
+This function will use 'str' and will fill 'redir' in t_cmd.
+redir contains 'word' and 'token'
+'word' is the filename or delimiter.
+'token' is the type of redirection. (>, >>, <, <<)
+The 'word' is always at the right of the redirection.
+Again, it takes care to ignore the redirection if it is between quotes.
+*/
+void	get_redir_in_nodes(t_mini *shell)
+{
+
+}
+
+/*
 This function will create the command. (It's a big one)
 It will call multiple functions to fill every nodes of the t_cmd linked list.
 */
@@ -154,6 +168,7 @@ void	create_cmd(t_mini *shell)
 	get_clean_cmdline(shell);
 	get_cmdlines_in_nodes(shell);
 	get_cmd_in_nodes(shell);
+	get_redir_in_nodes(shell);
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 14:42:51 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/21 16:24:13 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/21 17:00:26 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,7 @@ typedef struct s_lex
 /*
 t_cmd will be the structure that will store all the informations about a command
 This will be the result of the parser.
-'str' will only be for parsing purposes, not used in executor.
-it is the raw command line, a result of the lexer nodes concatenated.
+'str' is the raw command line. "ls -la > output.txt"
 'cmd' will be the command and its arguments. ['ls', '-la', NULL]
 'path' will be the path of the command. "/bin/ls"
 'redir' will be the redirections and it's filename or delimitor.
