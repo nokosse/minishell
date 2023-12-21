@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 17:21:56 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/21 17:43:55 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/21 18:13:37 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,16 @@ void	get_cmd_in_nodes(t_mini *shell)
 }
 
 /*
+This function will fill the 'nb_redir' variable in every nodes of t_cmd.
+It will count the number of redirections in 'str'. ( >, >>, <, << )
+It will ignore the redirection if it is between double/simple quotes.
+*/
+void	count_redir(t_mini *shell)
+{
+
+}
+
+/*
 This function will use 'str' and will fill 'redir' in t_cmd.
 redir contains 'word' and 'token'
 'word' is the filename or delimiter.
@@ -156,7 +166,7 @@ Again, it takes care to ignore the redirection if it is between quotes.
 */
 void	get_redir_in_nodes(t_mini *shell)
 {
-
+	count_redir(shell);
 }
 
 /*
