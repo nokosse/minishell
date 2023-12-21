@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 17:21:56 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/20 18:53:48 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/21 16:24:28 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,8 @@ void	get_cmdlines_in_nodes(t_mini *shell)
 	while (i < shell->nb_commands)
 	{
 		tmp->str = get_cmd(shell->parsed_cmdline, &j);
+		if (!tmp->str)
+			return ;
 		// Handle malloc error
 		tmp = tmp->next;
 		i++;
@@ -127,7 +129,20 @@ cmd[1-n] will be the argument(s) of the command. It is NULL if no arguments.
 */
 void	get_cmd_in_nodes(t_mini *shell)
 {
+	t_cmd	*tmp;
+	int		i;
 
+	i = 0;
+	tmp = shell->cmd;
+	while (i < shell->nb_commands)
+	{
+		tmp->cmd = ft_split(tmp->str, ' ');
+		if (!tmp->cmd)
+			return ;
+		// Handle malloc error
+		tmp = tmp->next;
+		i++;
+	}
 }
 
 /*
@@ -157,7 +172,6 @@ void	init_cmd(t_mini *shell)
 	{
 		tmp->str = NULL;
 		tmp->cmd = NULL;
-		tmp->path = NULL;
 		tmp->redir = NULL;
 		tmp->next = malloc(sizeof(t_cmd));
 		tmp = tmp->next;

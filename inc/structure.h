@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 14:42:51 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/20 18:07:46 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/21 16:24:13 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ typedef struct s_cmd
 {
 	char			*str;
 	char			**cmd;
-	char			*path;
 	t_lex			*redir;
 	struct s_cmd	*next;
 }	t_cmd;
