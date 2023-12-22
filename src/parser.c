@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 17:21:56 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/22 18:15:41 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/22 18:32:16 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,7 +209,6 @@ void	count_redir(t_mini *shell)
 		i++;
 	}
 }
-
 /*
 Will initialize the same amount of nodes as shell->cmd->nb_redir.
 redir being the same structure as lex, it will initialise the same values
@@ -240,15 +239,12 @@ void	init_redir(t_cmd *tmp)
 /*
 This function will fill the 'token' variable in every nodes of 'redir' only
 in the actual node of cmd.
-At the start, we take care to "save" a pointer to the start of the redir list
-so we can reset it at the end of the function to use it again later in the code
 */
 void	get_tokens(t_cmd *cmd_t, t_lex *lex)
 {
 	int		i;
-	t_lex	*start;
+	t_lex	*start = cmd_t->redir;
 
-	start = cmd_t->redir;
 	i = 0;
 	while (i < cmd_t->nb_redir)
 	{
@@ -271,9 +267,8 @@ in the actual node of cmd.
 void	get_word(t_cmd *cmd_t, t_lex *lex)
 {
 	int		i;
-	t_lex	*start;
+	t_lex	*start = cmd_t->redir;
 
-	start = cmd_t->redir;
 	i = 0;
 	while (i < cmd_t->nb_redir)
 	{
