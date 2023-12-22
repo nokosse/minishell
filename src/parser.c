@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 17:21:56 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/21 18:13:37 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/22 18:07:23 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,13 +116,13 @@ void	get_cmdlines_in_nodes(t_mini *shell)
 		tmp->str = get_cmd(shell->parsed_cmdline, &j);
 		if (!tmp->str)
 			return ;
-		printf("str = %s\n", tmp->str);
 		// Handle malloc error
 		tmp = tmp->next;
 		i++;
 		j++;
 	}
 }
+
 /*
 This function will use 'str' and will fill 'cmd' in t_cmd.
 cmd being an array of strings, cmd[0] will always be the command. (ls, wc..)
@@ -147,26 +147,142 @@ void	get_cmd_in_nodes(t_mini *shell)
 }
 
 /*
+Returns 0 if str[i] or str[i+1] is not a redirection.
+Else, returns the type of redirection. (RIGHT1, LEFT2, etc..)
+*/
+int	is_redir(char *str, int i)
+{
+	if (str[i] == '>' && str[i + 1] == '>')
+		return (RIGHT2);
+	else if (str[i] == '>')
+		return (RIGHT1);
+	else if (str[i] == '<' && str[i + 1] == '<')
+		return (LEFT2);
+	else if (str[i] == '<')
+		return (LEFT1);
+	return (0);
+}
+
+/*
+Increments pointer of 'i' while being between quotes.
+Stops when it finds the same quote.
+*/
+void	skip_quotes(char *str, int *i)
+{
+	if (str[*i] == '\'' || str[*i] == '\"')
+	{
+		(*i)++;
+		while (str[*i] && str[*i] != '\'' && str[*i] != '\"')
+			(*i)++;
+	}
+}
+
+/*
 This function will fill the 'nb_redir' variable in every nodes of t_cmd.
 It will count the number of redirections in 'str'. ( >, >>, <, << )
 It will ignore the redirection if it is between double/simple quotes.
 */
 void	count_redir(t_mini *shell)
 {
+	t_cmd	*tmp;
+	int		i;
+	int		j;
 
+	i = 0;
+	tmp = shell->cmd;
+	while (i < shell->nb_commands)
+	{
+		j = 0;
+		tmp->nb_redir = 0;
+		while (tmp->str[j])
+		{
+			skip_quotes(tmp->str, &j);
+			if (is_redir(tmp->str, j))
+			{
+				tmp->nb_redir++;
+				j++;
+			}
+			if (tmp->str[j])
+				j++;
+		}
+		tmp = tmp->next;
+		i++;
+	}
+}
+/*
+Will initialize the same amount of nodes as shell->cmd->nb_redir.
+redir being the same structure as lex, it will initialise the same values
+(i, word, token, next).
+*/
+void	init_redir(t_cmd *tmp)
+{
+	int		i;
+	t_lex	*tmp2;
+
+	i = 0;
+	tmp->redir = malloc(sizeof(t_lex));
+	// Handle malloc error
+	tmp2 = tmp->redir;
+	while (i < tmp->nb_redir)
+	{
+		tmp2->i = 0;
+		tmp2->word = NULL;
+		tmp2->token = 0;
+		tmp2->next = malloc(sizeof(t_lex));
+		// Handle malloc error
+		tmp2 = tmp2->next;
+		i++;
+	}
+	tmp2->next = NULL;
 }
 
 /*
-This function will use 'str' and will fill 'redir' in t_cmd.
-redir contains 'word' and 'token'
-'word' is the filename or delimiter.
-'token' is the type of redirection. (>, >>, <, <<)
-The 'word' is always at the right of the redirection.
-Again, it takes care to ignore the redirection if it is between quotes.
+This function will fill the 'token' variable in every nodes of 'redir' only
+in the actual node of cmd.
+*/
+void	get_tokens(t_cmd *cmd_t, t_lex *lex)
+{
+	int		i;
+	t_lex	*start = cmd_t->redir;
+
+	i = 0;
+	while (i < cmd_t->nb_redir)
+	{
+		while (lex->token != RIGHT1 && lex->token != RIGHT2
+			&& lex->token != LEFT1 && lex->token != LEFT2)
+			lex = lex->next;
+		cmd_t->redir->token = lex->token;
+		cmd_t->redir = cmd_t->redir->next;
+		lex = lex->next;
+		i++;
+	}
+	cmd_t->redir = start;
+}
+
+/*
+This function will fill the 'redir' linked list in every nodes of t_cmd.
+It will first fill the 'word' var with the filename or the delimitor.
+Then it will fill the 'token' var with the type of redirection.
 */
 void	get_redir_in_nodes(t_mini *shell)
 {
-	count_redir(shell);
+	t_cmd	*tmp_cmd;
+	t_lex	*tmp_lex;
+	int		i;
+
+	i = 0;
+	tmp_cmd = shell->cmd;
+	tmp_lex = shell->lex;
+	while (i < shell->nb_commands)
+	{
+		if (tmp_cmd->nb_redir > 0)
+		{
+			init_redir(tmp_cmd);
+			get_tokens(tmp_cmd, tmp_lex);
+		}
+		tmp_cmd = tmp_cmd->next;
+		i++;
+	}
 }
 
 /*
@@ -178,7 +294,27 @@ void	create_cmd(t_mini *shell)
 	get_clean_cmdline(shell);
 	get_cmdlines_in_nodes(shell);
 	get_cmd_in_nodes(shell);
+	count_redir(shell);
 	get_redir_in_nodes(shell);
+
+	// print shell->cmd->redir->word and shell->cmd->redir->token
+	int i = 0;
+	t_cmd *tmp = shell->cmd;
+	while (i < shell->nb_commands)
+	{
+		t_lex *tmp2 = tmp->redir;
+		int j = 0;
+		while (j < tmp->nb_redir)
+		{
+			printf("token = %d\n", tmp2->token);
+			printf("word = %s\n", tmp2->word);
+			printf("\n");
+			tmp2 = tmp2->next;
+			j++;
+		}
+		tmp = tmp->next;
+		i++;
+	}
 }
 
 /*
