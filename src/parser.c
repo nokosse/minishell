@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 17:21:56 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/22 18:07:23 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/22 18:15:41 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,6 +209,7 @@ void	count_redir(t_mini *shell)
 		i++;
 	}
 }
+
 /*
 Will initialize the same amount of nodes as shell->cmd->nb_redir.
 redir being the same structure as lex, it will initialise the same values
@@ -239,12 +240,15 @@ void	init_redir(t_cmd *tmp)
 /*
 This function will fill the 'token' variable in every nodes of 'redir' only
 in the actual node of cmd.
+At the start, we take care to "save" a pointer to the start of the redir list
+so we can reset it at the end of the function to use it again later in the code
 */
 void	get_tokens(t_cmd *cmd_t, t_lex *lex)
 {
 	int		i;
-	t_lex	*start = cmd_t->redir;
+	t_lex	*start;
 
+	start = cmd_t->redir;
 	i = 0;
 	while (i < cmd_t->nb_redir)
 	{
@@ -252,6 +256,31 @@ void	get_tokens(t_cmd *cmd_t, t_lex *lex)
 			&& lex->token != LEFT1 && lex->token != LEFT2)
 			lex = lex->next;
 		cmd_t->redir->token = lex->token;
+		cmd_t->redir = cmd_t->redir->next;
+		lex = lex->next;
+		i++;
+	}
+	cmd_t->redir = start;
+}
+
+/*
+This function will fill the 'word' variable in every nodes of 'redir' only
+in the actual node of cmd.
+'word' is the token that follows the redirection in the lexer linked list.
+*/
+void	get_word(t_cmd *cmd_t, t_lex *lex)
+{
+	int		i;
+	t_lex	*start;
+
+	start = cmd_t->redir;
+	i = 0;
+	while (i < cmd_t->nb_redir)
+	{
+		while (lex->token != RIGHT1 && lex->token != RIGHT2
+			&& lex->token != LEFT1 && lex->token != LEFT2)
+			lex = lex->next;
+		cmd_t->redir->word = lex->next->word;
 		cmd_t->redir = cmd_t->redir->next;
 		lex = lex->next;
 		i++;
@@ -279,6 +308,7 @@ void	get_redir_in_nodes(t_mini *shell)
 		{
 			init_redir(tmp_cmd);
 			get_tokens(tmp_cmd, tmp_lex);
+			get_word(tmp_cmd, tmp_lex);
 		}
 		tmp_cmd = tmp_cmd->next;
 		i++;
