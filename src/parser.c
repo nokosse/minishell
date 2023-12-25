@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 17:21:56 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/25 15:18:19 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/25 16:22:44 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,7 +230,7 @@ void	init_redir(t_cmd *tmp)
 	while (i < tmp->nb_redir)
 	{
 		tmp2->i = 0;
-		tmp2->word = NULL;
+		// tmp2->word = NULL;
 		tmp2->token = 0;
 		tmp2->next = malloc(sizeof(t_lex));
 		if (!tmp2->next)
@@ -313,23 +313,23 @@ void	create_cmd(t_mini *shell)
 	get_redir_in_nodes(shell);
 
 	// print shell->cmd->redir->word and shell->cmd->redir->token
-	int i = 0;
-	t_cmd *tmp = shell->cmd;
-	while (i < shell->nb_commands)
-	{
-		t_lex *tmp2 = tmp->redir;
-		int j = 0;
-		while (j < tmp->nb_redir)
-		{
-			printf("token = %d\n", tmp2->token);
-			printf("word = %s\n", tmp2->word);
-			printf("\n");
-			tmp2 = tmp2->next;
-			j++;
-		}
-		tmp = tmp->next;
-		i++;
-	}
+	// int i = 0;
+	// t_cmd *tmp = shell->cmd;
+	// while (i < shell->nb_commands)
+	// {
+	// 	t_lex *tmp2 = tmp->redir;
+	// 	int j = 0;
+	// 	while (j < tmp->nb_redir)
+	// 	{
+	// 		printf("token = %d\n", tmp2->token);
+	// 		printf("word = %s\n", tmp2->word);
+	// 		printf("\n");
+	// 		tmp2 = tmp2->next;
+	// 		j++;
+	// 	}
+	// 	tmp = tmp->next;
+	// 	i++;
+	// }
 }
 
 /*
@@ -357,6 +357,36 @@ void	init_cmd(t_mini *shell)
 }
 
 /*
+This function frees in each nodes of t_cmd :
+- 'str' (char *) : the raw command line.
+- 'cmd' (char **) : the command and its arguments.
+- 'redir' (t_lex *) : the redirections linked list.
+It does not free the 'char *word' in the t_lex linked list because it is a
+'word' is a pointer to a token in the lexer which will be freed in free_lex()
+after the parser.
+*/
+void	free_cmd(t_mini *shell)
+{
+	t_cmd	*tmp;
+	t_cmd	*tmp2;
+	int		i;
+
+	i = 0;
+	tmp = shell->cmd;
+	tmp2 = tmp;
+	while (i < shell->nb_commands)
+	{
+		tmp = tmp->next;
+		free(tmp2->str);
+		free_arrplus(tmp2->cmd);
+		free(tmp2);
+		tmp2 = tmp;
+		i++;
+	}
+	free(tmp);
+}
+
+/*
 The parser will read the lexer linked list and will first : check the syntax.
 Then it will logically separate the commands, arguments and tokens to create
 a command. It will store the informations in the t_cmd structure.
@@ -381,4 +411,5 @@ void	parser(t_mini *shell)
 	count_pipes_and_commands(shell);
 	init_cmd(shell);
 	create_cmd(shell);
+	free_cmd(shell);
 }
