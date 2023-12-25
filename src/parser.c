@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 17:21:56 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/22 18:32:16 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/25 15:02:15 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	get_clean_cmdline(t_mini *shell)
 	shell->parsed_cmdline = ft_calloc(len + 1, sizeof(char));
 	if (!shell->parsed_cmdline)
 		return ;
+	// Handle malloc error
 	tmp = shell->lex;
 	i = 0;
 	while (i < shell->nb_tokens)
@@ -237,50 +238,33 @@ void	init_redir(t_cmd *tmp)
 }
 
 /*
-This function will fill the 'token' variable in every nodes of 'redir' only
-in the actual node of cmd.
+This function will fill the 'token' and 'word' var in every nodes of
+the 'redir' linked list in the actual node of t_cmd.
 */
-void	get_tokens(t_cmd *cmd_t, t_lex *lex)
+void	get_tokens_and_words(t_cmd *cmd_t, t_lex *lex, int *lex_pos)
 {
 	int		i;
-	t_lex	*start = cmd_t->redir;
+	t_lex	*redir_t;
 
 	i = 0;
+	redir_t = cmd_t->redir;
 	while (i < cmd_t->nb_redir)
 	{
+		while ((lex->i < *lex_pos) && lex->next)
+			lex = lex->next;
 		while (lex->token != RIGHT1 && lex->token != RIGHT2
 			&& lex->token != LEFT1 && lex->token != LEFT2)
+		{
 			lex = lex->next;
-		cmd_t->redir->token = lex->token;
-		cmd_t->redir = cmd_t->redir->next;
+			(*lex_pos)++;
+		}
+		redir_t->token = lex->token;
+		redir_t->word = lex->next->word;
+		redir_t = redir_t->next;
 		lex = lex->next;
+		(*lex_pos)++;
 		i++;
 	}
-	cmd_t->redir = start;
-}
-
-/*
-This function will fill the 'word' variable in every nodes of 'redir' only
-in the actual node of cmd.
-'word' is the token that follows the redirection in the lexer linked list.
-*/
-void	get_word(t_cmd *cmd_t, t_lex *lex)
-{
-	int		i;
-	t_lex	*start = cmd_t->redir;
-
-	i = 0;
-	while (i < cmd_t->nb_redir)
-	{
-		while (lex->token != RIGHT1 && lex->token != RIGHT2
-			&& lex->token != LEFT1 && lex->token != LEFT2)
-			lex = lex->next;
-		cmd_t->redir->word = lex->next->word;
-		cmd_t->redir = cmd_t->redir->next;
-		lex = lex->next;
-		i++;
-	}
-	cmd_t->redir = start;
 }
 
 /*
@@ -292,9 +276,11 @@ void	get_redir_in_nodes(t_mini *shell)
 {
 	t_cmd	*tmp_cmd;
 	t_lex	*tmp_lex;
+	int		lex_pos;
 	int		i;
 
 	i = 0;
+	lex_pos = 0;
 	tmp_cmd = shell->cmd;
 	tmp_lex = shell->lex;
 	while (i < shell->nb_commands)
@@ -302,8 +288,7 @@ void	get_redir_in_nodes(t_mini *shell)
 		if (tmp_cmd->nb_redir > 0)
 		{
 			init_redir(tmp_cmd);
-			get_tokens(tmp_cmd, tmp_lex);
-			get_word(tmp_cmd, tmp_lex);
+			get_tokens_and_words(tmp_cmd, tmp_lex, &lex_pos);
 		}
 		tmp_cmd = tmp_cmd->next;
 		i++;
