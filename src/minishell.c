@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2023/12/21 15:56:39 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/25 17:21:45 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	minishell_loop(t_mini *shell)
 		add_history(cmdline);
 		shell->cmdline = cmdline;
 		start_minishell(shell);
+		free_cmd(shell);
 		free(cmdline);
 		free(shell->parsed_cmdline);
 		free_lex(shell);

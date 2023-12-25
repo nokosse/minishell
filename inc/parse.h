@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:29:05 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/19 17:28:16 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/25 17:22:07 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ char	*get_token(char *cmdl, int *j);
 
 /* PARSER PART */
 void	parser(t_mini *shell);
+void	free_cmd(t_mini *shell);
 
 /* EXPANDER PART */
 
