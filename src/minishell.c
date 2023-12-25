@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2023/12/25 17:21:45 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/25 17:50:30 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,3 +62,5 @@ void	minishell_loop(t_mini *shell)
 }
 
 // TODO : create a function that use all the free functions
+// TODO : make all the malloc errors use the free function
+// TODO : make lexer count 'ls>out' as 3 tokens instead of 1
