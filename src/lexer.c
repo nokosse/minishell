@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 13:42:22 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/20 18:26:24 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/25 15:18:49 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ void	assign_word(t_mini *shell)
 	while (i < shell->nb_tokens)
 	{
 		tmp->word = get_token(shell->cmdline, &j);
+		if (!tmp->word)
+			return ;
 		// Handle malloc error
 		tmp = tmp->next;
 		i++;

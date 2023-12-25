@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 17:21:56 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/25 15:02:15 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/25 15:18:19 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,6 +210,7 @@ void	count_redir(t_mini *shell)
 		i++;
 	}
 }
+
 /*
 Will initialize the same amount of nodes as shell->cmd->nb_redir.
 redir being the same structure as lex, it will initialise the same values
@@ -222,6 +223,8 @@ void	init_redir(t_cmd *tmp)
 
 	i = 0;
 	tmp->redir = malloc(sizeof(t_lex));
+	if (!tmp->redir)
+		return ;
 	// Handle malloc error
 	tmp2 = tmp->redir;
 	while (i < tmp->nb_redir)
@@ -230,6 +233,8 @@ void	init_redir(t_cmd *tmp)
 		tmp2->word = NULL;
 		tmp2->token = 0;
 		tmp2->next = malloc(sizeof(t_lex));
+		if (!tmp2->next)
+			return ;
 		// Handle malloc error
 		tmp2 = tmp2->next;
 		i++;
