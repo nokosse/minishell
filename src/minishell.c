@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2023/12/26 12:13:54 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/27 15:08:38 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ The executor can use exit codes if the command is wrong.
 void	start_minishell(t_mini *shell)
 {
 	lexer(shell);
-	// parser(shell);
+	parser(shell);
 }
 
 /*
@@ -54,10 +54,7 @@ void	minishell_loop(t_mini *shell)
 		add_history(cmdline);
 		shell->cmdline = cmdline;
 		start_minishell(shell);
-		// free_cmd(shell);
-		free(cmdline);
-		// free(shell->parsed_cmdline);
-		free_lex(shell);
+		end(shell);
 	}
 }
 

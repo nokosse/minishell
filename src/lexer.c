@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 13:42:22 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/25 17:49:25 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/27 15:14:17 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	init_lex(t_mini *shell)
 
 	i = 0;
 	shell->lex = malloc(sizeof(t_lex));
+	if (!shell->lex)
+		end(shell);
 	tmp = shell->lex;
 	while (i < shell->nb_tokens)
 	{
@@ -33,6 +35,8 @@ void	init_lex(t_mini *shell)
 		tmp->word = NULL;
 		tmp->token = 0;
 		tmp->next = malloc(sizeof(t_lex));
+		if (!tmp->next)
+			end(shell);
 		tmp = tmp->next;
 		i++;
 	}
@@ -59,8 +63,7 @@ void	assign_word(t_mini *shell)
 	{
 		tmp->word = get_token(shell->cmdline, &j);
 		if (!tmp->word)
-			return ;
-		// Handle malloc error
+			end(shell);
 		tmp = tmp->next;
 		i++;
 		j++;

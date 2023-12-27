@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 18:35:15 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/20 18:37:18 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/27 15:13:33 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ char	*get_token(char *cmdl, int *j)
 	token = ft_calloc(ft_strlen(cmdl) + 1, sizeof(char));
 	if (!token)
 		return (NULL);
-	// Handle malloc error
 	while (cmdl[i] && cmdl[i] == ' ')
 		i++;
 	while (cmdl[i] && cmdl[i] != ' ')

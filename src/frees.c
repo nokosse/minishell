@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 10:42:43 by kevso             #+#    #+#             */
-/*   Updated: 2023/12/18 18:18:50 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/27 15:20:50 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,16 @@ void	free_arrplus(char **arr)
 		i++;
 	}
 	free(arr);
+}
+
+/*
+Called to free everything. On malloc errors or exit or parsing errors..
+Even execution errors etc..
+*/
+void	end(t_mini *shell)
+{
+	free_cmd(shell);
+	free(shell->cmdline);
+	free(shell->parsed_cmdline);
+	free_lex(shell);
 }

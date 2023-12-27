@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 17:21:56 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/26 12:14:27 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/27 15:21:00 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ void	get_clean_cmdline(t_mini *shell)
 	len = ft_strlen(shell->cmdline);
 	shell->parsed_cmdline = ft_calloc(len + 1, sizeof(char));
 	if (!shell->parsed_cmdline)
-		return ;
-	// Handle malloc error
+		end(shell);
 	tmp = shell->lex;
 	i = 0;
 	while (i < shell->nb_tokens)
@@ -79,7 +78,6 @@ char	*get_cmd(char *cmdl, int *j)
 	cmd = ft_calloc(ft_strlen(cmdl) + 1, sizeof(char));
 	if (!cmd)
 		return (NULL);
-	// Handle malloc error
 	while (cmdl[i] && cmdl[i] == ' ')
 		i++;
 	while (cmdl[i] && cmdl[i] != '|')
@@ -116,8 +114,7 @@ void	get_cmdlines_in_nodes(t_mini *shell)
 	{
 		tmp->str = get_cmd(shell->parsed_cmdline, &j);
 		if (!tmp->str)
-			return ;
-		// Handle malloc error
+			end(shell);
 		tmp = tmp->next;
 		i++;
 		j++;
@@ -140,8 +137,7 @@ void	get_cmd_in_nodes(t_mini *shell)
 	{
 		tmp->cmd = ft_split(tmp->str, ' ');
 		if (!tmp->cmd)
-			return ;
-		// Handle malloc error
+			end(shell);
 		tmp = tmp->next;
 		i++;
 	}
@@ -216,7 +212,7 @@ Will initialize the same amount of nodes as shell->cmd->nb_redir.
 redir being the same structure as lex, it will initialise the same values
 (i, word, token, next).
 */
-void	init_redir(t_cmd *tmp)
+void	init_redir(t_cmd *tmp, t_mini *shell)
 {
 	int		i;
 	t_lex	*tmp2;
@@ -224,18 +220,15 @@ void	init_redir(t_cmd *tmp)
 	i = 0;
 	tmp->redir = malloc(sizeof(t_lex));
 	if (!tmp->redir)
-		return ;
-	// Handle malloc error
+		end(shell);
 	tmp2 = tmp->redir;
 	while (i < tmp->nb_redir)
 	{
 		tmp2->i = 0;
-		// tmp2->word = NULL;
 		tmp2->token = 0;
 		tmp2->next = malloc(sizeof(t_lex));
 		if (!tmp2->next)
-			return ;
-		// Handle malloc error
+			end(shell);
 		tmp2 = tmp2->next;
 		i++;
 	}
@@ -292,7 +285,7 @@ void	get_redir_in_nodes(t_mini *shell)
 	{
 		if (tmp_cmd->nb_redir > 0)
 		{
-			init_redir(tmp_cmd);
+			init_redir(tmp_cmd, shell);
 			get_tokens_and_words(tmp_cmd, tmp_lex, &lex_pos);
 		}
 		tmp_cmd = tmp_cmd->next;
@@ -311,25 +304,6 @@ void	create_cmd(t_mini *shell)
 	get_cmd_in_nodes(shell);
 	count_redir(shell);
 	get_redir_in_nodes(shell);
-
-	// print shell->cmd->redir->word and shell->cmd->redir->token
-	// int i = 0;
-	// t_cmd *tmp = shell->cmd;
-	// while (i < shell->nb_commands)
-	// {
-	// 	t_lex *tmp2 = tmp->redir;
-	// 	int j = 0;
-	// 	while (j < tmp->nb_redir)
-	// 	{
-	// 		printf("token = %d\n", tmp2->token);
-	// 		printf("word = %s\n", tmp2->word);
-	// 		printf("\n");
-	// 		tmp2 = tmp2->next;
-	// 		j++;
-	// 	}
-	// 	tmp = tmp->next;
-	// 	i++;
-	// }
 }
 
 /*
@@ -343,6 +317,8 @@ void	init_cmd(t_mini *shell)
 
 	i = 0;
 	shell->cmd = malloc(sizeof(t_cmd));
+	if (!shell->cmd)
+		end(shell);
 	tmp = shell->cmd;
 	while (i < shell->nb_commands)
 	{
@@ -350,6 +326,8 @@ void	init_cmd(t_mini *shell)
 		tmp->cmd = NULL;
 		tmp->redir = NULL;
 		tmp->next = malloc(sizeof(t_cmd));
+		if (!tmp->next)
+			end(shell);
 		tmp = tmp->next;
 		i++;
 	}
