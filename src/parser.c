@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 17:21:56 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/27 15:21:00 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/27 17:22:24 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,65 +144,34 @@ void	get_cmd_in_nodes(t_mini *shell)
 }
 
 /*
-Returns 0 if str[i] or str[i+1] is not a redirection.
-Else, returns the type of redirection. (RIGHT1, LEFT2, etc..)
-*/
-int	is_redir(char *str, int i)
-{
-	if (str[i] == '>' && str[i + 1] == '>')
-		return (RIGHT2);
-	else if (str[i] == '>')
-		return (RIGHT1);
-	else if (str[i] == '<' && str[i + 1] == '<')
-		return (LEFT2);
-	else if (str[i] == '<')
-		return (LEFT1);
-	return (0);
-}
-
-/*
-Increments pointer of 'i' while being between quotes.
-Stops when it finds the same quote.
-*/
-void	skip_quotes(char *str, int *i)
-{
-	if (str[*i] == '\'' || str[*i] == '\"')
-	{
-		(*i)++;
-		while (str[*i] && str[*i] != '\'' && str[*i] != '\"')
-			(*i)++;
-	}
-}
-
-/*
 This function will fill the 'nb_redir' variable in every nodes of t_cmd.
-It will count the number of redirections in 'str'. ( >, >>, <, << )
-It will ignore the redirection if it is between double/simple quotes.
+It will count the number of tokens that are NOT 'WORD' / 'PIPE' until
+the next 'PIPE' or the end of the command line.
 */
 void	count_redir(t_mini *shell)
 {
-	t_cmd	*tmp;
+	t_cmd	*cmd_t;
+	t_lex	*lex_t;
 	int		i;
 	int		j;
 
 	i = 0;
-	tmp = shell->cmd;
+	cmd_t = shell->cmd;
+	lex_t = shell->lex;
 	while (i < shell->nb_commands)
 	{
 		j = 0;
-		tmp->nb_redir = 0;
-		while (tmp->str[j])
+		cmd_t->nb_redir = 0;
+		while (j < shell->nb_tokens)
 		{
-			skip_quotes(tmp->str, &j);
-			if (is_redir(tmp->str, j))
-			{
-				tmp->nb_redir++;
-				j++;
-			}
-			if (tmp->str[j])
-				j++;
+			if (lex_t->token != WORD && lex_t->token != PIPE)
+				cmd_t->nb_redir++;
+			if (lex_t->token == PIPE)
+				break ;
+			lex_t = lex_t->next;
+			j++;
 		}
-		tmp = tmp->next;
+		cmd_t = cmd_t->next;
 		i++;
 	}
 }
@@ -253,6 +222,8 @@ void	get_tokens_and_words(t_cmd *cmd_t, t_lex *lex, int *lex_pos)
 		while (lex->token != RIGHT1 && lex->token != RIGHT2
 			&& lex->token != LEFT1 && lex->token != LEFT2)
 		{
+			if (lex->next == NULL)
+				break ;
 			lex = lex->next;
 			(*lex_pos)++;
 		}
@@ -304,6 +275,7 @@ void	create_cmd(t_mini *shell)
 	get_cmd_in_nodes(shell);
 	count_redir(shell);
 	get_redir_in_nodes(shell);
+	print_cmd(shell);
 }
 
 /*
