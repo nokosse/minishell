@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 17:21:56 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/27 17:22:24 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/27 18:38:11 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,27 +153,21 @@ void	count_redir(t_mini *shell)
 	t_cmd	*cmd_t;
 	t_lex	*lex_t;
 	int		i;
-	int		j;
 
 	i = 0;
 	cmd_t = shell->cmd;
 	lex_t = shell->lex;
-	while (i < shell->nb_commands)
+	cmd_t->nb_redir = 0;
+	while (i < shell->nb_tokens)
 	{
-		j = 0;
-		cmd_t->nb_redir = 0;
-		while (j < shell->nb_tokens)
-		{
-			if (lex_t->token != WORD && lex_t->token != PIPE)
-				cmd_t->nb_redir++;
-			if (lex_t->token == PIPE)
-				break ;
-			lex_t = lex_t->next;
-			j++;
-		}
-		cmd_t = cmd_t->next;
+		if (lex_t->token != WORD && lex_t->token != PIPE)
+			cmd_t->nb_redir++;
+		if (lex_t->token == PIPE)
+			cmd_t = cmd_t->next;
+		lex_t = lex_t->next;
 		i++;
 	}
+	
 }
 
 /*
