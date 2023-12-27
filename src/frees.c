@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 10:42:43 by kevso             #+#    #+#             */
-/*   Updated: 2023/12/27 15:20:50 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/27 15:24:31 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 /*
 Only free every elements of 'arr'.
-
 */
 void	free_arr(char **arr)
 {
