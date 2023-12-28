@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 17:21:56 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/28 12:11:01 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/28 12:56:14 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,23 +122,63 @@ void	get_cmdlines_in_nodes(t_mini *shell)
 }
 
 /*
-This function will use 'str' and will fill 'cmd' in t_cmd.
-cmd being an array of strings, cmd[0] will always be the command. (ls, wc..)
-cmd[1-n] will be the argument(s) of the command. It is NULL if no arguments.
+This function will allocate the right number or arrays 'cmd' needs.
+*/
+void	allocate_cmd_arrays(t_mini *shell)
+{
+	t_cmd	*cmd_t;
+	t_lex	*lex_t;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	cmd_t = shell->cmd;
+	lex_t = shell->lex;
+	while (i < shell->nb_tokens)
+	{
+		if (lex_t->token == WORD)
+			j++;
+		if (lex_t->token == PIPE || i == shell->nb_tokens - 1)
+		{
+			cmd_t->cmd = malloc(sizeof(char *) * (j + 1));
+			if (!cmd_t->cmd)
+				end(shell);
+			cmd_t = cmd_t->next;
+			j = 0;
+		}
+		lex_t = lex_t->next;
+		i++;
+	}
+}
+
+/*
+This function will fill the 'cmd' array in every nodes of t_cmd.
+cmd[i] will be a pointer to a 'WORD' token in the lexer.
 */
 void	get_cmd_in_nodes(t_mini *shell)
 {
-	t_cmd	*tmp;
+	t_cmd	*cmd_t;
+	t_lex	*lex_t;
 	int		i;
+	int		j;
 
 	i = 0;
-	tmp = shell->cmd;
-	while (i < shell->nb_commands)
+	j = 0;
+	cmd_t = shell->cmd;
+	lex_t = shell->lex;
+	allocate_cmd_arrays(shell);
+	while (i < shell->nb_tokens)
 	{
-		tmp->cmd = ft_split(tmp->str, ' ');
-		if (!tmp->cmd)
-			end(shell);
-		tmp = tmp->next;
+		if (lex_t->token == WORD)
+			cmd_t->cmd[j++] = lex_t->word;
+		if (lex_t->token == PIPE || i == shell->nb_tokens - 1)
+		{
+			cmd_t->cmd[j] = NULL;
+			cmd_t = cmd_t->next;
+			j = 0;
+		}
+		lex_t = lex_t->next;
 		i++;
 	}
 }
@@ -344,7 +384,7 @@ void	free_cmd(t_mini *shell)
 	{
 		tmp = tmp->next;
 		free(tmp2->str);
-		free_arrplus(tmp2->cmd);
+		free(tmp2->cmd);
 		free_redir(tmp2, tmp2->nb_redir);
 		free(tmp2);
 		tmp2 = tmp;
