@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2023/12/28 13:10:58 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/28 13:17:59 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,3 +59,4 @@ void	minishell_loop(t_mini *shell)
 }
 
 // TODO : improve lexer so it can handle no spaces inputs 'ls>out' ...
+// TODO : improve 'end' to free only after check if not NULL

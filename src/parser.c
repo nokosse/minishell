@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 17:21:56 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/28 13:06:08 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/28 13:33:08 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -394,29 +394,14 @@ void	free_cmd(t_mini *shell)
 }
 
 /*
-The parser will read the lexer linked list and will first : check the syntax.
-Then it will logically separate the commands, arguments and tokens to create
-a command. It will store the informations in the t_cmd structure.
-
-From t_lex that looks like this :
-word = "ls" and 	token = WORD	*next*
-word = "-la" and 	token = WORD	*next*
-word = "|" and 		token = PIPE	*next*
-word = "wc" and 	token = WORD	*next*
-word = "-l" and 	token = WORD	*next*
-word = ">" and 		token = RIGHT1	*next*
-word = "out" and	token = WORD	*next*
-word = NULL and 	token = 0		*end*
-
-Will give a t_cmd that looks like this :
-path = "/bin/ls" and cmd = "ls -la" and	redir = NULL 		*next*
-path = "/bin/wc" and cmd = "wc -l" and 	redir = "> out" 	*next*
-path = NULL and 	 cmd = NULL and 	redir = NULL 		*end*
+The parser will create a linked list : 't_cmd' with 'create_cmd()'.
+Most of the elements of this list will be pointers on the lexer tokens.
+And 'parse_error()' will handle wrong inputs and prints "parse error".
 */
 void	parser(t_mini *shell)
 {
 	count_pipes_and_commands(shell);
 	init_cmd(shell);
 	create_cmd(shell);
-	// parse_error(shell);
+	parse_error(shell);
 }
