@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 17:22:14 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/28 13:04:15 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/28 13:38:32 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	print_cmd(t_mini *shell)
 	i = 0;
 	tmp = shell->cmd;
 	if (shell->nb_tokens == 0)
+		return ;
+	if (shell->nb_tokens == 1 && shell->lex->token == PIPE)
 		return ;
 	while (i < shell->nb_commands)
 	{
