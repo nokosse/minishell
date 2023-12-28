@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 10:42:43 by kevso             #+#    #+#             */
-/*   Updated: 2023/12/28 15:30:46 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/28 16:17:35 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	free_arrplus(char **arr)
 Called to free everything. On malloc errors or exit or parsing errors..
 Even execution errors etc..
 */
-void	end(t_mini *shell)
+void	free_all(t_mini *shell)
 {
 	if (shell->end == false)
 	{

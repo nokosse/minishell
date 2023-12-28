@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 14:42:53 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/27 17:23:17 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/28 16:14:39 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 extern int	g_sig;
 
 // Frees
-void	end(t_mini *shell);
+void	free_all(t_mini *shell);
 void	free_arr(char **arr);
 void	free_arrplus(char **arr);
 

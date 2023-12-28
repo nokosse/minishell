@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2023/12/28 15:29:56 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/28 16:14:29 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	minishell_loop(t_mini *shell)
 		add_history(cmdline);
 		shell->cmdline = cmdline;
 		start_minishell(shell);
-		end(shell);
+		free_all(shell);
 	}
 }
 

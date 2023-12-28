@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 17:21:56 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/28 13:33:08 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/28 16:14:29 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	get_clean_cmdline(t_mini *shell)
 	len = ft_strlen(shell->cmdline);
 	shell->parsed_cmdline = ft_calloc(len + 1, sizeof(char));
 	if (!shell->parsed_cmdline)
-		end(shell);
+		free_all(shell);
 	tmp = shell->lex;
 	i = 0;
 	while (i < shell->nb_tokens)
@@ -114,7 +114,7 @@ void	get_cmdlines_in_nodes(t_mini *shell)
 	{
 		tmp->str = get_cmd(shell->parsed_cmdline, &j);
 		if (!tmp->str)
-			end(shell);
+			free_all(shell);
 		tmp = tmp->next;
 		i++;
 		j++;
@@ -143,7 +143,7 @@ void	allocate_cmd_arrays(t_mini *shell)
 		{
 			cmd_t->cmd = malloc(sizeof(char *) * (j + 1));
 			if (!cmd_t->cmd)
-				end(shell);
+				free_all(shell);
 			cmd_t = cmd_t->next;
 			j = 0;
 		}
@@ -221,7 +221,7 @@ void	init_redir(t_cmd *tmp, t_mini *shell)
 	i = 0;
 	tmp->redir = malloc(sizeof(t_lex));
 	if (!tmp->redir)
-		end(shell);
+		free_all(shell);
 	tmp2 = tmp->redir;
 	while (i < tmp->nb_redir)
 	{
@@ -229,7 +229,7 @@ void	init_redir(t_cmd *tmp, t_mini *shell)
 		tmp2->token = 0;
 		tmp2->next = malloc(sizeof(t_lex));
 		if (!tmp2->next)
-			end(shell);
+			free_all(shell);
 		tmp2 = tmp2->next;
 		i++;
 	}
@@ -322,7 +322,7 @@ void	init_cmd(t_mini *shell)
 	i = 0;
 	shell->cmd = malloc(sizeof(t_cmd));
 	if (!shell->cmd)
-		end(shell);
+		free_all(shell);
 	tmp = shell->cmd;
 	while (i < shell->nb_commands)
 	{
@@ -332,7 +332,7 @@ void	init_cmd(t_mini *shell)
 		tmp->nb_redir = 0;
 		tmp->next = malloc(sizeof(t_cmd));
 		if (!tmp->next)
-			end(shell);
+			free_all(shell);
 		tmp = tmp->next;
 		i++;
 	}
