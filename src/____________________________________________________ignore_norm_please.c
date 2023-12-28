@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ______________ignore_norm_please___________        :+:      :+:    :+:   */
+/*   ___________________________________________        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 17:22:14 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/27 17:24:33 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/28 13:04:15 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,17 @@ void	print_cmd(t_mini *shell)
 
 	i = 0;
 	tmp = shell->cmd;
+	if (shell->nb_tokens == 0)
+		return ;
 	while (i < shell->nb_commands)
 	{
 		write(1, "\n", 1);
 		printf("[RAW COMMAND] str = %s\n", tmp->str);
-		printf("[CMD ARRAY]   cmd = ");
+		printf("[CMD ARRAY  ] cmd = ");
 		j = 0;
 		while (tmp->cmd[j])
 		{
-			printf("\'%s\' ", tmp->cmd[j]);
+			printf("\'%s\'     ", tmp->cmd[j]);
 			j++;
 		}
 		printf("\n");
