@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 17:21:56 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/28 13:01:32 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/28 13:06:08 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -307,7 +307,7 @@ void	create_cmd(t_mini *shell)
 	get_cmd_in_nodes(shell);
 	count_redir(shell);
 	get_redir_in_nodes(shell);
-	print_cmd(shell);
+	print_cmd(shell); //delete later
 }
 
 /*

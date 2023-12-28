@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2023/12/27 16:02:01 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/28 13:10:58 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,4 @@ void	minishell_loop(t_mini *shell)
 	}
 }
 
-/*
-BUG TO FIX :
->>> = segfault (???)
-ls>out = segfault (lexer)
-*/
+// TODO : improve lexer so it can handle no spaces inputs 'ls>out' ...
