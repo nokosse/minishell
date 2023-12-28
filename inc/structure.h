@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 14:42:51 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/22 13:54:57 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/28 15:29:29 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef struct s_mini
 {
 	t_cmd	*cmd;
 	t_lex	*lex;
+	bool	end;
 	int		nb_pipes;
 	int		nb_commands;
 	int		nb_tokens;
