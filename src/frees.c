@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 10:42:43 by kevso             #+#    #+#             */
-/*   Updated: 2023/12/29 17:14:28 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/29 17:31:08 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,8 @@ void	free_all(t_mini *shell)
 		shell->end = true;
 		if (shell->lex_error == false)
 			free_cmd(shell);
-		if (shell->cmdline)
-			free(shell->cmdline);
-		if (shell->parsed_cmdline && shell->lex_error == false)
+		free(shell->cmdline);
+		if (shell->lex_error == false)
 			free(shell->parsed_cmdline);
 		free_lex(shell);
 	}
