@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 17:21:56 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/29 16:19:24 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/29 18:01:22 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -380,7 +380,6 @@ void	free_cmd(t_mini *shell)
 	i = 0;
 	tmp = shell->cmd;
 	tmp2 = tmp;
-	printf("nb_commands = %d\n", shell->nb_commands);
 	while (i < shell->nb_commands)
 	{
 		tmp = tmp->next;
@@ -399,10 +398,12 @@ The parser will create a linked list : 't_cmd' with 'create_cmd()'.
 Most of the elements of this list will be pointers on the lexer tokens.
 And 'parse_error()' will handle wrong inputs and prints "parse error".
 */
-void	parser(t_mini *shell)
+int	parser(t_mini *shell)
 {
+	shell->parse_error = false;
 	count_pipes_and_commands(shell);
 	init_cmd(shell);
 	create_cmd(shell);
 	parse_error(shell);
+	return (1);
 }
