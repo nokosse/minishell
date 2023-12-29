@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kevso <kevso@student.42.fr>                +#+  +:+       +#+         #
+#    By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/13 20:38:47 by kevso             #+#    #+#              #
-#    Updated: 2023/12/14 11:34:13 by kevso            ###   ########.fr        #
+#    Updated: 2023/12/29 17:27:46 by kvisouth         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Compiler and flags
 CC := gcc
-CFLAGS := -Wall -Wextra -Werror
+CFLAGS := -Wall -Wextra -Werror -g
 LDFLAGS := -Llibft -lft -lreadline
 INC_DIR := -Iinc -Ilibft/inc
 
