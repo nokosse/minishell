@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 17:21:56 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/28 16:14:29 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/29 16:19:24 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -380,6 +380,7 @@ void	free_cmd(t_mini *shell)
 	i = 0;
 	tmp = shell->cmd;
 	tmp2 = tmp;
+	printf("nb_commands = %d\n", shell->nb_commands);
 	while (i < shell->nb_commands)
 	{
 		tmp = tmp->next;

@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 13:42:22 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/28 16:14:29 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/29 16:59:55 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ Then loops 'nb_tokens' times, init the values of the structure.
 Then malloc the next node with sizeof(t_lex).
 Finally, it sets the next node to NULL. (the one after the last one)
 */
-void	init_lex(t_mini *shell)
+int	init_lex(t_mini *shell)
 {
 	t_lex	*tmp;
 	int		i;
@@ -27,7 +27,7 @@ void	init_lex(t_mini *shell)
 	i = 0;
 	shell->lex = malloc(sizeof(t_lex));
 	if (!shell->lex)
-		free_all(shell);
+		return (0);
 	tmp = shell->lex;
 	while (i < shell->nb_tokens)
 	{
@@ -36,11 +36,12 @@ void	init_lex(t_mini *shell)
 		tmp->token = 0;
 		tmp->next = malloc(sizeof(t_lex));
 		if (!tmp->next)
-			free_all(shell);
+			return (0);
 		tmp = tmp->next;
 		i++;
 	}
 	tmp->next = NULL;
+	return (1);
 }
 
 /*
@@ -50,7 +51,7 @@ It will loop 'nb_tokens' times, and call get_token() to get the 'word'.
 'j' is a static because we want to keep track of the index of the command line
 for get_token(). It is the index of a character in the cmdline.
 */
-void	assign_word(t_mini *shell)
+int	assign_word(t_mini *shell)
 {
 	t_lex		*tmp;
 	int			i;
@@ -63,11 +64,12 @@ void	assign_word(t_mini *shell)
 	{
 		tmp->word = get_token(shell->cmdline, &j);
 		if (!tmp->word)
-			free_all(shell);
+			return (0);
 		tmp = tmp->next;
 		i++;
 		j++;
 	}
+	return (1);
 }
 
 /*
@@ -76,7 +78,7 @@ It's simple, if the word is a '|' we give it the token PIPE.
 If it's a '<' we give it the token LEFT1 and so on..
 Otherwise, it's a WORD.
 */
-void	assign_token(t_mini *shell)
+int	assign_token(t_mini *shell)
 {
 	t_lex	*tmp;
 	int		i;
@@ -100,6 +102,7 @@ void	assign_token(t_mini *shell)
 		tmp = tmp->next;
 		i++;
 	}
+	return (1);
 }
 
 /*
@@ -116,6 +119,8 @@ void	free_lex(t_mini *shell)
 	i = 0;
 	tmp = shell->lex;
 	tmp2 = tmp;
+	if (shell->nb_tokens == 0)
+		return ;
 	while (i < shell->nb_tokens)
 	{
 		tmp = tmp->next;
@@ -124,7 +129,8 @@ void	free_lex(t_mini *shell)
 		tmp2 = tmp;
 		i++;
 	}
-	free(tmp);
+	if (tmp)
+		free(tmp);
 }
 
 /*
@@ -132,10 +138,17 @@ The Lexer is a lexical analyser, meaning it will not check for syntax errors.
 It will just analyse what is a letter, what is a pipe, what is a redirection.
 After analysing, it will store these informations in a structure.
 */
-void	lexer(t_mini *shell)
+int	lexer(t_mini *shell)
 {
+	shell->lex_error = false;
 	shell->nb_tokens = count_tokens(shell->cmdline);
-	init_lex(shell);
-	assign_word(shell);
-	assign_token(shell);
+	if (shell->nb_tokens == 0)
+		return (0);
+	if (!init_lex(shell))
+		return (0);
+	if (!assign_word(shell))
+		return (0);
+	if (!assign_token(shell))
+		return (0);
+	return (1);
 }

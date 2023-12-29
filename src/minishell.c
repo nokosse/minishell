@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2023/12/28 16:14:29 by kvisouth         ###   ########.fr       */
+/*   Updated: 2023/12/29 16:45:49 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,13 @@ The executor can use exit codes if the command is wrong.
 void	start_minishell(t_mini *shell)
 {
 	shell->end = false;
-	lexer(shell);
+	if (!lexer(shell))
+	{
+		shell->lex_error = true;
+		free_all(shell);
+		return ;
+	}
+	printf("entering parser\n");
 	parser(shell);
 }
 
