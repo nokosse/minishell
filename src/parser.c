@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 17:21:56 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/29 18:01:22 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/01 12:34:30 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ At the moment, the command line is what the user typed.
 It can have junk spaces, tabs, etc.. But now that the lexer has done its job,
 we can just concatene all the 'words' in the t_lex linked list.
 */
-void	get_clean_cmdline(t_mini *shell)
+int	get_clean_cmdline(t_mini *shell)
 {
 	t_lex	*tmp;
 	int		len;
@@ -49,7 +49,7 @@ void	get_clean_cmdline(t_mini *shell)
 	len = ft_strlen(shell->cmdline);
 	shell->parsed_cmdline = ft_calloc(len + 1, sizeof(char));
 	if (!shell->parsed_cmdline)
-		free_all(shell);
+		return (0);
 	tmp = shell->lex;
 	i = 0;
 	while (i < shell->nb_tokens)
@@ -60,6 +60,7 @@ void	get_clean_cmdline(t_mini *shell)
 		tmp = tmp->next;
 		i++;
 	}
+	return (1);
 }
 
 /*
@@ -101,7 +102,7 @@ It will put everything before a PIPE in the 'str' var in each nodes of t_cmd.
 The last command is not before a pipe, so it will be the last node.
 You can notice that this function is very similar to assign_word() in lexer.c
 */
-void	get_cmdlines_in_nodes(t_mini *shell)
+int	get_cmdlines_in_nodes(t_mini *shell)
 {
 	t_cmd		*tmp;
 	int			i;
@@ -114,17 +115,18 @@ void	get_cmdlines_in_nodes(t_mini *shell)
 	{
 		tmp->str = get_cmd(shell->parsed_cmdline, &j);
 		if (!tmp->str)
-			free_all(shell);
+			return (0);
 		tmp = tmp->next;
 		i++;
 		j++;
 	}
+	return (1);
 }
 
 /*
 This function will allocate the right number or arrays 'cmd' needs.
 */
-void	allocate_cmd_arrays(t_mini *shell)
+int	allocate_cmd_arrays(t_mini *shell)
 {
 	t_cmd	*cmd_t;
 	t_lex	*lex_t;
@@ -143,20 +145,21 @@ void	allocate_cmd_arrays(t_mini *shell)
 		{
 			cmd_t->cmd = malloc(sizeof(char *) * (j + 1));
 			if (!cmd_t->cmd)
-				free_all(shell);
+				return (0);
 			cmd_t = cmd_t->next;
 			j = 0;
 		}
 		lex_t = lex_t->next;
 		i++;
 	}
+	return (1);
 }
 
 /*
 This function will fill the 'cmd' array in every nodes of t_cmd.
 cmd[i] will be a pointer to a 'WORD' token in the lexer.
 */
-void	get_cmd_in_nodes(t_mini *shell)
+int	get_cmd_in_nodes(t_mini *shell)
 {
 	t_cmd	*cmd_t;
 	t_lex	*lex_t;
@@ -167,7 +170,8 @@ void	get_cmd_in_nodes(t_mini *shell)
 	j = 0;
 	cmd_t = shell->cmd;
 	lex_t = shell->lex;
-	allocate_cmd_arrays(shell);
+	if (!allocate_cmd_arrays(shell))
+		return (0);
 	while (i < shell->nb_tokens)
 	{
 		if (lex_t->token == WORD)
@@ -181,6 +185,7 @@ void	get_cmd_in_nodes(t_mini *shell)
 		lex_t = lex_t->next;
 		i++;
 	}
+	return (1);
 }
 
 /*
@@ -213,7 +218,7 @@ Will initialize the same amount of nodes as shell->cmd->nb_redir.
 redir being the same structure as lex, it will initialise the same values
 (i, word, token, next).
 */
-void	init_redir(t_cmd *tmp, t_mini *shell)
+int	init_redir(t_cmd *tmp)
 {
 	int		i;
 	t_lex	*tmp2;
@@ -221,7 +226,7 @@ void	init_redir(t_cmd *tmp, t_mini *shell)
 	i = 0;
 	tmp->redir = malloc(sizeof(t_lex));
 	if (!tmp->redir)
-		free_all(shell);
+		return (0);
 	tmp2 = tmp->redir;
 	while (i < tmp->nb_redir)
 	{
@@ -229,11 +234,12 @@ void	init_redir(t_cmd *tmp, t_mini *shell)
 		tmp2->token = 0;
 		tmp2->next = malloc(sizeof(t_lex));
 		if (!tmp2->next)
-			free_all(shell);
+			return (0);
 		tmp2 = tmp2->next;
 		i++;
 	}
 	tmp2->next = NULL;
+	return (1);
 }
 
 /*
@@ -273,7 +279,7 @@ This function will fill the 'redir' linked list in every nodes of t_cmd.
 It will first fill the 'word' var with the filename or the delimitor.
 Then it will fill the 'token' var with the type of redirection.
 */
-void	get_redir_in_nodes(t_mini *shell)
+int	get_redir_in_nodes(t_mini *shell)
 {
 	t_cmd	*tmp_cmd;
 	t_lex	*tmp_lex;
@@ -288,33 +294,40 @@ void	get_redir_in_nodes(t_mini *shell)
 	{
 		if (tmp_cmd->nb_redir > 0)
 		{
-			init_redir(tmp_cmd, shell);
+			if (!init_redir(tmp_cmd))
+				return (0);
 			get_tokens_and_words(tmp_cmd, tmp_lex, &lex_pos);
 		}
 		tmp_cmd = tmp_cmd->next;
 		i++;
 	}
+	return (1);
 }
 
 /*
 This function will create the command. (It's a big one)
 It will call multiple functions to fill every nodes of the t_cmd linked list.
 */
-void	create_cmd(t_mini *shell)
+int	create_cmd(t_mini *shell)
 {
-	get_clean_cmdline(shell);
-	get_cmdlines_in_nodes(shell);
-	get_cmd_in_nodes(shell);
+	if (!get_clean_cmdline(shell))
+		return (0);
+	if (!get_cmdlines_in_nodes(shell))
+		return (0);
+	if (!get_cmd_in_nodes(shell))
+		return (0);
 	count_redir(shell);
-	get_redir_in_nodes(shell);
+	if (!get_redir_in_nodes(shell))
+		return (0);
 	print_cmd(shell); //delete later
+	return (1);
 }
 
 /*
 This function will initialize the t_cmd linked list.
 The number of nodes is the number of commands. Simple as that.
 */
-void	init_cmd(t_mini *shell)
+int	init_cmd(t_mini *shell)
 {
 	t_cmd	*tmp;
 	int		i;
@@ -322,7 +335,7 @@ void	init_cmd(t_mini *shell)
 	i = 0;
 	shell->cmd = malloc(sizeof(t_cmd));
 	if (!shell->cmd)
-		free_all(shell);
+		return (0);
 	tmp = shell->cmd;
 	while (i < shell->nb_commands)
 	{
@@ -332,11 +345,12 @@ void	init_cmd(t_mini *shell)
 		tmp->nb_redir = 0;
 		tmp->next = malloc(sizeof(t_cmd));
 		if (!tmp->next)
-			free_all(shell);
+			return (0);
 		tmp = tmp->next;
 		i++;
 	}
 	tmp->next = NULL;
+	return (1);
 }
 
 /*
@@ -402,8 +416,10 @@ int	parser(t_mini *shell)
 {
 	shell->parse_error = false;
 	count_pipes_and_commands(shell);
-	init_cmd(shell);
-	create_cmd(shell);
+	if (!init_cmd(shell))
+		return (0);
+	if (!create_cmd(shell))
+		return (0);
 	parse_error(shell);
 	return (1);
 }
