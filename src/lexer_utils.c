@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 18:35:15 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/27 15:13:33 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/01 13:58:11 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ char	*get_token(char *cmdl, int *j)
 		}
 		token[k++] = cmdl[i++];
 	}
-	token[k] = '\0';
 	*j = i;
 	return (token);
 }

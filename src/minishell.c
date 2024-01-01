@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2024/01/01 12:40:47 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/01 14:45:23 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	start_minishell(t_mini *shell)
 		free_all(shell);
 		return ;
 	}
-	printf("EXPANDER\n");
+	print_cmd(shell);
 }
 
 /*
@@ -70,8 +70,7 @@ void	minishell_loop(t_mini *shell)
 	}
 }
 
+// TODO : fix leaks on ''' or """ 
 // TODO : improve lexer so it can handle no spaces inputs 'ls>out' ...
 // TODO : improve 'end' to free only after check if not NULL
-// TODO : make all the parsing functions returns 0 if errors and
-// handle it like lexer.
 // TODO : parsing_error

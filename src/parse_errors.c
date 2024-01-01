@@ -6,37 +6,11 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 17:51:12 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/01 13:14:26 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/01 14:42:19 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-/*
-Returns 0 if there is an unclosed quote.
-Unclosed quote is when there is an odd number of quotes.
-*/
-int	handle_unclosed_quote_err(t_mini *shell)
-{
-	int	i;
-	int	nb_sq;
-	int	nb_dq;
-
-	i = 0;
-	nb_sq = 0;
-	nb_dq = 0;
-	while (shell->cmdline[i])
-	{
-		if (shell->cmdline[i] == '\'')
-			nb_sq++;
-		if (shell->cmdline[i] == '\"')
-			nb_dq++;
-		i++;
-	}
-	if (nb_sq % 2 != 0 || nb_dq % 2 != 0)
-		return (0);
-	return (1);
-}
 
 /*
 Handle pipe parsing errors :
@@ -73,8 +47,6 @@ This function will handle the input errors.
 */
 int	parse_error(t_mini *shell)
 {
-	if (!handle_unclosed_quote_err(shell))
-		return (ft_putstr_fd("parsing error: quote error\n", 2), 0);
 	if (!handle_pipe_err2(shell))
 		return (ft_putstr_fd("parsing error: pipe error\n", 2), 0);
 	return (1);
