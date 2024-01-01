@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 17:51:12 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/01 14:53:02 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/01 14:59:16 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,5 @@ int	parse_error(t_mini *shell)
 		return (ft_putstr_fd("parsing error: quote error\n", 2), 0);
 	if (!handle_pipe_err2(shell))
 		return (ft_putstr_fd("parsing error: pipe error\n", 2), 0);
-	if (!handle_backslash(shell))
-		return (ft_putstr_fd("parsing error: backslash error\n", 2), 0);
 	return (1);
 }
