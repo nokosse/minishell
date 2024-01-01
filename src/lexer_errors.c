@@ -6,11 +6,33 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 12:54:06 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/01 13:17:01 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/01 14:49:54 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+int	handle_unclosed_quote_err1(t_mini *shell)
+{
+	int	i;
+	int	nb_sq;
+	int	nb_dq;
+
+	i = 0;
+	nb_sq = 0;
+	nb_dq = 0;
+	while (shell->cmdline[i])
+	{
+		if (shell->cmdline[i] == '\'')
+			nb_sq++;
+		if (shell->cmdline[i] == '\"')
+			nb_dq++;
+		i++;
+	}
+	if (nb_sq % 2 != 0 || nb_dq % 2 != 0)
+		return (0);
+	return (1);
+}
 
 /*
 Returns 0 if the pipe is the last token.
@@ -37,6 +59,8 @@ Handle errors with tokens that can segfault the parser.
 */
 int	lexer_error(t_mini *shell)
 {
+	if (!handle_unclosed_quote_err1(shell))
+		return (ft_putstr_fd("parsing error: unclosed quote\n", 2), 0);
 	if (!handle_pipe_err1(shell))
 		return (ft_putstr_fd("parsing error: pipe error\n", 2), 0);
 	return (1);
