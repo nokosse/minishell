@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2023/12/29 18:46:15 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/01 12:40:47 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	start_minishell(t_mini *shell)
 		free_all(shell);
 		return ;
 	}
+	printf("EXPANDER\n");
 }
 
 /*

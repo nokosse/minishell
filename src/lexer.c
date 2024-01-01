@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 13:42:22 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/30 17:10:54 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/01 12:54:26 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,8 @@ int	lexer(t_mini *shell)
 	if (!assign_word(shell))
 		return (0);
 	if (!assign_token(shell))
+		return (0);
+	if (!lexer_error(shell))
 		return (0);
 	return (1);
 }
