@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2024/01/01 14:45:23 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/01 14:54:59 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	minishell_loop(t_mini *shell)
 }
 
 // TODO : fix leaks on ''' or """ 
+// TODO : define what token has a token 'QUOTE'
 // TODO : improve lexer so it can handle no spaces inputs 'ls>out' ...
 // TODO : improve 'end' to free only after check if not NULL
 // TODO : parsing_error
