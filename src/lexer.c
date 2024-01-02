@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 13:42:22 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/02 18:09:11 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/02 18:12:18 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,88 +131,6 @@ void	free_lex(t_mini *shell)
 	}
 	if (tmp)
 		free(tmp);
-}
-
-/*
-Will return the string length of the new command line, with added
-spaces between tokens.
-*/
-int	count_len(char *str)
-{
-	int	i;
-	int	nb;
-
-	i = 0;
-	nb = 0;
-	if (!str)
-		return (0);
-	while(str[i])
-	{
-		if (str[i] == '\'')
-		{
-			i++;
-			while (str[i] && str[i] != '\'')
-				i++;
-		}
-		if (str[i] == '\"')
-		{
-			i++;
-			while (str[i] && str[i] != '\"')
-				i++;
-		}
-		if (str[i] == '<' || str[i] == '>' || str[i] == '|')
-		{
-			if (str[i - 1] != ' ' && str[i - 1] != '<' && str[i - 1] != '>' && str[i - 1] != '|')
-				nb++;
-			if (str[i + 1] != ' ' && str[i + 1] != '<' && str[i + 1] != '>' && str[i + 1] != '|')
-				nb++;
-		}
-		i++;
-	}
-	return (nb + ft_strlen(str));
-}
-
-int	insert_spaces(t_mini *shell)
-{
-	char	*new;
-	char	*cmd;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	cmd = shell->cmdline;
-	new = ft_calloc(count_len(cmd) + 1, sizeof(char));
-	if (!new)
-		return (0);
-	while (cmd[i])
-	{
-		if (cmd[i] == '\'')
-		{
-			new[j++] = cmd[i++];
-			while (cmd[i] && cmd[i] != '\'')
-				new[j++] = cmd[i++];
-		}
-		if (cmd[i] == '\"')
-		{
-			new[j++] = cmd[i++];
-			while (cmd[i] && cmd[i] != '\"')
-				new[j++] = cmd[i++];
-		}
-		if (cmd[i] == '<' || cmd[i] == '>' || cmd[i] == '|')
-		{
-			if (cmd[i - 1] != ' ' && cmd[i - 1] != '<' && cmd[i - 1] != '>' && cmd[i - 1] != '|')
-				new[j++] = ' ';
-			new[j++] = cmd[i++];
-			if (cmd[i] != ' ' && cmd[i] != '<' && cmd[i] != '>' && cmd[i] != '|')
-				new[j++] = ' ';
-		}
-		else
-			new[j++] = cmd[i++];
-	}
-	free(cmd);
-	shell->cmdline = new;
-	return (1);
 }
 
 /*
