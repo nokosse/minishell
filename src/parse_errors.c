@@ -6,37 +6,11 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 17:51:12 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/03 13:28:57 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/03 15:20:33 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-/*
-Returns 0 if there is an unclosed quote.
-Unclosed quote is when there is an odd number of quotes.
-*/
-int	handle_unclosed_quote_err(t_mini *shell)
-{
-	int	i;
-	int	nb_sq;
-	int	nb_dq;
-
-	i = 0;
-	nb_sq = 0;
-	nb_dq = 0;
-	while (shell->cmdline[i])
-	{
-		if (shell->cmdline[i] == '\'')
-			nb_sq++;
-		if (shell->cmdline[i] == '\"')
-			nb_dq++;
-		i++;
-	}
-	if (nb_sq % 2 != 0 || nb_dq % 2 != 0)
-		return (0);
-	return (1);
-}
 
 /*
 Handle pipe parsing errors :
@@ -69,10 +43,11 @@ int	handle_pipe_err2(t_mini *shell)
 }
 
 /*
-Handle redirection parsing errors :
-- Consecutive redirections
-- Redirections at the beginning or at the end of the command line
-- Redirections without a word before or after
+Thie function will handle the misplacement of the redirections.
+It will hendle the following errors :
+- redirection is the first token
+- redirection is the last token
+- redirection is not followed by a WORD token
 */
 int	handle_redir_err(t_mini *shell)
 {
@@ -99,15 +74,44 @@ int	handle_redir_err(t_mini *shell)
 }
 
 /*
+The main difference with handle_redir_err is that this one will handle
+'WORDS' tokens that looks like this : '>>>>' , '<><>' etc..
+*/
+int	handle_wierd_redir_err(t_mini *shell)
+{
+	t_lex	*lex_t;
+	int		i;
+
+	i = 0;
+	lex_t = shell->lex;
+	while (i < shell->nb_tokens)
+	{
+		if (lex_t->token == WORD)
+		{
+			if ((lex_t->word[0] == '<' || lex_t->word[0] == '>')
+				&& (ft_strlen(lex_t->word) > 2))
+				return (0);
+			if (lex_t->word[0] == '<' || lex_t->word[1] == '>')
+				return (0);
+			if (lex_t->word[0] == '>' && lex_t->word[1] == '<')
+				return (0);
+		}
+		lex_t = lex_t->next;
+		i++;
+	}
+	return (1);
+}
+
+/*
 This function will handle the input errors.
 */
 int	parse_error(t_mini *shell)
 {
-	if (!handle_unclosed_quote_err(shell))
-		return (ft_putstr_fd("minishell: parsing error\n", 2), 0);
 	if (!handle_pipe_err2(shell))
 		return (ft_putstr_fd("minishell: parsing error\n", 2), 0);
 	if (!handle_redir_err(shell))
+		return (ft_putstr_fd("minishell: parsing error\n", 2), 0);
+	if (!handle_wierd_redir_err(shell))
 		return (ft_putstr_fd("minishell: parsing error\n", 2), 0);
 	return (1);
 }
