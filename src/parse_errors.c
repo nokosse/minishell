@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 17:51:12 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/03 13:00:22 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/03 13:03:37 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,14 @@ int	handle_redir_err(t_mini *shell)
 	lex_t = shell->lex;
 	while (i < shell->nb_tokens)
 	{
-		if (lex_t->token != WORD && lex_t->token != PIPE) //if current token is any redirection
+		if (lex_t->token != WORD && lex_t->token != PIPE)
 		{
 			if (i == 0)
 				return (0);
 			if (i == shell->nb_tokens - 1)
 				return (0);
 			if (lex_t->next->token != WORD)
-				return (0);	
+				return (0);
 		}
 		lex_t = lex_t->next;
 		i++;
