@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 18:12:35 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/02 19:10:42 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/03 14:55:10 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,31 @@ void	skip_quotes_insert_spaces(char *str, char *new, int *i, int *j)
 }
 
 /*
+This function will insert spaces where it's needed.
+It will insert in two cases :
+1. if the char BEFORE the current is NOT a SPACE, LEFT1, RIGHT1 or PIPE
+2. if the CURRENT char is NOT a SPACE, LEFT1, RIGHT1 or PIPE 
+*/
+void	handle_spaces(int *i, int *j, char **new, char *cmd)
+{
+	if (cmd[*i - 1] != ' ' && cmd[*i - 1] != '<'
+		&& cmd[*i - 1] != '>' && cmd[*i - 1] != '|')
+	{
+		(*new)[*j] = ' ';
+		(*j)++;
+	}
+	(*new)[*j] = cmd[*i];
+	(*j)++;
+	(*i)++;
+	if (cmd[*i] != ' ' && cmd[*i] != '<' && cmd[*i] != '>'
+		&& cmd[*i] != '|')
+	{
+		(*new)[*j] = ' ';
+		(*j)++;
+	}
+}
+
+/*
 This function will insert spaces between the tokens.
 To make 'ls>out' become 'ls > out' for example.
 */
@@ -115,13 +140,7 @@ int	insert_spaces(t_mini *shell)
 		skip_quotes_insert_spaces(cmd, new, &i, &j);
 		if (cmd[i] == '<' || cmd[i] == '>' || cmd[i] == '|')
 		{
-			if (cmd[i - 1] != ' ' && cmd[i - 1] != '<'
-				&& cmd[i - 1] != '>' && cmd[i - 1] != '|')
-				new[j++] = ' ';
-			new[j++] = cmd[i++];
-			if (cmd[i] != ' ' && cmd[i] != '<' && cmd[i] != '>'
-				&& cmd[i] != '|')
-				new[j++] = ' ';
+			handle_spaces(&i, &j, &new, cmd);
 		}
 		else
 			new[j++] = cmd[i++];
