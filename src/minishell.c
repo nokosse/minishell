@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2024/01/03 12:46:18 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/03 13:02:11 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,10 @@ void	minishell_loop(t_mini *shell)
 	}
 }
 
-// TODO : fix leaks on ''' or """ 
+// TODO : LEAKS DETECTED WHEN :
+// '''
+// <<
+//
 // TODO : improve unclosed quote error handling
 // TODO : improve 'end' to free only after check if not NULL
 // TODO : parsing_error
