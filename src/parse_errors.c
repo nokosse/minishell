@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 17:51:12 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/03 13:03:37 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/03 13:20:18 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,12 @@ int	handle_pipe_err2(t_mini *shell)
 	return (1);
 }
 
+/*
+Handle redirection parsing errors :
+- Consecutive redirections
+- Redirections at the beginning or at the end of the command line
+- Redirections without a word before or after
+*/
 int	handle_redir_err(t_mini *shell)
 {
 	t_lex	*lex_t;

@@ -6,12 +6,16 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 12:54:06 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/03 12:52:22 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/03 13:19:36 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
+/*
+Returns 0 if there is an unclosed quote.
+Unclosed quote is when there is an odd number of quotes.
+*/
 int	handle_unclosed_quote_err1(t_mini *shell)
 {
 	int	i;

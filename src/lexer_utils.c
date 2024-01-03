@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 18:35:15 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/01 13:58:11 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/03 13:19:11 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,17 @@ char	*get_token(char *cmdl, int *j)
 	}
 	*j = i;
 	return (token);
+}
+
+/*
+This function is used to avoid entering functions that will segfault / leak.
+*/
+int	avoid_early_errors(t_mini *shell)
+{
+	char	*cmd;
+
+	cmd = shell->cmdline;
+	if (cmd[0] == '|' || cmd[0] == '<' || cmd[0] == '>')
+		return (ft_putstr_fd("minishell: parsing error\n", 2), 0);
+	return (1);
 }
