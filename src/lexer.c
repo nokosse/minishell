@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 13:42:22 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/03 13:22:52 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/03 13:36:58 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,9 +134,11 @@ void	free_lex(t_mini *shell)
 }
 
 /*
-The Lexer is a lexical analyser, meaning it will not check for syntax errors.
-It will just analyse what is a letter, what is a pipe, what is a redirection.
-After analysing, it will store these informations in a structure.
+Lexer, lexical analyser, will split the user input into tokens in a linked list
+It is like a bigger version of ft_split, made for minishell.
+We are doing a little bit of parsing here with 'avoir_early_errors()' and
+'lexer_error()' to avoid leaks or segfaults. (could be fixed in the parser but
+it was a way easier to do this and less time consuming)
 */
 int	lexer(t_mini *shell)
 {
