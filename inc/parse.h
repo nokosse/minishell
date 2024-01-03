@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:29:05 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/02 18:18:06 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/03 13:13:41 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int		assign_word(t_mini *shell);
 int		assign_token(t_mini *shell);
 int		count_tokens(char *cmdl);
 char	*get_token(char *cmdl, int *j);
+int		avoid_early_errors(t_mini *shell);
 int		lexer_error(t_mini *shell);
 void	free_lex(t_mini *shell);
 
