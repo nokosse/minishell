@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:29:05 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/03 15:44:04 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/03 16:13:43 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,6 @@ int		parse_error(t_mini *shell);
 int		handle_unclosed_quote_err(t_mini *shell);
 
 /* EXPANDER PART */
+int		expander(t_mini *shell);
 
 #endif
