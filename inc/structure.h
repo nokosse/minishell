@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 14:42:51 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/01 15:08:59 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/03 12:34:36 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ if (t_lex->token == WORD)
 */
 typedef enum s_token
 {
-	EXPAND,
-	QUOTE,
 	WORD,
 	PIPE,
 	LEFT1,
