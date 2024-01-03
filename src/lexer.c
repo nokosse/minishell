@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 13:42:22 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/03 13:12:43 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/03 13:22:52 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ After analysing, it will store these informations in a structure.
 int	lexer(t_mini *shell)
 {
 	shell->lex_error = false;
+	shell->nb_tokens = 0;
 	if (!avoid_early_errors(shell))
 		return (0);
 	if (!insert_spaces(shell))
