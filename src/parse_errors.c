@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 17:51:12 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/01 14:59:16 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/03 13:00:22 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,40 @@ int	handle_pipe_err2(t_mini *shell)
 	return (1);
 }
 
+int	handle_redir_err(t_mini *shell)
+{
+	t_lex	*lex_t;
+	int		i;
+
+	i = 0;
+	lex_t = shell->lex;
+	while (i < shell->nb_tokens)
+	{
+		if (lex_t->token != WORD && lex_t->token != PIPE) //if current token is any redirection
+		{
+			if (i == 0)
+				return (0);
+			if (i == shell->nb_tokens - 1)
+				return (0);
+			if (lex_t->next->token != WORD)
+				return (0);	
+		}
+		lex_t = lex_t->next;
+		i++;
+	}
+	return (1);
+}
+
 /*
 This function will handle the input errors.
 */
 int	parse_error(t_mini *shell)
 {
 	if (!handle_unclosed_quote_err(shell))
-		return (ft_putstr_fd("parsing error: quote error\n", 2), 0);
+		return (ft_putstr_fd("minishell: parsing error\n", 2), 0);
 	if (!handle_pipe_err2(shell))
-		return (ft_putstr_fd("parsing error: pipe error\n", 2), 0);
+		return (ft_putstr_fd("minishell: parsing error\n", 2), 0);
+	if (!handle_redir_err(shell))
+		return (ft_putstr_fd("minishell: parsing errorr\n", 2), 0);
 	return (1);
 }
