@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 17:51:12 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/03 13:20:18 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/03 13:28:57 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,6 @@ int	parse_error(t_mini *shell)
 	if (!handle_pipe_err2(shell))
 		return (ft_putstr_fd("minishell: parsing error\n", 2), 0);
 	if (!handle_redir_err(shell))
-		return (ft_putstr_fd("minishell: parsing errorr\n", 2), 0);
+		return (ft_putstr_fd("minishell: parsing error\n", 2), 0);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2024/01/03 13:08:09 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/03 13:31:49 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	minishell_loop(t_mini *shell)
 	}
 }
 
-// TODO : LEAKS DETECTED WHEN : string is starting by ' or | or >
+// TODO : do big test to detect leaks, all leaks has been fixed atm
 //
 // TODO : improve unclosed quote error handling
 // TODO : improve 'end' to free only after check if not NULL
