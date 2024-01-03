@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 17:21:56 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/01 13:19:03 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/03 12:19:04 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,23 +132,29 @@ int	allocate_cmd_arrays(t_mini *shell)
 	t_lex	*lex_t;
 	int		i;
 	int		j;
+	int		prev_token;
 
 	i = 0;
 	j = 0;
 	cmd_t = shell->cmd;
 	lex_t = shell->lex;
+	prev_token = -1;
 	while (i < shell->nb_tokens)
 	{
-		if (lex_t->token == WORD)
+		if ((lex_t->token == WORD) && (prev_token != RIGHT1)
+			&& (prev_token != RIGHT2) && (prev_token != LEFT1)
+			&& (prev_token != LEFT2))
 			j++;
 		if (lex_t->token == PIPE || i == shell->nb_tokens - 1)
 		{
 			cmd_t->cmd = malloc(sizeof(char *) * (j + 1));
+			printf("j = %d\n", j);
 			if (!cmd_t->cmd)
 				return (0);
 			cmd_t = cmd_t->next;
 			j = 0;
 		}
+		prev_token = lex_t->token;
 		lex_t = lex_t->next;
 		i++;
 	}
@@ -165,16 +171,20 @@ int	get_cmd_in_nodes(t_mini *shell)
 	t_lex	*lex_t;
 	int		i;
 	int		j;
+	int		prev_token;
 
 	i = 0;
 	j = 0;
 	cmd_t = shell->cmd;
 	lex_t = shell->lex;
+	prev_token = -1;
 	if (!allocate_cmd_arrays(shell))
 		return (0);
 	while (i < shell->nb_tokens)
 	{
-		if (lex_t->token == WORD)
+		if (prev_token != RIGHT1 && prev_token != RIGHT2
+			&& prev_token != LEFT1 && prev_token != LEFT2
+			&& lex_t->token == WORD)
 			cmd_t->cmd[j++] = lex_t->word;
 		if (lex_t->token == PIPE || i == shell->nb_tokens - 1)
 		{
@@ -182,6 +192,7 @@ int	get_cmd_in_nodes(t_mini *shell)
 			cmd_t = cmd_t->next;
 			j = 0;
 		}
+		prev_token = lex_t->token;
 		lex_t = lex_t->next;
 		i++;
 	}

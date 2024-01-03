@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2024/01/03 11:32:32 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/03 12:19:52 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ void	minishell_loop(t_mini *shell)
 // TODO : fix leaks on ''' or """ 
 // TODO : define what token has a token 'QUOTE'
 // TODO : define what token has a token 'EXPAND'
-// TODO : make char **cmd in t_cmd not taking the redirection argument in count
 // TODO : improve unclosed quote error handling
 // TODO : improve 'end' to free only after check if not NULL
 // TODO : parsing_error
