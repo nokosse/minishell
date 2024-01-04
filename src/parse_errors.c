@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 17:51:12 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/03 15:20:33 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/04 17:02:06 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,6 @@ int	handle_redir_err(t_mini *shell)
 	{
 		if (lex_t->token != WORD && lex_t->token != PIPE)
 		{
-			if (i == 0)
-				return (0);
 			if (i == shell->nb_tokens - 1)
 				return (0);
 			if (lex_t->next->token != WORD)

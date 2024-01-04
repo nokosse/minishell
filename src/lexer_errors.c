@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 12:54:06 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/03 13:31:05 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/04 16:57:21 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,27 +59,10 @@ int	handle_pipe_err1(t_mini *shell)
 }
 
 /*
-This function is used to avoid entering functions that will segfault / leak.
-*/
-int	avoid_early_errors(t_mini *shell)
-{
-	char	*cmd;
-
-	cmd = shell->cmdline;
-	if (cmd[0] == '|' || cmd[0] == '<' || cmd[0] == '>')
-		return (ft_putstr_fd("minishell: parsing error\n", 2), 0);
-	if (!handle_unclosed_quote_err1(shell))
-		return (ft_putstr_fd("minishell: parsing error\n", 2), 0);
-	return (1);
-}
-
-/*
 Handle errors with tokens that can segfault the parser.
 */
 int	lexer_error(t_mini *shell)
 {
-	if (!handle_unclosed_quote_err1(shell))
-		return (ft_putstr_fd("minishell: parsing error\n", 2), 0);
 	if (!handle_pipe_err1(shell))
 		return (ft_putstr_fd("minishell: parsing error\n", 2), 0);
 	return (1);

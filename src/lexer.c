@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 13:42:22 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/03 13:36:58 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/04 16:57:29 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,8 +144,6 @@ int	lexer(t_mini *shell)
 {
 	shell->lex_error = false;
 	shell->nb_tokens = 0;
-	if (!avoid_early_errors(shell))
-		return (0);
 	if (!insert_spaces(shell))
 		return (0);
 	shell->nb_tokens = count_tokens(shell->cmdline);
