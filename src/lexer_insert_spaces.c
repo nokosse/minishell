@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 18:12:35 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/04 17:13:15 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/04 17:44:35 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	skip_quotes_count_len(char *str, int *i)
 /*
 Used to count the number of characters in the new command line to malloc it.
 */
+// invalid read on even number of quotes at while(str[i]) is because of skip_quotes_count_len
+// incrementing i too much.
 int	count_len(char *str)
 {
 	int	i;
@@ -122,6 +124,8 @@ void	handle_spaces(int *i, int *j, char **new, char *cmd)
 This function will insert spaces between the tokens.
 To make 'ls>out' become 'ls > out' for example.
 */
+// invalid read on even number of quotes at while(str[i]) is because of skip_quotes_insert_spaces
+// incrementing i too much.
 int	insert_spaces(t_mini *shell)
 {
 	char	*new;
