@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 15:34:58 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/03 15:40:42 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/04 16:50:12 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,17 @@ void	count_pipes_and_commands(t_mini *shell)
 		i++;
 	}
 	shell->nb_commands = shell->nb_pipes + 1;
+}
+
+/*
+I will replace all the crappy check quotes functions with this one
+*/
+int	skip_inside_quotes(t_mini *sh, int *i, int flag)
+{
+	static int	inside_quotes = 0;
+	(void)sh;
+	(void)flag;
+	(void)i;
+	(void)inside_quotes;
+	return (1);
 }

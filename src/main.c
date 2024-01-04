@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kevso <kevso@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 14:42:48 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/14 15:45:29 by kevso            ###   ########.fr       */
+/*   Updated: 2024/01/04 16:19:15 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,9 @@ int	main(int ac, char **av, char **envp)
 
 	mini.env = NULL;
 	mini.env = ft_init_env(mini.env, envp);
-	if (ac == 1 && mini.env != NULL)
+	if (ac == 1 && mini.env != NULL && av[0] != NULL)
 	{
 		minishell_loop(&mini);
 	}
 	return (0);
-	(void)av;
 }
