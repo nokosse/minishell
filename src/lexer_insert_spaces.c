@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 18:12:35 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/03 15:10:04 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/04 17:13:15 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ int	count_len(char *str)
 		skip_quotes_count_len(str, &i);
 		if (str[i] == '<' || str[i] == '>' || str[i] == '|')
 		{
-			if (str[i - 1] != ' ' && str[i - 1] != '<'
-				&& str[i - 1] != '>' && str[i - 1] != '|')
+			if ((i > 0) && (str[i - 1] != ' ' && str[i - 1] != '<'
+				&& str[i - 1] != '>' && str[i - 1] != '|'))
 				nb++;
 			if (str[i + 1] != ' ' && str[i + 1] != '<'
 				&& str[i + 1] != '>' && str[i + 1] != '|')
@@ -101,8 +101,8 @@ It will insert in two cases :
 */
 void	handle_spaces(int *i, int *j, char **new, char *cmd)
 {
-	if (cmd[*i - 1] != ' ' && cmd[*i - 1] != '<'
-		&& cmd[*i - 1] != '>' && cmd[*i - 1] != '|')
+	if ((*i > 0) && (cmd[*i - 1] != ' ' && cmd[*i - 1] != '<'
+		&& cmd[*i - 1] != '>' && cmd[*i - 1] != '|'))
 	{
 		(*new)[*j] = ' ';
 		(*j)++;

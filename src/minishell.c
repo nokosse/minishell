@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2024/01/04 16:43:36 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/04 17:13:38 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ void	minishell_loop(t_mini *shell)
 	}
 }
 
-// TODO : do big test to detect leaks, all leaks has been fixed atm
+// TODO : leaks on :
+// even number of quotes
 //
 // TODO : improve unclosed quote error handling
 // TODO : allow redirections to have no target but always have a WORD
