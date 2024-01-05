@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2024/01/04 17:45:16 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/05 17:23:41 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,9 @@ void	minishell_loop(t_mini *shell)
 	}
 }
 
-// TODO : leaks on : even number of quotes
-// TODO : in lexer_insert_spaces, improve quote skipping to avoid leaks
-// TODO : improve unclosed quote error handling
+// TODO : leaks on : no leaks detected, do more test
+// TODO : improve unclosed quote error handling :
+//        4 or odd number of quotes such as """" must give 2 tokens : "" and ""
+//        3 or even number of quotes such as """ must give 1 token, but error
 // TODO : improve 'end' to free only after check if not NULL
 // TODO : parsing_error
