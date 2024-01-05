@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 18:35:15 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/05 17:03:02 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/05 17:06:57 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,11 @@ int	count_tokens(char *cmdl)
 	return (nb_tokens);
 }
 
+/*
+Skip from the actual quote to the next one.
+Increments i and k.
+Works for double quotes.
+*/
 void	skip_double_quotes_2strings(char *str1, char *str2, int *i, int *k)
 {
 	int	j;
@@ -72,6 +77,11 @@ void	skip_double_quotes_2strings(char *str1, char *str2, int *i, int *k)
 	}
 }
 
+/*
+Skip from the actual quote to the next one.
+Increments i and k.
+Works for simple quotes.
+*/
 void	skip_simple_quotes_2strings(char *str1, char *str2, int *i, int *k)
 {
 	int	j;
