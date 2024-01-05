@@ -6,37 +6,15 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 18:12:35 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/04 17:44:35 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/05 16:35:19 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
 /*
-Skip from the actual quote to the next one.
-Increment i.
-*/
-void	skip_quotes_count_len(char *str, int *i)
-{
-	if (str[*i] == '\'')
-	{
-		(*i)++;
-		while (str[*i] && str[*i] != '\'')
-			(*i)++;
-	}
-	if (str[*i] == '\"')
-	{
-		(*i)++;
-		while (str[*i] && str[*i] != '\"')
-			(*i)++;
-	}
-}
-
-/*
 Used to count the number of characters in the new command line to malloc it.
 */
-// invalid read on even number of quotes at while(str[i]) is because of skip_quotes_count_len
-// incrementing i too much.
 int	count_len(char *str)
 {
 	int	i;
@@ -52,7 +30,7 @@ int	count_len(char *str)
 		if (str[i] == '<' || str[i] == '>' || str[i] == '|')
 		{
 			if ((i > 0) && (str[i - 1] != ' ' && str[i - 1] != '<'
-				&& str[i - 1] != '>' && str[i - 1] != '|'))
+					&& str[i - 1] != '>' && str[i - 1] != '|'))
 				nb++;
 			if (str[i + 1] != ' ' && str[i + 1] != '<'
 				&& str[i + 1] != '>' && str[i + 1] != '|')
@@ -64,38 +42,6 @@ int	count_len(char *str)
 }
 
 /*
-Just skip from the actual quote to the next one.
-Increment i and j.
-*/
-void	skip_quotes_insert_spaces(char *str, char *new, int *i, int *j)
-{
-	if (str[*i] == '\'')
-	{
-		new[*j] = str[*i];
-		(*i)++;
-		(*j)++;
-		while (str[*i] && str[*i] != '\'')
-		{
-			new[*j] = str[*i];
-			(*i)++;
-			(*j)++;
-		}
-	}
-	if (str[*i] == '\"')
-	{
-		new[*j] = str[*i];
-		(*i)++;
-		(*j)++;
-		while (str[*i] && str[*i] != '\"')
-		{
-			new[*j] = str[*i];
-			(*i)++;
-			(*j)++;
-		}
-	}
-}
-
-/*
 This function will insert spaces where it's needed.
 It will insert in two cases :
 1. if the char BEFORE the current is NOT a SPACE, LEFT1, RIGHT1 or PIPE
@@ -104,7 +50,7 @@ It will insert in two cases :
 void	handle_spaces(int *i, int *j, char **new, char *cmd)
 {
 	if ((*i > 0) && (cmd[*i - 1] != ' ' && cmd[*i - 1] != '<'
-		&& cmd[*i - 1] != '>' && cmd[*i - 1] != '|'))
+			&& cmd[*i - 1] != '>' && cmd[*i - 1] != '|'))
 	{
 		(*new)[*j] = ' ';
 		(*j)++;
@@ -124,8 +70,6 @@ void	handle_spaces(int *i, int *j, char **new, char *cmd)
 This function will insert spaces between the tokens.
 To make 'ls>out' become 'ls > out' for example.
 */
-// invalid read on even number of quotes at while(str[i]) is because of skip_quotes_insert_spaces
-// incrementing i too much.
 int	insert_spaces(t_mini *shell)
 {
 	char	*new;
@@ -141,7 +85,8 @@ int	insert_spaces(t_mini *shell)
 		return (0);
 	while (cmd[i])
 	{
-		skip_quotes_insert_spaces(cmd, new, &i, &j);
+		skip_quotes_insert_spaces1(cmd, new, &i, &j);
+		skip_quotes_insert_spaces2(cmd, new, &i, &j);
 		if (cmd[i] == '<' || cmd[i] == '>' || cmd[i] == '|')
 		{
 			handle_spaces(&i, &j, &new, cmd);
