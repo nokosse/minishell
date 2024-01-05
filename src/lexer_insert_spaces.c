@@ -6,11 +6,40 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 18:12:35 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/05 16:35:19 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/05 17:01:13 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+/*
+Skip from the actual quote to the next one. (It's built for 'count_len')
+Increment i.
+*/
+void	skip_quotes_count_len(char *str, int *i)
+{
+	int	j;
+
+	j = 0;
+	if (str[*i] == '\"')
+	{
+		j = *i;
+		j++;
+		while (str[j] && str[j] != '\"')
+			j++;
+		if (str[j] == '\"')
+			*i = j;
+	}
+	if (str[*i] == '\'')
+	{
+		j = *i;
+		j++;
+		while (str[j] && str[j] != '\'')
+			j++;
+		if (str[j] == '\'')
+			*i = j;
+	}
+}
 
 /*
 Used to count the number of characters in the new command line to malloc it.
@@ -85,8 +114,8 @@ int	insert_spaces(t_mini *shell)
 		return (0);
 	while (cmd[i])
 	{
-		skip_quotes_insert_spaces1(cmd, new, &i, &j);
-		skip_quotes_insert_spaces2(cmd, new, &i, &j);
+		skip_double_quotes_2strings(cmd, new, &i, &j);
+		skip_simple_quotes_2strings(cmd, new, &i, &j);
 		if (cmd[i] == '<' || cmd[i] == '>' || cmd[i] == '|')
 		{
 			handle_spaces(&i, &j, &new, cmd);

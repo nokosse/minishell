@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 18:35:15 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/04 16:57:56 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/05 17:03:02 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,64 @@ int	count_tokens(char *cmdl)
 	return (nb_tokens);
 }
 
+void	skip_double_quotes_2strings(char *str1, char *str2, int *i, int *k)
+{
+	int	j;
+	int	n;
+
+	j = 0;
+	n = 0;
+	if (str1[*i] == '\"')
+	{
+		j = *i;
+		n = *k;
+		str2[n] = str1[j];
+		j++;
+		n++;
+		while (str1[j] && str1[j] != '\"')
+		{
+			str2[n] = str1[j];
+			j++;
+			n++;
+		}
+		if (str1[j] == '\"')
+		{
+			str2[n] = str1[j];
+			j++;
+			n++;
+		}
+	}
+}
+
+void	skip_simple_quotes_2strings(char *str1, char *str2, int *i, int *k)
+{
+	int	j;
+	int	n;
+
+	j = 0;
+	n = 0;
+	if (str1[*i] == '\'')
+	{
+		j = *i;
+		n = *k;
+		str2[n] = str1[j];
+		j++;
+		n++;
+		while (str1[j] && str1[j] != '\'')
+		{
+			str2[n] = str1[j];
+			j++;
+			n++;
+		}
+		if (str1[j] == '\'')
+		{
+			str2[n] = str1[j];
+			j++;
+			n++;
+		}
+	}
+}
+
 /*
 Returns a token from the command line and a static index.
 We take care to ignore the space if it is between simple/double quotes.
@@ -62,12 +120,8 @@ char	*get_token(char *cmdl, int *j)
 		i++;
 	while (cmdl[i] && cmdl[i] != ' ')
 	{
-		if (cmdl[i] == '\'' || cmdl[i] == '\"')
-		{
-			token[k++] = cmdl[i++];
-			while (cmdl[i] && cmdl[i] != '\'' && cmdl[i] != '\"')
-				token[k++] = cmdl[i++];
-		}
+		skip_double_quotes_2strings(cmdl, token, &i, &k);
+		skip_simple_quotes_2strings(cmdl, token, &i, &k);
 		token[k++] = cmdl[i++];
 	}
 	*j = i;
