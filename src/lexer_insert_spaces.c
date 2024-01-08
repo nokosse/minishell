@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 18:12:35 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/05 17:01:13 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/08 12:42:06 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,9 +117,7 @@ int	insert_spaces(t_mini *shell)
 		skip_double_quotes_2strings(cmd, new, &i, &j);
 		skip_simple_quotes_2strings(cmd, new, &i, &j);
 		if (cmd[i] == '<' || cmd[i] == '>' || cmd[i] == '|')
-		{
 			handle_spaces(&i, &j, &new, cmd);
-		}
 		else
 			new[j++] = cmd[i++];
 	}
