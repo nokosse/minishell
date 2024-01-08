@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2024/01/05 17:23:41 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/08 12:07:20 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	minishell_loop(t_mini *shell)
 	}
 }
 
-// TODO : leaks on : no leaks detected, do more test
+// TODO : leaks on : quote followed by pipe : ' | ls 
 // TODO : improve unclosed quote error handling :
 //        4 or odd number of quotes such as """" must give 2 tokens : "" and ""
 //        3 or even number of quotes such as """ must give 1 token, but error
