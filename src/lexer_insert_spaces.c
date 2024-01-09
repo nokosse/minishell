@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 18:12:35 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/09 13:55:45 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/09 18:54:17 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ int	insert_spaces(t_mini *shell)
 	j = 0;
 	cmd = shell->cmdline;
 	new = ft_calloc(count_len(cmd) + 1, sizeof(char));
+	printf("allocated %d bytes\n", count_len(cmd) + 1);
 	if (!new)
 		return (0);
 	while (cmd[i])
