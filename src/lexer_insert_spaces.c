@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 18:12:35 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/08 12:42:06 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/09 13:44:47 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 Skip from the actual quote to the next one. (It's built for 'count_len')
 Increment i.
 */
-void	skip_quotes_count_len(char *str, int *i)
+void	skip_quotes_count_len(char *str, int *i, int *nb)
 {
 	int	j;
 
@@ -28,7 +28,10 @@ void	skip_quotes_count_len(char *str, int *i)
 		while (str[j] && str[j] != '\"')
 			j++;
 		if (str[j] == '\"')
+		{
 			*i = j;
+			(*nb)++;
+		}
 	}
 	if (str[*i] == '\'')
 	{
@@ -37,7 +40,10 @@ void	skip_quotes_count_len(char *str, int *i)
 		while (str[j] && str[j] != '\'')
 			j++;
 		if (str[j] == '\'')
+		{
 			*i = j;
+			(*nb)++;		
+		}
 	}
 }
 
@@ -55,7 +61,7 @@ int	count_len(char *str)
 		return (0);
 	while (str[i])
 	{
-		skip_quotes_count_len(str, &i);
+		skip_quotes_count_len(str, &i, &nb);
 		if (str[i] == '<' || str[i] == '>' || str[i] == '|')
 		{
 			if ((i > 0) && (str[i - 1] != ' ' && str[i - 1] != '<'
