@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:29:05 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/05 17:03:10 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/09 14:20:21 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	free_lex(t_mini *shell);
 int		parser(t_mini *shell);
 void	free_cmd(t_mini *shell);
 void	count_pipes_and_commands(t_mini *shell);
-int		get_clean_cmdline(t_mini *shell);
 void	count_redir(t_mini *shell);
 int		get_cmd_in_nodes(t_mini *shell);
 int		get_redir_in_nodes(t_mini *shell);

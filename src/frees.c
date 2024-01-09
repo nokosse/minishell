@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 10:42:43 by kevso             #+#    #+#             */
-/*   Updated: 2024/01/03 15:39:12 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/09 14:20:02 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,6 @@ void	free_all(t_mini *shell)
 		if (shell->lex_error == false)
 			free_cmd(shell);
 		free(shell->cmdline);
-		if (shell->lex_error == false)
-			free(shell->parsed_cmdline);
 		free_lex(shell);
 	}
 }

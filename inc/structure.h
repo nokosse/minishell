@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 14:42:51 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/03 12:34:36 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/09 14:19:33 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ typedef struct s_mini
 	int		nb_tokens;
 	char	*path;
 	char	**env;
-	char	*parsed_cmdline;
 	char	*cmdline;
 }	t_mini;
 

@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 17:21:56 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/03 15:51:10 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/09 14:23:19 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ It will call multiple functions to fill every nodes of the t_cmd linked list.
 */
 int	create_cmd(t_mini *shell)
 {
-	if (!get_clean_cmdline(shell))
-		return (0);
 	if (!get_cmdlines_in_nodes(shell))
 		return (0);
 	if (!get_cmd_in_nodes(shell))
