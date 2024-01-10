@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 18:35:15 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/09 13:36:19 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/10 16:00:51 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,71 +44,34 @@ int	count_tokens(char *cmdl)
 }
 
 /*
-Skip from the actual quote to the next one.
-Increments i and k.
-Works for double quotes.
+Skips i to the next quote if closed.
 */
-void	skip_double_quotes_2strings(char *str1, char *str2, int *i, int *k)
+void	skip_dq_get_token(int *i, char *cmd)
 {
-	int	j;
-	int	n;
+	int	flg;
 
-	j = 0;
-	n = 0;
-	if (str1[*i] == '\"')
+	if (cmd[*i] == '\"')
 	{
-		j = *i;
-		n = *k;
-		str2[n] = str1[j];
-		j++;
-		n++;
-		while (str1[j] && str1[j] != '\"')
-		{
-			str2[n] = str1[j];
-			j++;
-			n++;
-		}
-		if (str1[j] == '\"')
-		{
-			str2[n] = str1[j];
-			j++;
-			n++;
-		}
+		flg = *i;
+		while (cmd[*i] != '\"' && cmd[*i])
+			flg++;
+		if (cmd[*i] == '\"')
+			*i = flg;
 	}
 }
 
-/*
-Skip from the actual quote to the next one.
-Increments i and k.
-Works for simple quotes.
-*/
-void	skip_simple_quotes_2strings(char *str1, char *str2, int *i, int *k)
+void	skip_sq_get_token(int *i, char *cmd)
 {
-	int	j;
-	int	n;
+	int	flg;
 
-	j = 0;
-	n = 0;
-	if (str1[*i] == '\'')
+	if (cmd[*i] == '\'')
 	{
-		j = *i;
-		n = *k;
-		str2[n] = str1[j];
-		j++;
-		n++;
-		while (str1[j] && str1[j] != '\'')
-		{
-			str2[n] = str1[j];
-			j++;
-			n++;
-		}
-		if (str1[j] == '\'')
-		{
-			str2[n] = str1[j];
-			j++;
-			n++;
-		}
-	}
+		flg = *i;
+		while (cmd[*i] != '\'' && cmd[*i])
+			flg++;
+		if (cmd[*i] == '\'')
+			*i = flg;
+	}	
 }
 
 /*
@@ -130,8 +93,8 @@ char	*get_token(char *cmdl, int *j)
 		i++;
 	while (cmdl[i] && cmdl[i] != ' ')
 	{
-		skip_double_quotes_2strings(cmdl, token, &i, &k);
-		skip_simple_quotes_2strings(cmdl, token, &i, &k);
+		skip_dq_get_token(&i, cmdl);
+		skip_sq_get_token(&i, cmdl);
 		token[k++] = cmdl[i++];
 	}
 	*j = i;
