@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 17:22:14 by kvisouth          #+#    #+#             */
-/*   Updated: 2023/12/28 13:38:32 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/10 14:28:45 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,19 @@ void	print_cmd(t_mini *shell)
 		i++;
 	}
 	write(1, "\n", 1);
+}
+
+void	print_lex(t_mini *shell)
+{
+	t_lex	*tmp;
+	int		i;
+
+	i = 0;
+	tmp = shell->lex;
+	while (i < shell->nb_tokens)
+	{
+		printf("\nword[%d] = \'%s\'\n", i, tmp->word);
+		tmp = tmp->next;
+		i++;
+	}
 }

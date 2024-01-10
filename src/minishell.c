@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2024/01/09 13:56:51 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/10 14:27:53 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	start_minishell(t_mini *shell)
 		free_all(shell);
 		return ;
 	}
+	print_lex(shell);
 	if (!parser(shell))
 	{
 		shell->parse_error = true;
@@ -39,7 +40,7 @@ void	start_minishell(t_mini *shell)
 	// 	free_all(shell);
 	// 	return ;
 	// }
-	print_cmd(shell); //tu peux l'enlever ou le remettre quand tu veux
+	print_cmd(shell);
 }
 
 /*
