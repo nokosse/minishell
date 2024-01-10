@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:29:05 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/09 14:20:21 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/10 14:06:10 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@
 
 /* LEXER PART */
 int		lexer(t_mini *shell);
+int		count_len(char *str);
 int		insert_spaces(t_mini *shell);
+int		insert_spaces_quotes(t_mini *shell);
 void	skip_double_quotes_2strings(char *str1, char *str2, int *i, int *k);
 void	skip_simple_quotes_2strings(char *str1, char *str2, int *i, int *k);
 int		init_lex(t_mini *shell);
