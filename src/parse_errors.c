@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 17:51:12 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/11 18:15:20 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/12 14:34:39 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int	parse_error(t_mini *shell)
 		return (ft_putstr_fd("minishell: parsing error\n", 2), 0);
 	if (!handle_wierd_redir_err(shell))
 		return (ft_putstr_fd("minishell: parsing error\n", 2), 0);
-	// if (!handle_unclosed_quote_err(shell))
-	// 	return (ft_putstr_fd("minishell: unclosed quote\n", 2), 0);
+	if (!handle_unclosed_quote_err(shell->cmdline))
+		return (ft_putstr_fd("minishell: parsing error\n", 2), 0);
 	return (1);
 }

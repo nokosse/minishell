@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 14:04:51 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/11 16:42:42 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/12 14:33:30 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	write_space(char **new, char *cmd, int *i, int *j)
 	(*new)[*j] = cmd[*i];
 	(*j)++;
 	(*i)++;
-	printf("test\n");
 	(*new)[*j] = ' ';
 	(*j)++;
 }
