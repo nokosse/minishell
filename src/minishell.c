@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2024/01/12 14:10:12 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/12 16:23:58 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,7 @@ void	minishell_loop(t_mini *shell)
 }
 
 // TODO : leaks on : quote followed by pipe : ' | ls 
-// TODO : improve quotes handling :
-//        when there is single quotes between double quotes -> ignore
-//        same for double quotes between single quotes
-//        when there is an ODD quote outside closed quotes -> error
+// TODO : expand : WHEN to expand ? -> WHAT to expand ?
 // TODO : improve 'end' to free only after check if not NULL
 // TODO : parsing_error
 // TODO : expander
