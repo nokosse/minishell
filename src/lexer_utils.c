@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 18:35:15 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/15 12:37:28 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/15 16:08:42 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,35 +43,16 @@ int	count_tokens(char *cmdl)
 	return (nb_tokens);
 }
 
-/*
-Skips i to the next quote if closed.
-*/
-void	skip_dq_get_token(int *i, char *cmd)
+int	is_quote_closed(char *str, int i, char quote)
 {
-	int	flg;
+	int	j;
 
-	if (cmd[*i] == '\"')
-	{
-		flg = *i;
-		while (cmd[*i] != '\"' && cmd[*i])
-			flg++;
-		if (cmd[*i] == '\"')
-			*i = flg;
-	}
-}
-
-void	skip_sq_get_token(int *i, char *cmd)
-{
-	int	flg;
-
-	if (cmd[*i] == '\'')
-	{
-		flg = *i;
-		while (cmd[*i] != '\'' && cmd[*i])
-			flg++;
-		if (cmd[*i] == '\'')
-			*i = flg;
-	}	
+	j = i + 1;
+	while (str[j] && str[j] != quote)
+		j++;
+	if (str[j] == quote)
+		return (1);
+	return (0);
 }
 
 /*
@@ -93,9 +74,22 @@ char	*get_token(char *cmdl, int *j)
 		i++;
 	while (cmdl[i] && cmdl[i] != ' ')
 	{
-		skip_dq_get_token(&i, cmdl);
-		skip_sq_get_token(&i, cmdl);
-		token[k++] = cmdl[i++];
+		if (cmdl[i] == '\"' && (is_quote_closed(cmdl, i, '\"')))
+		{
+			token[k++] = cmdl[i++];
+			while (cmdl[i] != '\"')
+				token[k++] = cmdl[i++];
+			token[k++] = cmdl[i++];
+		}
+		else if (cmdl[i] == '\'' && (is_quote_closed(cmdl, i, '\'')))
+		{
+			token[k++] = cmdl[i++];
+			while (cmdl[i] != '\'')
+				token[k++] = cmdl[i++];
+			token[k++] = cmdl[i++];
+		}
+		else
+			token[k++] = cmdl[i++];
 	}
 	*j = i;
 	return (token);
