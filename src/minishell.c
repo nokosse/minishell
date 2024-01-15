@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2024/01/15 16:00:53 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/15 16:56:48 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,12 @@ void	minishell_loop(t_mini *shell)
 	}
 }
 
-// TODO : leaks on : quote followed by pipe : ' | ls 
-// TODO : leaks on : echo"e e e""er" 2 spaces in 1st arg
+// TODO LEAK : quote followed by pipe : ' | ls 
+// TODO LEAK : on : echo"e e e""er" 2 spaces in 1st arg
 // TODO : expand : WHEN to expand ? -> WHAT to expand ?
 // TODO : improve 'end' to free only after check if not NULL
 // TODO : parsing_error
 // TODO : expander
+// TODO ENV : SHLVL, OLDPWD, PWD updates
+
+// PROBLEM : echo "cat lol.c | cat > lol.c" returns error but should not
