@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 15:51:28 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/12 19:24:41 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/15 12:09:18 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	is_to_expand(char *str)
 	return (0);
 }
 
-int	handle_expansion(t_mini *shel	l, char *str)
+int	handle_expansion(t_mini *shell, char *str)
 {
 	(void)shell;
 	printf("str = %s\n", str);
