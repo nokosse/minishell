@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2024/01/16 09:33:46 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/16 10:54:31 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	start_minishell(t_mini *shell)
 		free_all(shell);
 		return ;
 	}
-	print_lex(shell);
+	// print_lex(shell);
 	if (!parser(shell))
 	{
 		shell->parse_error = true;
@@ -86,3 +86,4 @@ void	minishell_loop(t_mini *shell)
 // TODO ENV : SHLVL, OLDPWD, PWD updates
 
 // PROBLEM : lexer ins space insert spaces even in quotes (shouldnt)
+// NOTE : ctrl + d with env -i -> has a % at the end of the prompt
