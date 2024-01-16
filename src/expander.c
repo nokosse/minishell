@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 15:51:28 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/15 12:09:18 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/16 09:36:31 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	find_env_var(t_mini *shell)
 		j = 0;
 		while (cmd_t->cmd[j]) // iterate over arguments
 		{
-			if (!is_single_quote(cmd_t->cmd[j]) && is_to_expand(cmd_t->cmd[j]))
+			if (!is_quote(cmd_t->cmd[j], '\'') && is_to_expand(cmd_t->cmd[j]))
 			{
 				if (!handle_expansion(shell, cmd_t->cmd[j]))
 					return (0);

@@ -6,11 +6,18 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 17:51:12 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/12 14:34:39 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/16 09:28:18 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+int	is_quote(char *str, char c)
+{
+	if (str[0] == c && str[ft_strlen(str) - 1] == c)
+		return (1);
+	return (0);
+}
 
 /*
 Handle pipe parsing errors :
@@ -34,7 +41,8 @@ int	handle_pipe_err2(t_mini *shell)
 			return (0);
 		if (lex_t->word[0] == '|' && lex_t->word[1] != '\0')
 			return (0);
-		if (ft_strlen(lex_t->word) >= 2 && ft_strchr(lex_t->word, '|'))
+		if (ft_strlen(lex_t->word) >= 2 && ft_strchr(lex_t->word, '|')
+			&& !is_quote(lex_t->word, '\"') && !is_quote(lex_t->word, '\''))
 			return (0);
 		lex_t = lex_t->next;
 		i++;
