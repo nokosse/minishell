@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2024/01/17 11:36:09 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/17 16:42:44 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	start_minishell(t_mini *shell)
 		free_all(shell);
 		return ;
 	}
-	print_lex(shell);
+	// print_lex(shell);
 	if (!expander(shell))
 	{
 		free_all(shell);
@@ -90,5 +90,8 @@ void	minishell_loop(t_mini *shell)
 // TODO : expander
 // TODO ENV : SHLVL, OLDPWD, PWD updates
 
+// PROBLEM : when $? followed by existing $VAR, $VAR doens't expand
+// same problem instead of $? its a NULL var. (not existing)
+// ex: $?$PWD -> 0$PWD instead of 0/home/kevso/42/minishell
 // PROBLEM : lexer ins space insert spaces even in quotes (shouldnt)
 // NOTE : ctrl + d with env -i -> has a % at the end of the prompt

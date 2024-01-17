@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 15:51:28 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/17 14:46:15 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/17 16:39:51 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	get_var_len(char *str, int i)
 
 	len = 0;
 	i++;
-	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
+	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_' || str[i] == '?'))
 	{
 		len++;
 		i++;
@@ -68,15 +68,16 @@ And will return 'kvisouth' if USER=kvisouth
 */
 char	*get_var_content(char **env, char *var)
 {
-	int	i;
-	int j;
+	int		i;
+	int		j;
 	char	*var_content;
 
 	i = 0;
 	var_content = NULL;
 	while (env[i])
 	{
-		if (ft_strncmp(env[i], var, ft_strlen(var)) == 0)
+		if (ft_strncmp(env[i], var, ft_strlen(var)) == 0
+			&& env[i][ft_strlen(var)] == '=')
 		{
 			j = 0;
 			while (env[i][j] != '=')
@@ -91,24 +92,37 @@ char	*get_var_content(char **env, char *var)
 	return (NULL);
 }
 
+/*
+This function expands one variable.
+It takes 'word' which is the token of lexer that contains the var. to expand.
+It returns a new string which is word with a variable at 'i' expanded.
+
+First, strlcpy will copy the first part of word (the part before $VAR)
+Then, the first strlcat will add the variable content to the new string.
+And the last strlcat will add the remaining part of word to the new string.
+
+con stands for content (norm issues)
+*/
 char	*replace_var(t_mini *shell, char **word, int i, int len)
 {
 	char	*var;
-	char	*var_content;
+	char	*con;
 	char	*new;
 
 	var = ft_substr(*word, i + 1, len);
-	var_content = get_var_content(shell->env, var);
-	new = ft_calloc(ft_strlen(*word) + ft_strlen(var_content) + 1, sizeof(char));
-	if (!var || !var_content || !new)
+	if (len == 1 && (*word)[i + 1] == '?')
+		con = ft_itoa(g_sig);
+	else
+		con = get_var_content(shell->env, var);
+	if (!con)
+		con = ft_strdup("");
+	new = ft_calloc(ft_strlen(*word) + ft_strlen(con) + 1, sizeof(char));
+	if (!var || !new)
 		return (NULL);
 	ft_strlcpy(new, *word, i + 1);
-	ft_strlcat(new, var_content, ft_strlen(*word) + ft_strlen(var_content) + 1);
-	ft_strlcat(new, *word + i + len + 1, ft_strlen(*word) + ft_strlen(var_content) + 1);
-	free(*word);
-	free(var);
-	free(var_content);
-	return (new);
+	ft_strlcat(new, con, ft_strlen(*word) + ft_strlen(con) + 1);
+	ft_strlcat(new, *word + i + len + 1, ft_strlen(*word) + ft_strlen(con) + 1);
+	return (free(*word), free(var), free(con), new);
 }
 
 /*
@@ -127,7 +141,8 @@ int	expand_var(t_mini *shell, t_lex *lex)
 	lex->nb_expansions = count_dollars(lex->word);
 	while (word[i])
 	{
-		if (word[i] == '$')
+		if (word[i] == '$' && word[i + 1] && (ft_isalnum(word[i + 1])
+				|| word[i + 1] == '_' || word[i + 1] == '?'))
 		{
 			len = get_var_len(word, i);
 			word = replace_var(shell, &word, i, len);
