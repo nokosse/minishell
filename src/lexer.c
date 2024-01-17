@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 13:42:22 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/15 13:43:58 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/17 11:33:51 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,9 +136,6 @@ void	free_lex(t_mini *shell)
 /*
 Lexer, lexical analyser, will split the user input into tokens in a linked list
 It is like a bigger version of ft_split, made for minishell.
-We are doing a little bit of parsing here with 'avoir_early_errors()' and
-'lexer_error()' to avoid leaks or segfaults. (could be fixed in the parser but
-it was a way easier to do this and less time consuming)
 */
 int	lexer(t_mini *shell)
 {
@@ -158,6 +155,6 @@ int	lexer(t_mini *shell)
 	if (!assign_token(shell))
 		return (0);
 	if (!lexer_error(shell))
-		return (0);
+		return (0);	
 	return (1);
 }

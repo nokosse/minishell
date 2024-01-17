@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 15:51:28 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/17 09:21:39 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/17 14:46:15 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,71 +25,63 @@ void	print_env(t_mini *shell)
 }
 
 /*
-This function will just check if there is a $ in the string so we know if we
-need to expand it or not.
+Returns the number of $ found in str
 */
-int	is_to_expand(char *str)
+int	count_dollars(char *str)
 {
 	int	i;
+	int	nb_dollar;
 
 	i = 0;
+	nb_dollar = 0;
 	while (str[i])
 	{
 		if (str[i] == '$')
-			return (1);
+			nb_dollar++;
 		i++;
 	}
-	return (0);
+	return (nb_dollar);
 }
 
 /*
-This function will search for the variable str in our environnement table.
+Returns the lenght of the variable name.
+Useful if we do $USER$PWD, will return 4 for USER and 3 for PWD.
 */
-int	search_in_env(t_mini *shell, char *str)
+int	get_var_len(char *str, int i)
+{
+	int	len;
+
+	len = 0;
+	i++;
+	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
+	{
+		len++;
+		i++;
+	}
+	return (len);
+}
+
+/*
+Search and returns the content in **env of *var.
+var = "USER", will search for USER=... in **env
+And will return 'kvisouth' if USER=kvisouth
+*/
+char	*get_var_content(char **env, char *var)
 {
 	int	i;
-
-	i = 0;
-	while (shell->env[i])
-	{
-		if (str[0] == '$' && str[1] != '\0')
-			str++;
-		if (!ft_strncmp(shell->env[i], str, ft_strlen(str)))
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-/*
-This function will replace str which is a non existing variable, to an empty
-string.
-*/
-int	expand_to_empty(char **str)
-{
-	*str = ft_strdup("");
-	if (!*str)
-		return (0);
-	return (1);
-}
-
-char	*get_var_content(t_mini *shell, char *str)
-{
-	int		i;
-	int		j;
+	int j;
 	char	*var_content;
 
 	i = 0;
-	j = 0;
-	while (shell->env[i])
+	var_content = NULL;
+	while (env[i])
 	{
-		if (str[0] == '$' && str[1] != '\0')
-			str++;
-		if (!ft_strncmp(shell->env[i], str, ft_strlen(str)))
+		if (ft_strncmp(env[i], var, ft_strlen(var)) == 0)
 		{
-			while (shell->env[i][j] != '=')
+			j = 0;
+			while (env[i][j] != '=')
 				j++;
-			var_content = ft_strdup(shell->env[i] + j + 1);
+			var_content = ft_substr(env[i], j + 1, ft_strlen(env[i]));
 			if (!var_content)
 				return (NULL);
 			return (var_content);
@@ -99,66 +91,77 @@ char	*get_var_content(t_mini *shell, char *str)
 	return (NULL);
 }
 
-int	expand_to_env(char **str, t_mini *shell)
+char	*replace_var(t_mini *shell, char **word, int i, int len)
 {
+	char	*var;
 	char	*var_content;
+	char	*new;
 
-	var_content = get_var_content(shell, *str);
-	if (!var_content)
-		return (0);
-	*str = var_content;
-	return (1);	
+	var = ft_substr(*word, i + 1, len);
+	var_content = get_var_content(shell->env, var);
+	new = ft_calloc(ft_strlen(*word) + ft_strlen(var_content) + 1, sizeof(char));
+	if (!var || !var_content || !new)
+		return (NULL);
+	ft_strlcpy(new, *word, i + 1);
+	ft_strlcat(new, var_content, ft_strlen(*word) + ft_strlen(var_content) + 1);
+	ft_strlcat(new, *word + i + len + 1, ft_strlen(*word) + ft_strlen(var_content) + 1);
+	free(*word);
+	free(var);
+	free(var_content);
+	return (new);
 }
 
 /*
-This function is called in the case str is not in quotes, meaning that str
-IS starting with a $ and IS just a simple variable.
-str WILL look like : $USER, $PATH, $PWD, etc.. so it's easy to handle..?
+Transforms every $... into the value of the variable.
+$USER$USER = "kvisouthkvisouth"
+$NONEXISTING = ""
 */
-int	handle_expansion(t_mini *shell, char **str)
+int	expand_var(t_mini *shell, t_lex *lex)
 {
-	printf("%s will be expanded\n", *str);
-	if (!search_in_env(shell, *str))
+	int		i;
+	int		len;
+	char	*word;
+
+	i = 0;
+	word = lex->word;
+	lex->nb_expansions = count_dollars(lex->word);
+	while (word[i])
 	{
-		if (!expand_to_empty(str))
-			return (0);
+		if (word[i] == '$')
+		{
+			len = get_var_len(word, i);
+			word = replace_var(shell, &word, i, len);
+			if (!word)
+				return (0);
+			i += len;
+		}
+		i++;
 	}
-	else
-	{
-		if (!expand_to_env(str, shell))
-			return (0);
-	}
+	lex->word = word;
 	return (1);
 }
 
 /*
-The expander takes variables, identified by $, and replaces them with their
-value from the environment variables. Such that $USER becomes kvisouth
-and $? is replaced with the exit code.
-Non existing variables are replaced by an empty string. (str[0] = '\0')
+The expander will iterate through lex words.
+It will expand every $... it finds execpt it the word is between simple quotes.
+Non existing variables will be replaced by an empty string.
+Special case is the $? variable.
 */
 int	expander(t_mini *shell)
 {
-	t_cmd	*cmd_t;
+	t_lex	*lex_t;
 	int		i;
-	int		j;
 
+	lex_t = shell->lex;
 	i = 0;
-	cmd_t = shell->cmd;
-	while (i < shell->nb_commands)
+	while (i < shell->nb_tokens)
 	{
-		j = 0;
-		while (cmd_t->cmd[j])
+		if (!is_quote(lex_t->word, '\'') && count_dollars(lex_t->word))
 		{
-			if (!is_quote(cmd_t->cmd[j], '\'') && !is_quote(cmd_t->cmd[j], '\"')
-				&& is_to_expand(cmd_t->cmd[j]))
-			{
-				if (!handle_expansion(shell, &cmd_t->cmd[j]))
-					return (0);
-			}
-			j++;
+			if (!expand_var(shell, lex_t))
+				return (0);
 		}
-		cmd_t = cmd_t->next;
+		lex_t = lex_t->next;
 		i++;
 	}
 	return (1);

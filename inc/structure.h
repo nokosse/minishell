@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 14:42:51 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/09 14:19:33 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/17 11:56:51 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ This function will also be used as 'redir' in t_cmd for a complete different use
 typedef struct s_lex
 {
 	int				i;
+	int				nb_expansions;
 	char			*word;
 	t_token			token;
 	struct s_lex	*next;
