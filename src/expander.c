@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 15:51:28 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/17 16:39:51 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/17 16:57:18 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,8 +120,11 @@ char	*replace_var(t_mini *shell, char **word, int i, int len)
 	if (!var || !new)
 		return (NULL);
 	ft_strlcpy(new, *word, i + 1);
+	printf("new1 = %s\n", new);
 	ft_strlcat(new, con, ft_strlen(*word) + ft_strlen(con) + 1);
+	printf("new2 = %s\n", new);
 	ft_strlcat(new, *word + i + len + 1, ft_strlen(*word) + ft_strlen(con) + 1);
+	printf("new3 = %s\n", new);
 	return (free(*word), free(var), free(con), new);
 }
 
@@ -148,7 +151,7 @@ int	expand_var(t_mini *shell, t_lex *lex)
 			word = replace_var(shell, &word, i, len);
 			if (!word)
 				return (0);
-			i += len;
+			i += len; // faire en sorte qu'on fasse pas cette ligne si on a expand du vide
 		}
 		i++;
 	}
