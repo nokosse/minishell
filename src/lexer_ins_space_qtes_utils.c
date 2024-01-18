@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 16:27:42 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/18 15:18:54 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/18 15:39:54 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ int	is_inside_sq(int i, char *str)
 	j = i;
 	while (j < (int)ft_strlen(str))
 	{
+		if (str[j] == '\"') // just added this, need more test
+			return (0);
 		if (str[j] == '\'')
 			closed = 1;
 		j++;
