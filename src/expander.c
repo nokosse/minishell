@@ -6,26 +6,15 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 15:51:28 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/18 09:52:43 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/18 10:00:06 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	print_env(t_mini *shell)
-{
-	int	i;
-
-	i = 0;
-	while (shell->env[i])
-	{
-		printf("%s\n", shell->env[i]);
-		i++;
-	}
-}
-
 /*
 Returns the number of $ found in str
+So we know how many variables we need to expand or simply if we need to expand.
 */
 int	count_dollars(char *str)
 {
@@ -131,9 +120,11 @@ char	*replace_var(t_mini *shell, char **word, int i, int len)
 	return (free(*word), free(var), free(con), new);
 }
 
+/*
+Returns 1 if the actual character (word[i]) is a $ and need to be expanded.
+*/
 int	is_to_expand(char *word, int i)
 {
-	printf("i = %d\n", i);
 	if (word[i] == '$' && word[i + 1] && (ft_isalnum(word[i + 1])
 			|| word[i + 1] == '_' || word[i + 1] == '?'))
 	{
@@ -155,7 +146,6 @@ int	expand_var(t_mini *shell, t_lex *lex)
 
 	i = 0;
 	word = lex->word;
-	lex->nb_expansions = count_dollars(lex->word);
 	while (word[i])
 	{
 		shell->expanded_void = 0;
@@ -188,6 +178,7 @@ int	expander(t_mini *shell)
 	int		i;
 
 	lex_t = shell->lex;
+	lex_t->nb_expansions = count_dollars(lex_t->word);
 	i = 0;
 	while (i < shell->nb_tokens)
 	{

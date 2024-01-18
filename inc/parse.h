@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:29:05 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/16 09:36:55 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/18 10:01:53 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int		get_redir_in_nodes(t_mini *shell);
 int		get_cmdlines_in_nodes(t_mini *shell);
 
 /* PARSER : HANDLE SYNTAX ERRORS PART */
-int     is_quote(char *str, char c);
+int		is_quote(char *str, char c);
 int		parse_error(t_mini *shell);
 int		handle_unclosed_quote_err(char *str);
 
