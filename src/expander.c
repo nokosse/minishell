@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 15:51:28 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/18 09:35:35 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/18 09:52:43 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,10 @@ char	*replace_var(t_mini *shell, char **word, int i, int len)
 
 	var = ft_substr(*word, i + 1, len);
 	if (len == 1 && (*word)[i + 1] == '?')
+	{
+		shell->expanded_sig = 1;
 		con = ft_itoa(g_sig);
+	}
 	else
 		con = get_var_content(shell->env, var);
 	if (!con)
@@ -130,6 +133,7 @@ char	*replace_var(t_mini *shell, char **word, int i, int len)
 
 int	is_to_expand(char *word, int i)
 {
+	printf("i = %d\n", i);
 	if (word[i] == '$' && word[i + 1] && (ft_isalnum(word[i + 1])
 			|| word[i + 1] == '_' || word[i + 1] == '?'))
 	{
@@ -155,13 +159,14 @@ int	expand_var(t_mini *shell, t_lex *lex)
 	while (word[i])
 	{
 		shell->expanded_void = 0;
+		shell->expanded_sig = 0;
 		if (is_to_expand(word, i))
 		{
 			len = get_var_len(word, i);
 			word = replace_var(shell, &word, i, len);
 			if (!word)
 				return (0);
-			if (!shell->expanded_void)
+			if (!shell->expanded_void && !shell->expanded_sig)
 				i += len;
 		}
 		if (!shell->expanded_void)
