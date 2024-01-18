@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2024/01/18 10:03:01 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/18 11:30:36 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	start_minishell(t_mini *shell)
 		free_all(shell);
 		return ;
 	}
-	// print_lex(shell);
+	print_lex(shell);
 	if (!expander(shell))
 	{
 		free_all(shell);
@@ -84,8 +84,9 @@ void	minishell_loop(t_mini *shell)
 // TODO LEAK : quote followed by pipe : ' | ls 
 // TODO LEAK : on : echo"e e e""er" 2 spaces in 1st arg
 // TODO LEAK : pipe in quotes : "ls | ls"
+
 // TODO : improve 'end' to free only after check if not NULL
 // TODO : parsing_error
 // TODO ENV : SHLVL, OLDPWD, PWD updates
 
-// PROBLEM : lexer ins space insert spaces even in quotes (shouldnt)
+// PROBLEM : parser error returns error if pipe in quotes
