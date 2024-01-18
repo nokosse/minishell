@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 14:42:51 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/17 11:56:51 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/18 09:19:22 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ typedef struct s_mini
 	bool	end;
 	bool	lex_error;
 	bool	parse_error;
+	bool 	expanded_void;
 	int		nb_pipes;
 	int		nb_commands;
 	int		nb_tokens;
