@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2024/01/18 14:28:08 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/18 14:37:39 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,3 +84,10 @@ void	minishell_loop(t_mini *shell)
 // TODO : improve 'end' to free only after check if not NULL
 // TODO : parsing_error
 // TODO ENV : SHLVL, OLDPWD, PWD updates
+
+// TODO PROBLEM : doenst insert space btwn 2 quote if thers is diff
+// quote in the quote
+// ex : "hello'my'friend""how'are'you" -> "hello'my'friend""how'are'you"
+// instead of : "hello'my'friend" "how'are'you"
+//                               ^
+//                               this one is missing

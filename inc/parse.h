@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:29:05 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/18 10:54:39 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/18 14:50:55 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int		is_evn_dq(int i, int dq, t_mini *shell);
 int		is_evn_sq(int i, int sq, t_mini *shell);
 
 /* LEXER: Utils */
+int		is_quote_closed(char *str, int i, char quote);
 void	skip_double_quotes_2strings(char **cmd, char **new, int *i, int *k);
 void	skip_simple_quotes_2strings(char **cmd, char **new, int *i, int *k);
 int		avoid_early_errors(t_mini *shell);

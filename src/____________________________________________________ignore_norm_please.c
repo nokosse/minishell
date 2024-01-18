@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 17:22:14 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/18 14:29:55 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/18 14:34:12 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void	print_cmd(t_mini *shell)
 		while (j < tmp->nb_redir)
 		{
 			printf("[FILE/DELIM] redir[%d] = %s\n", j, tmp2->word);
-			// printf("[REDIR TYPE] token[%d] = %d\n", j, tmp2->token);
 			if (tmp2->token == RIGHT1)
 				printf("[REDIR TYPE] token[%d] = >\n", j);
 			else if (tmp2->token == RIGHT2)
@@ -55,7 +54,6 @@ void	print_cmd(t_mini *shell)
 				printf("[REDIR TYPE] token[%d] = <\n", j);
 			else if (tmp2->token == LEFT2)
 				printf("[REDIR TYPE] token[%d] = <<\n", j);
-			
 			tmp2 = tmp2->next;
 			j++;
 		}
