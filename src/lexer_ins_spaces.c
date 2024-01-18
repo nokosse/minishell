@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_insert_spaces.c                              :+:      :+:    :+:   */
+/*   lexer_ins_spaces.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 18:12:35 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/10 16:06:07 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/18 10:59:25 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,8 +132,8 @@ int	insert_spaces(t_mini *shell)
 		return (0);
 	while (cmd[i])
 	{
-		skip_double_quotes_2strings(cmd, new, &i, &j);
-		skip_simple_quotes_2strings(cmd, new, &i, &j);
+		skip_double_quotes_2strings(&cmd, &new, &i, &j);
+		skip_simple_quotes_2strings(&cmd, &new, &i, &j);
 		if (cmd[i] == '<' || cmd[i] == '>' || cmd[i] == '|')
 			handle_spaces(&i, &j, &new, cmd);
 		else

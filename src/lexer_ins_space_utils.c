@@ -1,81 +1,97 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_insert_space_utils.c                         :+:      :+:    :+:   */
+/*   lexer_ins_space_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:42:29 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/10 15:42:37 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/18 11:04:32 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
 /*
-Skip from the actual quote to the next one.
-Increments i and k.
-Works for double quotes.
+Returns 1 if the double quote is closed, 0 if not.
 */
-void	skip_double_quotes_2strings(char *str1, char *str2, int *i, int *k)
+int	dq_is_closed(char *cmd, int i)
 {
 	int	j;
-	int	n;
 
-	j = 0;
-	n = 0;
-	if (str1[*i] == '\"')
-	{
-		j = *i;
-		n = *k;
-		str2[n] = str1[j];
+	j = i;
+	j++;
+	while (cmd[j] && cmd[j] != '\"')
 		j++;
-		n++;
-		while (str1[j] && str1[j] != '\"')
+	if (cmd[j] == '\"')
+		return (1);
+	return (0);
+}
+
+/*
+Returns 1 if the simple quote is closed, 0 if not.
+*/
+int	sq_is_closed(char *cmd, int i)
+{
+	int	j;
+
+	j = i;
+	j++;
+	while (cmd[j] && cmd[j] != '\'')
+		j++;
+	if (cmd[j] == '\'')
+		return (1);
+	return (0);
+}
+
+/*
+Copies the string from cmd to new from the actual double quote to the next one
+but only if the double quote is closed.
+*/
+void	skip_double_quotes_2strings(char **cmd, char **new, int *i, int *k)
+{
+	if ((*cmd)[*i] == '\"' && dq_is_closed(*cmd, *i))
+	{
+		(*new)[*k] = (*cmd)[*i];
+		(*i)++;
+		(*k)++;
+		while ((*cmd)[*i] && (*cmd)[*i] != '\"')
 		{
-			str2[n] = str1[j];
-			j++;
-			n++;
+			(*new)[*k] = (*cmd)[*i];
+			(*i)++;
+			(*k)++;
 		}
-		if (str1[j] == '\"')
+		if ((*cmd)[*i] == '\"')
 		{
-			str2[n] = str1[j];
-			j++;
-			n++;
+			(*new)[*k] = (*cmd)[*i];
+			(*k)++;
+			(*i)++;
 		}
 	}
 }
 
 /*
-Skip from the actual quote to the next one.
-Increments i and k.
-Works for simple quotes.
+Copies the string from str1 to str2 from the actual simple quote to the next one
+but only if the simple quote is closed.
 */
-void	skip_simple_quotes_2strings(char *str1, char *str2, int *i, int *k)
+void	skip_simple_quotes_2strings(char **cmd, char **new, int *i, int *k)
 {
-	int	j;
-	int	n;
-
-	j = 0;
-	n = 0;
-	if (str1[*i] == '\'')
+	if ((*cmd)[*i] == '\'' && sq_is_closed(*cmd, *i))
 	{
-		j = *i;
-		n = *k;
-		str2[n] = str1[j];
-		j++;
-		n++;
-		while (str1[j] && str1[j] != '\'')
+		(*new)[*k] = (*cmd)[*i];
+		(*i)++;
+		(*k)++;
+		while ((*cmd)[*i] && (*cmd)[*i] != '\'')
 		{
-			str2[n] = str1[j];
-			j++;
-			n++;
+			(*new)[*k] = (*cmd)[*i];
+			(*i)++;
+			(*k)++;
 		}
-		if (str1[j] == '\'')
+		if ((*cmd)[*i] == '\'')
 		{
-			str2[n] = str1[j];
-			j++;
-			n++;
+			(*new)[*k] = (*cmd)[*i];
+			(*k)++;
+			(*i)++;
 		}
 	}
 }
