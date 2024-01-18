@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 15:51:28 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/17 16:57:18 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/18 09:35:35 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,17 +115,27 @@ char	*replace_var(t_mini *shell, char **word, int i, int len)
 	else
 		con = get_var_content(shell->env, var);
 	if (!con)
+	{
 		con = ft_strdup("");
+		shell->expanded_void = 1;
+	}
 	new = ft_calloc(ft_strlen(*word) + ft_strlen(con) + 1, sizeof(char));
 	if (!var || !new)
 		return (NULL);
 	ft_strlcpy(new, *word, i + 1);
-	printf("new1 = %s\n", new);
 	ft_strlcat(new, con, ft_strlen(*word) + ft_strlen(con) + 1);
-	printf("new2 = %s\n", new);
 	ft_strlcat(new, *word + i + len + 1, ft_strlen(*word) + ft_strlen(con) + 1);
-	printf("new3 = %s\n", new);
 	return (free(*word), free(var), free(con), new);
+}
+
+int	is_to_expand(char *word, int i)
+{
+	if (word[i] == '$' && word[i + 1] && (ft_isalnum(word[i + 1])
+			|| word[i + 1] == '_' || word[i + 1] == '?'))
+	{
+		return (1);
+	}
+	return (0);
 }
 
 /*
@@ -144,16 +154,18 @@ int	expand_var(t_mini *shell, t_lex *lex)
 	lex->nb_expansions = count_dollars(lex->word);
 	while (word[i])
 	{
-		if (word[i] == '$' && word[i + 1] && (ft_isalnum(word[i + 1])
-				|| word[i + 1] == '_' || word[i + 1] == '?'))
+		shell->expanded_void = 0;
+		if (is_to_expand(word, i))
 		{
 			len = get_var_len(word, i);
 			word = replace_var(shell, &word, i, len);
 			if (!word)
 				return (0);
-			i += len; // faire en sorte qu'on fasse pas cette ligne si on a expand du vide
+			if (!shell->expanded_void)
+				i += len;
 		}
-		i++;
+		if (!shell->expanded_void)
+			i++;
 	}
 	lex->word = word;
 	return (1);
