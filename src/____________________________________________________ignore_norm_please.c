@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 17:22:14 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/10 14:28:45 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/18 12:05:22 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,10 @@ void	print_cmd(t_mini *shell)
 	{
 		write(1, "\n", 1);
 		printf("[RAW COMMAND] str = %s\n", tmp->str);
-		printf("[CMD ARRAY  ] cmd = ");
 		j = 0;
 		while (tmp->cmd[j])
 		{
-			printf("\'%s\'     ", tmp->cmd[j]);
+			printf("[CMD ARRAY %d] cmd = %s\n", j, tmp->cmd[j]);
 			j++;
 		}
 		printf("\n");
@@ -47,7 +46,16 @@ void	print_cmd(t_mini *shell)
 		while (j < tmp->nb_redir)
 		{
 			printf("[FILE/DELIM] redir[%d] = %s\n", j, tmp2->word);
-			printf("[REDIR TYPE] token[%d] = %d\n", j, tmp2->token);
+			// printf("[REDIR TYPE] token[%d] = %d\n", j, tmp2->token);
+			if (tmp2->token == RIGHT1)
+				printf("[REDIR TYPE] token[%d] = >\n", j);
+			else if (tmp2->token == RIGHT2)
+				printf("[REDIR TYPE] token[%d] = >>\n", j);
+			else if (tmp2->token == LEFT1)
+				printf("[REDIR TYPE] token[%d] = <\n", j);
+			else if (tmp2->token == LEFT2)
+				printf("[REDIR TYPE] token[%d] = <<\n", j);
+			
 			tmp2 = tmp2->next;
 			j++;
 		}
