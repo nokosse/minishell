@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2024/01/18 12:01:21 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/18 14:28:08 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,6 @@ void	minishell_loop(t_mini *shell)
 		free_all(shell);
 	}
 }
-
-// TODO LEAK : on : echo"e e e""er" 2 spaces in 1st arg and 1st arg stick to cmd
 
 // TODO : improve 'end' to free only after check if not NULL
 // TODO : parsing_error
