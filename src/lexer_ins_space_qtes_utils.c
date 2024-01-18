@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 16:27:42 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/11 16:42:47 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/18 15:18:54 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,9 @@ int	is_evn_dq(int i, int dq, t_mini *shell)
 	if (shell->cmdline[i] == '\"' && dq % 2 == 0
 		&& i + 1 < (int)ft_strlen(shell->cmdline)
 		&& shell->cmdline[i + 1] != ' ')
+	{
 		return (1);
+	}
 	return (0);
 }
 

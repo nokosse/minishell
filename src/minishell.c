@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2024/01/18 14:37:39 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/18 15:29:16 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,3 +91,4 @@ void	minishell_loop(t_mini *shell)
 // instead of : "hello'my'friend" "how'are'you"
 //                               ^
 //                               this one is missing
+// its because it thinks the 2nd and 3nd dq are inside a sq
