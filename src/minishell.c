@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2024/01/18 15:29:16 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/18 16:56:55 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 
 /*
 This is where hell begins, the core of minishell.
-lexer, parser, and executor will be called here.
-The lexer can only fail malloc errors.
-The parser can use exit codes if the syntax is wrong.
+lexer, parser, expander and executor will be called here.
+LEXER : Will just split the command line as space as delimiter.
+PARSER : Will check if the command is valid, and fill the structure.
+EXPANDER : Will tranform $USER into kvisouth. And so on.
+EXECUTOR : Will execute the command.
 The executor can use exit codes if the command is wrong.
 */
 void	start_minishell(t_mini *shell)
@@ -28,7 +30,6 @@ void	start_minishell(t_mini *shell)
 		free_all(shell);
 		return ;
 	}
-	// print_lex(shell);
 	if (!expander(shell))
 	{
 		free_all(shell);
@@ -40,12 +41,13 @@ void	start_minishell(t_mini *shell)
 		free_all(shell);
 		return ;
 	}
-	// if (!executor(shell))
-	// {
-	// 	free_all(shell);
-	// 	return ;
-	// }
 	print_cmd(shell);
+	if (!executor(shell))
+	{
+		free_all(shell);
+		return ;
+	}
+	free_all(shell);
 }
 
 /*

@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.h                                             :+:      :+:    :+:   */
+/*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/12 15:29:36 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/18 16:54:35 by kvisouth         ###   ########.fr       */
+/*   Created: 2024/01/18 16:32:39 by kvisouth          #+#    #+#             */
+/*   Updated: 2024/01/18 16:48:11 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXEC_H
-# define EXEC_H
+#include "../inc/minishell.h"
 
-# include "minishell.h"
-# include "structure.h"
-
-// All the functions related to the execution part of minishell
-
-int executor(t_mini *shell);
-int exec_simple(t_mini *shell);
-int exec_multiple(t_mini *shell);
-
-#endif
+int executor(t_mini *shell)
+{
+    if (shell->nb_commands == 1)
+    {
+        if (!exec_simple(shell))
+            return (0);
+    }
+    else
+    {
+        if (!exec_multiple(shell))
+            return (0);
+    }
+    return (1);
+}
