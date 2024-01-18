@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:29:05 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/18 10:01:53 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/18 10:04:37 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,8 @@ int		handle_unclosed_quote_err(char *str);
 
 /* EXPANDER PART */
 int		expander(t_mini *shell);
+int		get_var_len(char *str, int i);
+int		count_dollars(char *str);
+int		is_to_expand(char *word, int i);
 
 #endif

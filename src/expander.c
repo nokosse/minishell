@@ -6,49 +6,11 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 15:51:28 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/18 10:00:06 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/18 10:05:01 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-/*
-Returns the number of $ found in str
-So we know how many variables we need to expand or simply if we need to expand.
-*/
-int	count_dollars(char *str)
-{
-	int	i;
-	int	nb_dollar;
-
-	i = 0;
-	nb_dollar = 0;
-	while (str[i])
-	{
-		if (str[i] == '$')
-			nb_dollar++;
-		i++;
-	}
-	return (nb_dollar);
-}
-
-/*
-Returns the lenght of the variable name.
-Useful if we do $USER$PWD, will return 4 for USER and 3 for PWD.
-*/
-int	get_var_len(char *str, int i)
-{
-	int	len;
-
-	len = 0;
-	i++;
-	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_' || str[i] == '?'))
-	{
-		len++;
-		i++;
-	}
-	return (len);
-}
 
 /*
 Search and returns the content in **env of *var.
@@ -118,19 +80,6 @@ char	*replace_var(t_mini *shell, char **word, int i, int len)
 	ft_strlcat(new, con, ft_strlen(*word) + ft_strlen(con) + 1);
 	ft_strlcat(new, *word + i + len + 1, ft_strlen(*word) + ft_strlen(con) + 1);
 	return (free(*word), free(var), free(con), new);
-}
-
-/*
-Returns 1 if the actual character (word[i]) is a $ and need to be expanded.
-*/
-int	is_to_expand(char *word, int i)
-{
-	if (word[i] == '$' && word[i + 1] && (ft_isalnum(word[i + 1])
-			|| word[i + 1] == '_' || word[i + 1] == '?'))
-	{
-		return (1);
-	}
-	return (0);
 }
 
 /*
