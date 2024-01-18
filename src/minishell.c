@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2024/01/17 16:42:44 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/18 10:03:01 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,14 +84,8 @@ void	minishell_loop(t_mini *shell)
 // TODO LEAK : quote followed by pipe : ' | ls 
 // TODO LEAK : on : echo"e e e""er" 2 spaces in 1st arg
 // TODO LEAK : pipe in quotes : "ls | ls"
-// TODO : expand : WHEN to expand ? -> WHAT to expand ?
 // TODO : improve 'end' to free only after check if not NULL
 // TODO : parsing_error
-// TODO : expander
 // TODO ENV : SHLVL, OLDPWD, PWD updates
 
-// PROBLEM : when $? followed by existing $VAR, $VAR doens't expand
-// same problem instead of $? its a NULL var. (not existing)
-// ex: $?$PWD -> 0$PWD instead of 0/home/kevso/42/minishell
 // PROBLEM : lexer ins space insert spaces even in quotes (shouldnt)
-// NOTE : ctrl + d with env -i -> has a % at the end of the prompt
