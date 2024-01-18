@@ -47,6 +47,8 @@ void	handle_readline_error(char **env, char *cmdline);
 char	**ft_init_env(char **env_cpy, char **env_og);
 void	minishell_loop(t_mini *shell);
 void	handle_signal(int sig);
+int	ft_same_str(char *str1, char *str2, size_t n);
+char	*ft_strjoin_free1(char const *s1, char const *s2);
 
 // DEBUG
 void	print_cmd(t_mini *shell);
