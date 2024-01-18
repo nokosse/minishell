@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 14:48:54 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/18 14:50:30 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/18 17:00:54 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	count_tokens(char *cmdl)
 
 	i = 0;
 	nb_tokens = 0;
-	printf("cmdl: %s\n", cmdl);
 	while (cmdl[i])
 	{
 		if (cmdl[i] != ' ')
