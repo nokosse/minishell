@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 17:22:14 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/18 12:05:22 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/18 14:29:55 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	print_cmd(t_mini *shell)
 		j = 0;
 		while (tmp->cmd[j])
 		{
-			printf("[CMD ARRAY %d] cmd = %s\n", j, tmp->cmd[j]);
+			printf("[CMD ARRAY %d] cmd = '%s'\n", j, tmp->cmd[j]);
 			j++;
 		}
 		printf("\n");
