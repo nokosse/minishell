@@ -6,13 +6,13 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 16:32:39 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/19 11:08:59 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/19 11:21:38 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-// Exécute une commande individuelle.   
+// Exécute une commande individuelle.
 int	exec_cmd( t_mini *shell, t_cmd *cmd)
 {
 	int		i;
