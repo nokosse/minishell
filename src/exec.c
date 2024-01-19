@@ -91,54 +91,107 @@ int	ft_same_str(char *str1, char *str2, size_t n)
 }
 
 
-int	executor(t_mini *shell)
+int executor(t_mini *shell)
 {
-	int pid;
-	pid = fork();
-	if (shell->nb_pipes == 0)
-	{
-		
-		if (pid == 0)
-		{
-			if (!exec_cmd(shell, shell->cmd))
-			{
-				perror("execve");
-				exit(EXIT_FAILURE);
-			}
-		}
-	}
+    int pipe_fds[2 * shell->nb_pipes];
+    int i = 0;
+	pid_t pid;
 
-	else
-	{
-		t_cmd *current_cmd = shell->cmd;
-		while (current_cmd != NULL)
-		{
-			pid_t pid = fork();
-			if (pid == -1)
-			{
-				// Gestion d'erreur de fork
-				perror("fork");
-			}
-			else if (pid == 0)
-			{
-				// Processus enfant
-				if (!exec_cmd(shell, current_cmd))
-				{
-					perror("execve");
-					exit(EXIT_FAILURE);
-				}
-			}
-			else
-			{
-				// Processus parent
-				int status;
-				waitpid(pid, &status, 0);
-				// Vous pouvez traiter le statut de sortie ici si nécessaire
-			}
+    // Initialisation des pipes si nécessaire
+    for (i = 0; i < shell->nb_pipes; i++) {
+        if (pipe(pipe_fds + i * 2) < 0) {
+            perror("pipe");
+            exit(EXIT_FAILURE);
+        }
+    }
 
-			current_cmd = current_cmd->next;
-		}
-		
-	}
-	return 1;
+    t_cmd *current_cmd = shell->cmd;
+    i = 0;
+    while (current_cmd != NULL) {
+        pid = fork();
+        if (pid == -1) {
+            perror("fork");
+            exit(EXIT_FAILURE);
+        } else if (pid == 0) { // Processus enfant
+            if (i != 0) { // Si ce n'est pas la première commande
+                dup2(pipe_fds[(i - 1) * 2], STDIN_FILENO);
+            }
+            if (i < shell->nb_pipes * 2) { // Si ce n'est pas la dernière commande
+                dup2(pipe_fds[i * 2 + 1], STDOUT_FILENO);
+            }
+
+            // Fermeture des descripteurs de fichier de pipe dans le processus enfant
+            for (int j = 0; j < 2 * shell->nb_pipes; j++) {
+                close(pipe_fds[j]);
+            }
+
+            exec_cmd(shell, current_cmd);
+            exit(EXIT_FAILURE); // Si exec_cmd retourne
+        }
+
+        current_cmd = current_cmd->next;
+        i++;
+    }
+
+    // Fermeture des descripteurs de fichier de pipe dans le processus parent
+    for (i = 0; i < 2 * shell->nb_pipes; i++) {
+        close(pipe_fds[i]);
+    }
+
+    // Attente des processus enfants
+    while ((pid = wait(NULL)) > 0);
+
+    return 1;
 }
+
+// int	executor(t_mini *shell)
+// {
+// 	int pid;
+// 	pid = fork();
+// 	if (shell->nb_pipes == 0)
+// 	{
+		
+// 		if (pid == 0)
+// 		{
+// 			if (!exec_cmd(shell, shell->cmd))
+// 			{
+// 				perror("execve");
+// 				exit(EXIT_FAILURE);
+// 			}
+// 		}
+// 	}
+
+// 	else
+// 	{
+// 		t_cmd *current_cmd = shell->cmd;
+// 		while (current_cmd != NULL)
+// 		{
+// 			pid_t pid = fork();
+// 			if (pid == -1)
+// 			{
+// 				// Gestion d'erreur de fork
+// 				perror("fork");
+// 			}
+// 			else if (pid == 0)
+// 			{
+// 				// Processus enfant
+// 				if (!exec_cmd(shell, current_cmd))
+// 				{
+// 					perror("execve");
+// 					exit(EXIT_FAILURE);
+// 				}
+// 			}
+// 			else
+// 			{
+// 				// Processus parent
+// 				int status;
+// 				waitpid(pid, &status, 0);
+// 				// Vous pouvez traiter le statut de sortie ici si nécessaire
+// 			}
+
+// 			current_cmd = current_cmd->next;
+// 		}
+		
+// 	}
+// 	return 1;
+// }
