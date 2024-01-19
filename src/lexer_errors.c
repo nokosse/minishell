@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 12:54:06 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/19 12:29:31 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/19 16:15:22 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	handle_unclosed_quote_err1(t_mini *shell)
 
 /*
 Returns 0 if the pipe is the last token.
+or if there is multiple consecutive pipes.
 */
 int	handle_pipe_err1(t_mini *shell)
 {
@@ -50,11 +51,11 @@ int	handle_pipe_err1(t_mini *shell)
 	lex_t = shell->lex;
 	while (i < shell->nb_tokens)
 	{
-		if (lex_t->token == PIPE && lex_t->i == shell->nb_tokens - 1)
-		{
-			printf("c'est nous\n"); //w
+		if (lex_t->token == PIPE && (lex_t->i == shell->nb_tokens - 1
+				|| lex_t-> i == 0))
 			return (0);
-		}
+		if (lex_t->token == PIPE && lex_t->next->token == PIPE)
+			return (0);
 		lex_t = lex_t->next;
 		i++;
 	}

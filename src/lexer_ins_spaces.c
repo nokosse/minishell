@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 18:12:35 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/18 11:30:25 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/19 16:15:42 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	count_len(char *str)
 					&& str[i - 1] != '>' && str[i - 1] != '|'))
 				nb++;
 			if (str[i + 1] != ' ' && str[i + 1] != '<'
-				&& str[i + 1] != '>' && str[i + 1] != '|')
+				&& str[i + 1] != '>')
 				nb++;
 		}
 		i++;
@@ -105,8 +105,7 @@ void	handle_spaces(int *i, int *j, char **new, char *cmd)
 	(*new)[*j] = cmd[*i];
 	(*j)++;
 	(*i)++;
-	if (cmd[*i] != ' ' && cmd[*i] != '<' && cmd[*i] != '>'
-		&& cmd[*i] != '|')
+	if (cmd[*i] != ' ' && cmd[*i] != '<' && cmd[*i] != '>')
 	{
 		(*new)[*j] = ' ';
 		(*j)++;
