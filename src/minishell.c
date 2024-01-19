@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2024/01/19 10:44:07 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/19 11:02:04 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,11 @@ void	minishell_loop(t_mini *shell)
 // TODO : parsing_error
 // TODO ENV : SHLVL, OLDPWD, PWD updates
 
-// PROBLEM : "$USER"WDD -> expand void intread of kvisouthWDD
+// BIG PROBLEMS: (TO FIX!!)
+// parsing : none
+// exec : none
+
+// MINOR PROBLEMS: (osef un peu)
+// -"$USER"WDD -> expand void intread of kvisouthWDD
 // Make sens because : "$USER"WDD is tokenized as $USERWDD which doesn't exist
+// exec : none
