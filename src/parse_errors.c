@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 17:51:12 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/19 11:45:07 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/19 18:11:20 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,92 +19,104 @@ int	is_quote(char *str, char c)
 	return (0);
 }
 
-/*
-Handle pipe parsing errors :
-'ls || wc' , 'ls | | wc', 'ls |' , '| ls'
-'ls |wdwwd' , 'ls| wc' , 'ls|wc'
-(for the 3 last ones,  I may have wrote a better lexer that allows this since
-this function was written)
-*/
-int	handle_pipe_err2(t_mini *shell)
+int	is_insique_any_quote(char *str, int i)
 {
-	t_lex	*lex_t;
-	int		i;
+	int	right_quote;
+	int	left_quote;
+
+	right_quote = 0;
+	left_quote = 0;
+	while (i > 0)
+	{
+		if (str[i] == '\"' || str[i] == '\'')
+			left_quote = 1;
+		i--;
+	}
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '\"' || str[i] == '\'')
+			right_quote = 1;
+		i++;
+	}
+	if (!right_quote || !left_quote)
+		return (0);
+	return (1);
+}
+
+/*
+This function MAY be useless since handle_pipe_err1 in lexer_errors.c
+may handle most/all of the pipe errors.
+*/
+int	pipe_error(char *cmd)
+{
+	int	i;
 
 	i = 0;
-	lex_t = shell->lex;
-	while (i < shell->nb_tokens)
+	while (cmd[i])
 	{
-		if (lex_t->token == PIPE && i == 0)
-			return (0);
-		if (lex_t->token == PIPE && lex_t->next->token == PIPE)
-			return (0);
-		if (lex_t->word[0] == '|' && lex_t->word[1] != '\0')
-			return (0);
-		if (ft_strlen(lex_t->word) >= 2 && ft_strchr(lex_t->word, '|')
-			&& !is_quote(lex_t->word, '\"') && !is_quote(lex_t->word, '\''))
-			return (0);
-		lex_t = lex_t->next;
+		if (cmd[i] == '|' && !is_insique_any_quote(cmd, i))
+		{
+			if (cmd[i + 1] == '|')
+				return (0);
+			if (cmd[i - 1] == '|')
+				return (0);	
+		}
 		i++;
 	}
 	return (1);
 }
 
 /*
-Thie function will handle the misplacement of the redirections.
-It will hendle the following errors :
-- redirection is the first token
-- redirection is the last token
-- redirection is not followed by a WORD token
+This function  will check if there is an odd number of double quotes.
+Returns 0 if there is an odd number of double quotes.
+ofc, ignore the double quotes inside single quotes.
 */
-int	handle_redir_err(t_mini *shell)
+int	dquote_error(char *str)
 {
-	t_lex	*lex_t;
-	int		i;
+	int			i;
+	static int	nb_dq;
 
 	i = 0;
-	lex_t = shell->lex;
-	while (i < shell->nb_tokens)
+	nb_dq = 0;
+	while (str[i])
 	{
-		if (lex_t->token != WORD && lex_t->token != PIPE)
+		if (!is_inside_sq(i, str))
 		{
-			if (i == shell->nb_tokens - 1)
-				return (0);
-			if (lex_t->next->token != WORD)
-				return (0);
+			if (str[i] == '\"')
+			{
+				nb_dq++;	
+			}
 		}
-		lex_t = lex_t->next;
 		i++;
 	}
+	printf("nb_dq = %d\n", nb_dq);
+	if (nb_dq % 2 != 0)
+		return (0);
 	return (1);
 }
 
-/*
-The main difference with handle_redir_err is that this one will handle
-'WORDS' tokens that looks like this : '>>>>' , '<><>' etc..
-*/
-int	handle_wierd_redir_err(t_mini *shell)
+int	squote_error(char *str)
 {
-	t_lex	*lex_t;
-	int		i;
+	int			i;
+	static int	nb_sq;
 
 	i = 0;
-	lex_t = shell->lex;
-	while (i < shell->nb_tokens)
+	nb_sq = 0;
+	while (str[i])
 	{
-		if (lex_t->token == WORD)
+		if (!is_inside_dq(i, str))
 		{
-			if ((lex_t->word[0] == '<' || lex_t->word[0] == '>')
-				&& (ft_strlen(lex_t->word) > 2))
-				return (0);
-			if (lex_t->word[0] == '<' || lex_t->word[1] == '>')
-				return (0);
-			if (lex_t->word[0] == '>' && lex_t->word[1] == '<')
-				return (0);
+			if (str[i] == '\'')
+			{
+				nb_sq++;	
+			}
 		}
-		lex_t = lex_t->next;
 		i++;
 	}
+	printf("nb_sq = %d\n", nb_sq);	
+	if (nb_sq % 2 != 0)
+		return (0);
 	return (1);
 }
 
@@ -113,13 +125,19 @@ This function will handle the input errors.
 */
 int	parse_error(t_mini *shell)
 {
-	if (!handle_pipe_err2(shell))
-		return (ft_putstr_fd("minishell: parsing error\n", 2), 0);
-	if (!handle_redir_err(shell))
-		return (ft_putstr_fd("minishell: parsing error\n", 2), 0);
-	if (!handle_wierd_redir_err(shell))
-		return (ft_putstr_fd("minishell: parsing error\n", 2), 0);
-	if (!handle_unclosed_quote_err(shell->cmdline))
-		return (ft_putstr_fd("minishell: parsing error\n", 2), 0);
+	t_cmd	*cmd_t;
+	char	*str;
+	int		i;
+	
+	i = 0;
+	cmd_t = shell->cmd;
+	while (i < shell->nb_commands)
+	{
+		str = cmd_t->str;
+		if (!pipe_error(str) || !dquote_error(str) || !squote_error(shell))
+			return (ft_putstr_fd("minishell: parsing errore\n", 2), 0);
+		i++;
+		cmd_t = cmd_t->next;
+	}
 	return (1);
 }

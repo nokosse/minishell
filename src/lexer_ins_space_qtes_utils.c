@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 16:27:42 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/18 15:43:22 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/19 17:55:34 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ int	is_inside_dq(int i, char *str)
 	j = i;
 	while (j < (int)ft_strlen(str))
 	{
-		// if (str[j] == '\'')
-		// 	return (0);
 		if (str[j] == '\"')
 			closed = 1;
 		j++;
@@ -78,8 +76,6 @@ int	is_inside_sq(int i, char *str)
 	j = i;
 	while (j < (int)ft_strlen(str))
 	{
-		// if (str[j] == '\"')
-		// 	return (0);
 		if (str[j] == '\'')
 			closed = 1;
 		j++;
