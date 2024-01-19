@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2024/01/19 12:26:17 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/19 12:29:47 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	minishell_loop(t_mini *shell)
 // parsing :
 // - echo "pipe|pipe" pipe inside quote does parsing error should NOT.
 // because of the dquote trimmed, pipe inside dq are counted as real pipes.
-// add in assign token to ignore pipe inside quotes ////// FIXED MAYB
+// add in assign token to ignore pipe inside quotes // FIXED PIPEERR1
 // - make parsing error parse raw cmdline because of dqoute trimmed
 // exec : none
 

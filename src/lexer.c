@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 13:42:22 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/19 12:25:23 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/19 12:28:07 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,9 @@ int	assign_token(t_mini *shell)
 	t_lex	*tmp;
 	int		i;
 
-	i = 0;
+	i = -1;
 	tmp = shell->lex;
-	while (i < shell->nb_tokens)
+	while (++i < shell->nb_tokens)
 	{
 		if (tmp->token != DQUOTE)
 		{
@@ -107,7 +107,6 @@ int	assign_token(t_mini *shell)
 		else
 			tmp->token = WORD;
 		tmp = tmp->next;
-		i++;
 	}
 	return (1);
 }

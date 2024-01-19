@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 18:35:15 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/19 12:20:44 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/19 12:26:53 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,14 @@ and neither does it copy the last (").
 */
 void	skip_dq_get_token(char **cmdl, char **token, int *i, int *k)
 {
-	// (*token)[*k] = (*cmdl)[*i];
 	(*i)++;
-	// (*k)++;
 	while ((*cmdl)[*i] != '\"')
 	{
 		(*token)[*k] = (*cmdl)[*i];
 		(*i)++;
 		(*k)++;
 	}
-	// (*token)[*k] = (*cmdl)[*i];
 	(*i)++;
-	// (*k)++;
 }
 
 void	skip_sq_get_token(char **cmdl, char **token, int *i, int *k)
