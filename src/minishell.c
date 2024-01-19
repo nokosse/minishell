@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2024/01/19 12:00:46 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/19 12:03:31 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,11 @@ void	minishell_loop(t_mini *shell)
 // TODO ENV : SHLVL, OLDPWD, PWD updates
 
 // BIG PROBLEMS: (TO FIX!!)
-// parsing : echo "pipe|pipe" pipe inside quote does parsing error should NOT.
+// parsing :
+// - echo "pipe|pipe" pipe inside quote does parsing error should NOT.
 // because of the dquote trimmed, pipe inside dq are counted as real pipes.
 // add in assign token to ignore pipe inside quotes
+// - make parsing error parse raw cmdline because of dqoute trimmed
 // exec : none
 
 // MINOR PROBLEMS: (osef un peu)
