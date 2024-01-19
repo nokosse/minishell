@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 18:35:15 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/19 10:23:50 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/19 12:20:44 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	skip_sq_get_token(char **cmdl, char **token, int *i, int *k)
 Returns a token from the command line and a static index.
 We take care to ignore the space if it is between simple/double quotes.
 */
-char	*get_token(char *cmdl, int *j)
+char	*get_token(char *cmdl, int *j, bool *quote)
 {
 	int			i;
 	int			k;
@@ -79,8 +79,11 @@ char	*get_token(char *cmdl, int *j)
 		i++;
 	while (cmdl[i] && cmdl[i] != ' ')
 	{
-		if (cmdl[i] == '\"' && (is_quote_closed(cmdl, i, '\"')))	
+		if (cmdl[i] == '\"' && (is_quote_closed(cmdl, i, '\"')))
+		{
+			*quote = true;
 			skip_dq_get_token(&cmdl, &token, &i, &k);
+		}
 		else if (cmdl[i] == '\'' && (is_quote_closed(cmdl, i, '\'')))
 			skip_sq_get_token(&cmdl, &token, &i, &k);
 		else

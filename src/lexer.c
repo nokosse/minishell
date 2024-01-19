@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 13:42:22 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/18 10:01:19 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/19 12:25:23 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,19 @@ int	assign_word(t_mini *shell)
 	t_lex		*tmp;
 	int			i;
 	static int	j;
+	bool		quote;
 
 	i = 0;
 	j = 0;
 	tmp = shell->lex;
 	while (i < shell->nb_tokens)
 	{
-		tmp->word = get_token(shell->cmdline, &j);
+		quote = false;
+		tmp->word = get_token(shell->cmdline, &j, &quote);
 		if (!tmp->word)
 			return (0);
+		if (quote == true)
+			tmp->token = DQUOTE;
 		tmp = tmp->next;
 		i++;
 		j++;
@@ -87,6 +91,8 @@ int	assign_token(t_mini *shell)
 	tmp = shell->lex;
 	while (i < shell->nb_tokens)
 	{
+		if (tmp->token != DQUOTE)
+		{
 		if (!ft_strcmp(tmp->word, "|"))
 			tmp->token = PIPE;
 		else if (!ft_strcmp(tmp->word, "<"))
@@ -97,7 +103,28 @@ int	assign_token(t_mini *shell)
 			tmp->token = RIGHT1;
 		else if (!ft_strcmp(tmp->word, ">>"))
 			tmp->token = RIGHT2;
+		}
 		else
+			tmp->token = WORD;
+		tmp = tmp->next;
+		i++;
+	}
+	return (1);
+}
+
+/*
+Make every DQUOTE token a WORD token.
+*/
+int	re_assign_tokens(t_mini *shell)
+{
+	t_lex	*tmp;
+	int		i;
+
+	i = 0;
+	tmp = shell->lex;
+	while (i < shell->nb_tokens)
+	{
+		if (tmp->token == DQUOTE)
 			tmp->token = WORD;
 		tmp = tmp->next;
 		i++;
@@ -155,6 +182,8 @@ int	lexer(t_mini *shell)
 	if (!assign_token(shell))
 		return (0);
 	if (!lexer_error(shell))
+		return (0);
+	if (!re_assign_tokens(shell))
 		return (0);
 	return (1);
 }
