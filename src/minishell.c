@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2024/01/19 11:02:04 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/19 12:00:46 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	start_minishell(t_mini *shell)
 		free_all(shell);
 		return ;
 	}
-	print_lex(shell);
 	if (!expander(shell))
 	{
 		free_all(shell);
@@ -42,12 +41,12 @@ void	start_minishell(t_mini *shell)
 		free_all(shell);
 		return ;
 	}
-	print_cmd(shell);
-	if (!executor(shell))
-	{
-		free_all(shell);
-		return ;
-	}
+	// print_cmd(shell);
+	// if (!executor(shell))
+	// {
+	// 	free_all(shell);
+	// 	return ;
+	// }
 	free_all(shell);
 }
 
@@ -89,7 +88,9 @@ void	minishell_loop(t_mini *shell)
 // TODO ENV : SHLVL, OLDPWD, PWD updates
 
 // BIG PROBLEMS: (TO FIX!!)
-// parsing : none
+// parsing : echo "pipe|pipe" pipe inside quote does parsing error should NOT.
+// because of the dquote trimmed, pipe inside dq are counted as real pipes.
+// add in assign token to ignore pipe inside quotes
 // exec : none
 
 // MINOR PROBLEMS: (osef un peu)

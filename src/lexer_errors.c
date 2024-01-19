@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 12:54:06 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/04 16:57:21 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/19 11:53:28 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,9 @@ int	handle_pipe_err1(t_mini *shell)
 	while (i < shell->nb_tokens)
 	{
 		if (lex_t->token == PIPE && lex_t->i == shell->nb_tokens - 1)
+		{
 			return (0);
+		}
 		lex_t = lex_t->next;
 		i++;
 	}
