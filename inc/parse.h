@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:29:05 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/18 14:50:55 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/19 12:19:50 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		init_lex(t_mini *shell);
 int		assign_word(t_mini *shell);
 int		assign_token(t_mini *shell);
 int		count_tokens(char *cmdl);
-char	*get_token(char *cmdl, int *j);
+char	*get_token(char *cmdl, int *j, bool *quote);
 
 /* LEXER: Insert spaces */
 int		count_len(char *str);

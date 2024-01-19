@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 14:42:51 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/18 10:01:36 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/19 12:20:25 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef enum s_token
 	LEFT2,
 	RIGHT1,
 	RIGHT2,
+	DQUOTE,
 }	t_token;
 
 /*
