@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 14:04:51 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/18 15:28:52 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/19 10:07:13 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ int	insert_spaces_quotes(t_mini *shell)
 	while (shell->cmdline[i])
 	{
 		count_quotes(&dq, &sq, shell->cmdline, &i);
-		if (!is_inside_sq(i, shell->cmdline) && is_evn_dq(i, dq, shell))
-			write_space(&new, shell->cmdline, &i, &j);
-		else if (!is_inside_dq(i, shell->cmdline) && is_evn_sq(i, sq, shell))
+		// if (!is_inside_sq(i, shell->cmdline) && is_evn_dq(i, dq, shell))
+		// 	write_space(&new, shell->cmdline, &i, &j);
+		if (!is_inside_dq(i, shell->cmdline) && is_evn_sq(i, sq, shell))
 			write_space(&new, shell->cmdline, &i, &j);
 		else
 			new[j++] = shell->cmdline[i++];

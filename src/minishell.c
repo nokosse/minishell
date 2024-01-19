@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2024/01/18 16:56:55 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/19 10:44:07 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	start_minishell(t_mini *shell)
 		free_all(shell);
 		return ;
 	}
+	print_lex(shell);
 	if (!expander(shell))
 	{
 		free_all(shell);
@@ -87,10 +88,5 @@ void	minishell_loop(t_mini *shell)
 // TODO : parsing_error
 // TODO ENV : SHLVL, OLDPWD, PWD updates
 
-// TODO PROBLEM : doenst insert space btwn 2 quote if thers is diff
-// quote in the quote
-// ex : "hello'my'friend""how'are'you" -> "hello'my'friend""how'are'you"
-// instead of : "hello'my'friend" "how'are'you"
-//                               ^
-//                               this one is missing
-// its because it thinks the 2nd and 3nd dq are inside a sq
+// PROBLEM : "$USER"WDD -> expand void intread of kvisouthWDD
+// Make sens because : "$USER"WDD is tokenized as $USERWDD which doesn't exist
