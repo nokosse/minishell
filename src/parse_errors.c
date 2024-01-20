@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 17:51:12 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/20 15:54:06 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/20 16:39:03 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,44 @@ int	redir_error_str(char *str)
 }
 
 /*
+Add junk char here
+*/
+int	is_junk_char(char c)
+{
+	if (c == '\\' || c == ':' || c == '*' || c == '?' || c == ';'
+		|| c == '&' || c == '(' || c == ')' || c == '!'
+		|| c == '/' || c == '\0')
+		return (1);
+	return (0);
+}			
+
+/*
+This function will handle the junk characters errors.
+It works just like the redirection errors.
+*/
+int	junk_char(char *str)
+{
+	int	i;
+	int	quote;
+
+	i = 0;
+	while (str[i])
+	{
+		quote = 0;
+		if (str[i] == '\"' || str[i] == '\'')
+		{
+			skip_any_quote(str, &i, str[i]);
+			quote = 1;
+		}
+		if (is_junk_char(str[i]))
+			return (0);
+		if (quote == 0)
+			i++;
+	}
+	return (1);
+}
+
+/*
 This function will handle the input errors.
 */
 int	parse_error(t_mini *shell)
@@ -155,7 +193,7 @@ int	parse_error(t_mini *shell)
 	while (i < shell->nb_commands)
 	{
 		str = cmd_t->str;
-		if (!quote_error(str) || !redir_error_str(str))
+		if (!quote_error(str) || !redir_error_str(str) || !junk_char(str))
 			return (ft_putstr_fd("minishell: parsing error\n", 2), 0);
 		i++;
 		cmd_t = cmd_t->next;

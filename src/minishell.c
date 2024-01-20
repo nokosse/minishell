@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2024/01/20 12:16:39 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/20 16:39:55 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,8 @@ void	minishell_loop(t_mini *shell)
 // TODO : parsing_error
 // TODO ENV : SHLVL, OLDPWD, PWD updates
 
-// TODO : do redir parsing
-
 // BIG PROBLEMS: (TO FIX!!)
-// parsing :
-// - make parsing error parse raw cmdline because of dqoute trimmed
+// parsing : none
 // exec : none
 
 // MINOR PROBLEMS: (osef un peu)
