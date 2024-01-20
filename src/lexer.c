@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 13:42:22 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/19 12:28:07 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/20 15:53:43 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,16 +93,16 @@ int	assign_token(t_mini *shell)
 	{
 		if (tmp->token != DQUOTE)
 		{
-		if (!ft_strcmp(tmp->word, "|"))
-			tmp->token = PIPE;
-		else if (!ft_strcmp(tmp->word, "<"))
-			tmp->token = LEFT1;
-		else if (!ft_strcmp(tmp->word, "<<"))
-			tmp->token = LEFT2;
-		else if (!ft_strcmp(tmp->word, ">"))
-			tmp->token = RIGHT1;
-		else if (!ft_strcmp(tmp->word, ">>"))
-			tmp->token = RIGHT2;
+			if (!ft_strcmp(tmp->word, "|"))
+				tmp->token = PIPE;
+			else if (!ft_strcmp(tmp->word, "<"))
+				tmp->token = LEFT1;
+			else if (!ft_strcmp(tmp->word, "<<"))
+				tmp->token = LEFT2;
+			else if (!ft_strcmp(tmp->word, ">"))
+				tmp->token = RIGHT1;
+			else if (!ft_strcmp(tmp->word, ">>"))
+				tmp->token = RIGHT2;
 		}
 		else
 			tmp->token = WORD;
