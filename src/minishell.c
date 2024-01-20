@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2024/01/20 16:39:55 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/20 17:03:01 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,9 @@ void	minishell_loop(t_mini *shell)
 	}
 }
 
-// TODO : improve 'end' to free only after check if not NULL
-// TODO : parsing_error
 // TODO ENV : SHLVL, OLDPWD, PWD updates
+// TODO : BUILT-INS
+// TODO : test for leaks, search of parsing errors
 
 // BIG PROBLEMS: (TO FIX!!)
 // parsing : none
