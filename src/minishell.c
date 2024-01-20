@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2024/01/19 18:11:45 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/20 12:16:39 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,17 +87,15 @@ void	minishell_loop(t_mini *shell)
 // TODO : parsing_error
 // TODO ENV : SHLVL, OLDPWD, PWD updates
 
-// TODO : improve parse_error with quote parsing + do redir parsing
+// TODO : do redir parsing
 
 // BIG PROBLEMS: (TO FIX!!)
 // parsing :
-// - echo "pipe|pipe" pipe inside quote does parsing error should NOT.
-// because of the dquote trimmed, pipe inside dq are counted as real pipes.
-// add in assign token to ignore pipe inside quotes // FIXED PIPEERR1
 // - make parsing error parse raw cmdline because of dqoute trimmed
 // exec : none
 
 // MINOR PROBLEMS: (osef un peu)
+// - unclosed quote a little bit goofy but ok overall
 // -"$USER"WDD -> expand void intread of kvisouthWDD
 // Make sens because : "$USER"WDD is tokenized as $USERWDD which doesn't exist
 // exec : none
