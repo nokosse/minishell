@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 17:51:12 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/20 15:04:36 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/20 15:06:28 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	handle_sq(char *str, int *i, int *sq)
 		{
 			*sq = 1;
 			(*i)++;
-			while(str[*i] && str[*i] != '\'')
+			while (str[*i] && str[*i] != '\'')
 				(*i)++;
 			(*i)++;
 		}
@@ -45,7 +45,7 @@ int	handle_dq(char *str, int *i, int *dq)
 		{
 			*dq = 1;
 			(*i)++;
-			while(str[*i] && str[*i] != '\"')
+			while (str[*i] && str[*i] != '\"')
 				(*i)++;
 			(*i)++;
 		}
@@ -84,7 +84,7 @@ int	parse_error(t_mini *shell)
 	t_cmd	*cmd_t;
 	char	*str;
 	int		i;
-	
+
 	i = 0;
 	cmd_t = shell->cmd;
 	while (i < shell->nb_commands)
