@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 14:42:53 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/10 16:30:50 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/21 11:32:18 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # include "exec.h"
 # include "parse.h"
 # include "structure.h"
+# include "builtin.h"
 # include "../libft/inc/libft.h"
 # include "../libft/inc/get_next_line.h"
 
