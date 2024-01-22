@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 16:48:04 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/21 13:23:33 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/22 12:14:31 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,17 @@ int	cd_handle_str(char *path, char *cwd)
 	return (1);
 }
 
+/*
+Basically, how does 'cd' works :
+- We only accept 1 argument to it.
+- We handle th case where we type 'cd ..'
+- We handle the case where we type 'cd /'
+- We handle the case where we type 'cd <string>' (cd /Users or cd minishell)
+We will use the environment variable PWD to get the current directory.
+and then trim or add or replace what the user typed with cd.
+then update the environment variable PWD and OLDPWD.
+OLDPWD is saved before any changes in the function, and PWD is saved after.
+*/
 int	builtin_cd(char **cmd, t_mini *shell)
 {
 	char	cwd[1024];

@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2024/01/20 17:03:01 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/22 12:15:19 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void	minishell_loop(t_mini *shell)
 // TODO ENV : SHLVL, OLDPWD, PWD updates
 // TODO : BUILT-INS
 // TODO : test for leaks, search of parsing errors
+// TODO : free env ? (not sure)
 
 // BIG PROBLEMS: (TO FIX!!)
 // parsing : none
