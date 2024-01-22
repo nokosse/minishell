@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 11:31:52 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/21 13:23:13 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/22 18:01:42 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,14 @@ int		builtin_echo(char **cmd);
 void	builtin_env(char **env);
 
 /* EXIT */
+void	builtin_exit(t_mini *shell, char **cmd);
 
 /* EXPORT */
+int		builtin_export(char **cmd, t_mini *shell);
+int		exp_count_args(char **cmd);
+int		env_count(char **env);
+int		var_already_exist(char *var, t_mini *shell);
+int		exp_check_args(char **cmd);
 
 /* PWD */
 void	builtin_pwd(void);
