@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 16:48:23 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/22 18:02:31 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/22 18:13:15 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	create_var(char *var, char *value, t_mini *shell)
 	char	**new_env;
 
 	i = 0;
+	new_env = NULL;
 	new_env = malloc(sizeof(char *) * (env_count(shell->env) + 2));
 	if (!new_env)
 		return (0);
@@ -71,7 +72,7 @@ int	create_var(char *var, char *value, t_mini *shell)
 	if (!new_env[i])
 		return (0);
 	new_env[i + 1] = NULL;
-	free_arrplus(shell->env);
+	free(shell->env);
 	shell->env = new_env;
 	return (1);
 }
