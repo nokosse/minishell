@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kevso <kevso@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 11:31:52 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/22 18:01:42 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/23 16:33:54 by kevso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ int		exp_check_args(char **cmd);
 /* PWD */
 void	builtin_pwd(void);
 
+/* unset uses env_count and var_already_exist of export */
 /* UNSET */
+int		builtin_unset(char **cmd, t_mini *shell);
 
 #endif
