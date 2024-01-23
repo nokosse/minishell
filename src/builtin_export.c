@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kevso <kevso@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 16:48:23 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/22 18:13:15 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/23 15:43:01 by kevso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ Only if all the arguments are valid, the command will be executed.
 */
 int	builtin_export(char **cmd, t_mini *shell)
 {
-	if (exp_count_args(cmd) < 1)
+	if (exp_count_args(cmd) <= 1)
 		return (1);
 	if (!exp_check_args(cmd))
 		return (0);
