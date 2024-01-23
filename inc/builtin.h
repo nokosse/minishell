@@ -6,7 +6,7 @@
 /*   By: kevso <kevso@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 11:31:52 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/23 16:33:54 by kevso            ###   ########.fr       */
+/*   Updated: 2024/01/23 17:31:23 by kevso            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 # include "minishell.h"
 # include "structure.h"
+
+int		check_builtins(char *cmd);
+int		exec_builtin(char **cmd, t_mini *shell);
 
 /* CD */
 int		builtin_cd(char **cmd, t_mini *shell);
