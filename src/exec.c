@@ -5,12 +5,95 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/18 16:32:39 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/19 11:21:38 by kvisouth         ###   ########.fr       */
+/*   Created: 2024/01/24 13:00:28 by kvisouth          #+#    #+#             */
+/*   Updated: 2024/01/24 13:00:38 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+void handle_redirections(t_cmd *cmd) 
+{
+	for (t_lex *redir = cmd->redir; redir != NULL; redir = redir->next) {
+		int fd;
+		switch (redir->token) {
+			case LEFT1: // <
+				fd = open(redir->word, O_RDONLY);
+				if (fd == -1) {
+					perror("open");
+					exit(EXIT_FAILURE);
+				}
+				dup2(fd, STDIN_FILENO);
+				close(fd);
+				break;
+			case RIGHT1: // >
+				fd = open(redir->word, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+				if (fd == -1) {
+					perror("open");
+					exit(EXIT_FAILURE);
+				}
+				dup2(fd, STDOUT_FILENO);
+				close(fd);
+				break;
+			case LEFT2: // <<
+				{
+					int pipe_fds[2];
+					if (pipe(pipe_fds) == -1) {
+						perror("pipe");
+						exit(EXIT_FAILURE);
+					}
+
+					// Processus enfant pour écrire dans le pipe
+					pid_t pid = fork();
+					if (pid == -1) {
+						perror("fork");
+						exit(EXIT_FAILURE);
+					} else if (pid == 0) {
+						close(pipe_fds[0]); // Fermer l'extrémité de lecture
+						char *line;
+						while ((line = readline("> ")) != NULL) {
+							if (strcmp(line, redir->word) == 0) {
+								free(line);
+								break;
+							}
+							write(pipe_fds[1], line, strlen(line));
+							write(pipe_fds[1], "\n", 1);
+							free(line);
+						}
+						close(pipe_fds[1]);
+						exit(EXIT_SUCCESS);
+					} else {
+						close(pipe_fds[1]); // Fermer l'extrémité d'écriture
+						dup2(pipe_fds[0], STDIN_FILENO);
+						close(pipe_fds[0]);
+						waitpid(pid, NULL, 0); // Attendre que le processus enfant termine
+					}
+				}
+				break;
+			// <<
+			case RIGHT2: // >>
+				fd = open(redir->word, O_WRONLY | O_CREAT | O_APPEND, 0644);
+				if (fd == -1) {
+					perror("open");
+					exit(EXIT_FAILURE);
+				}
+				dup2(fd, STDOUT_FILENO);
+				close(fd);
+				break;
+
+			// Ajoutez un cas pour chaque type de token non traité pour éviter les erreurs
+			case WORD:
+			case PIPE:
+			case DQUOTE:
+				// Pas d'action nécessaire pour ces cas
+				break;
+			default:
+				// Vous pouvez gérer une erreur inattendue ici
+				break;
+		}
+	}
+}
+
 
 // Exécute une commande individuelle.
 int	exec_cmd( t_mini *shell, t_cmd *cmd)
@@ -21,9 +104,10 @@ int	exec_cmd( t_mini *shell, t_cmd *cmd)
 	char	*ret;
 	char	**f;
 
+	handle_redirections(cmd);
 	j = 0;
 	i = -1;
-	f = ft_split(cmd->str, ' ');
+	f =  cmd->cmd;//ft_split(cmd->str, ' ');
 	f[0] = ft_strjoin("/",f[0]);
 	while (shell->env[++i] != NULL && shell->env)
 	{
@@ -93,56 +177,107 @@ int	ft_same_str(char *str1, char *str2, size_t n)
 
 int executor(t_mini *shell)
 {
-    int pipe_fds[2 * shell->nb_pipes];
-    int i = 0;
+	int pipe_fds[2 * shell->nb_pipes];
+	int i = 0;
 	pid_t pid;
 
-    // Initialisation des pipes si nécessaire
-    for (i = 0; i < shell->nb_pipes; i++) {
-        if (pipe(pipe_fds + i * 2) < 0) {
-            perror("pipe");
-            exit(EXIT_FAILURE);
-        }
-    }
+	// Initialisation des pipes si nécessaire
+	for (i = 0; i < shell->nb_pipes; i++) {
+		if (pipe(pipe_fds + i * 2) < 0) {
+			perror("pipe");
+			exit(EXIT_FAILURE);
+		}
+	}
 
-    t_cmd *current_cmd = shell->cmd;
-    i = 0;
-    while (current_cmd != NULL) {
-        pid = fork();
-        if (pid == -1) {
-            perror("fork");
-            exit(EXIT_FAILURE);
-        } else if (pid == 0) { // Processus enfant
-            if (i != 0) { // Si ce n'est pas la première commande
-                dup2(pipe_fds[(i - 1) * 2], STDIN_FILENO);
-            }
-            if (i < shell->nb_pipes * 2) { // Si ce n'est pas la dernière commande
-                dup2(pipe_fds[i * 2 + 1], STDOUT_FILENO);
-            }
+	t_cmd *current_cmd = shell->cmd;
+	i = 0;
+	while (current_cmd != NULL) {
+			pid = fork();
+			if (pid == -1) {
+				perror("fork");
+				exit(EXIT_FAILURE);
+			} else if (pid == 0) { // Processus enfant
+				if (i != 0) { // Si ce n'est pas la première commande
+					dup2(pipe_fds[(i - 1) * 2], STDIN_FILENO);
+				}
+				if (i < shell->nb_pipes * 2) { // Si ce n'est pas la dernière commande
+					dup2(pipe_fds[i * 2 + 1], STDOUT_FILENO);
+				}
 
-            // Fermeture des descripteurs de fichier de pipe dans le processus enfant
-            for (int j = 0; j < 2 * shell->nb_pipes; j++) {
-                close(pipe_fds[j]);
-            }
+				// Fermeture des descripteurs de fichier de pipe dans le processus enfant
+				for (int j = 0; j < 2 * shell->nb_pipes; j++) {
+					close(pipe_fds[j]);
+				}
 
-            exec_cmd(shell, current_cmd);
-            exit(EXIT_FAILURE); // Si exec_cmd retourne
-        }
+				exec_cmd(shell, current_cmd);
+				exit(EXIT_FAILURE); // Si exec_cmd retourne
+			}
 
-        current_cmd = current_cmd->next;
-        i++;
-    }
+			current_cmd = current_cmd->next;
+			i++;
+	}
+	// Fermeture des descripteurs de fichier de pipe dans le processus parent
+	for (i = 0; i < 2 * shell->nb_pipes; i++) {
+		close(pipe_fds[i]);
+	}
+	// Attente des processus enfants
+	while ((pid = wait(NULL)) > 0);
 
-    // Fermeture des descripteurs de fichier de pipe dans le processus parent
-    for (i = 0; i < 2 * shell->nb_pipes; i++) {
-        close(pipe_fds[i]);
-    }
-
-    // Attente des processus enfants
-    while ((pid = wait(NULL)) > 0);
-
-    return 1;
+	return 1;
 }
+
+// int executor(t_mini *shell)
+// {
+//     int pipe_fds[2 * shell->nb_pipes];
+//     int i = 0;
+// 	pid_t pid;
+
+//     // Initialisation des pipes si nécessaire
+//     for (i = 0; i < shell->nb_pipes; i++) {
+//         if (pipe(pipe_fds + i * 2) < 0) {
+//             perror("pipe");
+//             exit(EXIT_FAILURE);
+//         }
+//     }
+
+//     t_cmd *current_cmd = shell->cmd;
+//     i = 0;
+//     while (current_cmd != NULL) {
+// 			pid = fork();
+// 			if (pid == -1) {
+// 				perror("fork");
+// 				exit(EXIT_FAILURE);
+// 			} else if (pid == 0) { // Processus enfant
+// 				if (i != 0) { // Si ce n'est pas la première commande
+// 					dup2(pipe_fds[(i - 1) * 2], STDIN_FILENO);
+// 				}
+// 				if (i < shell->nb_pipes * 2) { // Si ce n'est pas la dernière commande
+// 					dup2(pipe_fds[i * 2 + 1], STDOUT_FILENO);
+// 				}
+
+// 				// Fermeture des descripteurs de fichier de pipe dans le processus enfant
+// 				for (int j = 0; j < 2 * shell->nb_pipes; j++) {
+// 					close(pipe_fds[j]);
+// 				}
+
+// 				exec_cmd(shell, current_cmd);
+// 				exit(EXIT_FAILURE); // Si exec_cmd retourne
+// 			}
+
+// 			current_cmd = current_cmd->next;
+// 			i++;
+//     }
+
+//     // Fermeture des descripteurs de fichier de pipe dans le processus parent
+//     for (i = 0; i < 2 * shell->nb_pipes; i++) {
+//         close(pipe_fds[i]);
+//     }
+
+//     // Attente des processus enfants
+//     while ((pid = wait(NULL)) > 0);
+
+//     return 1;
+// }
 
 // int	executor(t_mini *shell)
 // {
@@ -194,4 +329,87 @@ int executor(t_mini *shell)
 		
 // 	}
 // 	return 1;
+// }
+
+
+
+// void handle_redirections(t_cmd *cmd) {
+//     for (t_lex *redir = cmd->redir; redir != NULL; redir = redir->next) {
+//         int fd;
+//         switch (redir->token) {
+//             case LEFT1: // <
+//                 fd = open(redir->word, O_RDONLY);
+//                 if (fd == -1) {
+//                     perror("open");
+//                     exit(EXIT_FAILURE);
+//                 }
+//                 dup2(fd, STDIN_FILENO);
+//                 close(fd);
+//                 break;
+//             case RIGHT1: // >
+//                 fd = open(redir->word, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+//                 if (fd == -1) {
+//                     perror("open");
+//                     exit(EXIT_FAILURE);
+//                 }
+//                 dup2(fd, STDOUT_FILENO);
+//                 close(fd);
+//                 break;
+//             case LEFT2: // <<
+// 				{
+// 					int pipe_fds[2];
+// 					if (pipe(pipe_fds) == -1) {
+// 						perror("pipe");
+// 						exit(EXIT_FAILURE);
+// 					}
+
+// 					// Processus enfant pour écrire dans le pipe
+// 					pid_t pid = fork();
+// 					if (pid == -1) {
+// 						perror("fork");
+// 						exit(EXIT_FAILURE);
+// 					} else if (pid == 0) {
+// 						close(pipe_fds[0]); // Fermer l'extrémité de lecture
+// 						char *line;
+// 						while ((line = readline("> ")) != NULL) {
+// 							if (strcmp(line, redir->word) == 0) {
+// 								free(line);
+// 								break;
+// 							}
+// 							write(pipe_fds[1], line, strlen(line));
+// 							write(pipe_fds[1], "\n", 1);
+// 							free(line);
+// 						}
+// 						close(pipe_fds[1]);
+// 						exit(EXIT_SUCCESS);
+// 					} else {
+// 						close(pipe_fds[1]); // Fermer l'extrémité d'écriture
+// 						dup2(pipe_fds[0], STDIN_FILENO);
+// 						close(pipe_fds[0]);
+// 						waitpid(pid, NULL, 0); // Attendre que le processus enfant termine
+// 					}
+// 				}
+// 				break;
+// 			// <<
+// 			case RIGHT2: // >>
+// 				fd = open(redir->word, O_WRONLY | O_CREAT | O_APPEND, 0644);
+// 				if (fd == -1) {
+// 					perror("open");
+// 					exit(EXIT_FAILURE);
+// 				}
+// 				dup2(fd, STDOUT_FILENO);
+// 				close(fd);
+// 				break;
+
+//             // Ajoutez un cas pour chaque type de token non traité pour éviter les erreurs
+//             case WORD:
+//             case PIPE:
+//             case DQUOTE:
+//                 // Pas d'action nécessaire pour ces cas
+//                 break;
+//             default:
+//                 // Vous pouvez gérer une erreur inattendue ici
+//                 break;
+//         }
+//     }
 // }
