@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2024/01/24 14:12:40 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/24 15:41:57 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,8 @@ void	minishell_loop(t_mini *shell)
 	}
 }
 
-// TODO ENV : SHLVL, OLDPWD, PWD updates
-// TODO : BUILT-INS
 // TODO : test for leaks, search of parsing errors
 // TODO : free env ? (not sure)
-// TODO : affect a "DQUOTE" token to "WORDS" token
-// TODO : cd: dont update oldpwd if minishell is launched with env -i
 
 // BIG PROBLEMS: (TO FIX!!)
 // parsing : none
