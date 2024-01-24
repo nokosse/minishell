@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 16:48:13 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/20 16:59:48 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/24 13:42:18 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ void	builtin_env(char **env)
 	i = 0;
 	while (env[i])
 	{
-        ft_putstr_fd(env[i], 1);
-        ft_putstr_fd("\n", 1);
-        i++;
-    }
+		ft_putstr_fd(env[i], 1);
+		ft_putstr_fd("\n", 1);
+		i++;
+	}
 	g_sig = 0;
 }

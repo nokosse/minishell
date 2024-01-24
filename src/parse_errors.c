@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 17:51:12 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/20 16:39:03 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/24 13:34:27 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,9 +146,8 @@ Add junk char here
 */
 int	is_junk_char(char c)
 {
-	if (c == '\\' || c == ':' || c == '*' || c == '?' || c == ';'
-		|| c == '&' || c == '(' || c == ')' || c == '!'
-		|| c == '/' || c == '\0')
+	if (c == '\\' || c == '*' || c == ';' || c == '&'
+		|| c == '(' || c == ')' || c == '\0')
 		return (1);
 	return (0);
 }			
@@ -160,20 +159,17 @@ It works just like the redirection errors.
 int	junk_char(char *str)
 {
 	int	i;
-	int	quote;
 
 	i = 0;
 	while (str[i])
 	{
-		quote = 0;
-		if (str[i] == '\"' || str[i] == '\'')
-		{
-			skip_any_quote(str, &i, str[i]);
-			quote = 1;
-		}
-		if (is_junk_char(str[i]))
+		if (str[i] == '\"')
+			skip_any_quote(str, &i, '\"');
+		else if (str[i] == '\'')
+			skip_any_quote(str, &i, '\'');
+		else if (is_junk_char(str[i]))
 			return (0);
-		if (quote == 0)
+		else
 			i++;
 	}
 	return (1);

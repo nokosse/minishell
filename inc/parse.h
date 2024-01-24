@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:29:05 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/19 17:12:42 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/24 13:34:49 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ void	init_ints(int *i, int *j, int *dq, int *sq);
 int		insert_spaces_quotes(t_mini *shell);
 int		is_inside_dq(int i, char *str);
 int		is_inside_sq(int i, char *str);
-int 	dq_is_closed(char *cmd, int i);
-int	    sq_is_closed(char *cmd, int i);
+int		dq_is_closed(char *cmd, int i);
+int		sq_is_closed(char *cmd, int i);
 int		is_evn_dq(int i, int dq, t_mini *shell);
 int		is_evn_sq(int i, int sq, t_mini *shell);
 

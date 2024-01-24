@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 16:47:55 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/21 14:20:21 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/24 13:41:29 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ Count the number of arrays in cmd
 */
 int	exit_count_args(char **cmd)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (cmd[i])
@@ -32,7 +32,7 @@ int	exit_count_args(char **cmd)
 */
 void	builtin_exit(t_mini *shell, char **cmd)
 {
-	int exit_code;
+	int	exit_code;
 	int	i;
 
 	exit_code = 0;
