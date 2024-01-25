@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kevso <kevso@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 16:48:23 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/23 15:43:01 by kevso            ###   ########.fr       */
+/*   Updated: 2024/01/25 15:26:32 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	exp_handle_var(char *cmd, t_mini *shell)
 	value = ft_substr(cmd, i, ft_strlen(cmd));
 	if (!var || !value)
 		return (0);
-	if (!var_already_exist(var, shell))
+	if (var_already_exist(var, shell))
 	{
 		if (!update_var(var, value, shell))
 			return (0);
@@ -119,9 +119,10 @@ int	exp_handle_args(char **cmd, t_mini *shell)
 	int	j;
 
 	i = 1;
-	while (i < exp_count_args(cmd))
+	while (cmd[i])
 	{
-		while (cmd[i][j] != '\0' || cmd[i][j] != '=')
+		j = 0;
+		while (cmd[i][j] != '\0' && cmd[i][j] != '=')
 			j++;
 		if (cmd[i][j] == '=')
 		{

@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 17:57:13 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/22 17:58:46 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/25 15:16:14 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,18 +69,20 @@ int	exp_check_args(char **cmd)
 	int	k;
 
 	i = 1;
-	while (i < exp_count_args(cmd))
+	while (cmd[i])
 	{
 		j = 0;
 		k = 0;
-		while (cmd[i][j] != '\0' || cmd[i][j] != '=')
+		if (cmd[i][0] == '=')
+			return (ft_putstr_fd("export: invalid variable\n", 2), 0);
+		while (cmd[i][j] != '=' && cmd[i][j] != '\0')
 			j++;
 		while (k < j)
 		{
-			if (k == 0 && ft_isalpha(cmd[i][k]) && cmd[i][k] != '_')
-				return (0);
-			if (k > 0 && ft_isalnum(cmd[i][k]) == 0 && cmd[i][k] != '_')
-				return (0);
+			if (k == 0 && (!ft_isalpha(cmd[i][k]) && cmd[i][k] != '_'))
+				return (ft_putstr_fd("export: invalid variable\n", 2), 0);\
+			if (k > 0 && (!ft_isalnum(cmd[i][k]) && cmd[i][k] != '_'))
+				return (ft_putstr_fd("export: invalid content\n", 2), 0);
 			k++;
 		}
 		i++;
