@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 16:48:32 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/25 17:07:10 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/25 17:13:24 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ int	unset_check_args(char **cmd)
 
 /*
 This function will delete the variable 'var' from env.
-It will just litteraly copy the env and erease the variable 'var' from it.
+It will just copy the env to new_env but without the variable 'var'.
+It is checked at ft_strncmp(shell->env[i], var, ft_strlen(var))
 */
 int	delete_var(char *var, t_mini *shell)
 {
