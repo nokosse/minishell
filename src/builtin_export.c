@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 16:48:23 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/25 15:26:32 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/25 17:36:07 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	create_var(char *var, char *value, t_mini *shell)
 	if (!new_env[i])
 		return (0);
 	new_env[i + 1] = NULL;
-	free(shell->env);
+	free_arrplus(shell->env);
 	shell->env = new_env;
 	return (1);
 }
@@ -106,6 +106,8 @@ int	exp_handle_var(char *cmd, t_mini *shell)
 		if (!create_var(var, value, shell))
 			return (0);
 	}
+	free(var);
+	free(value);
 	return (1);
 }
 

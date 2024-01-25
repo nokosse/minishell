@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 16:48:32 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/25 17:13:24 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/25 17:34:40 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	delete_var(char *var, t_mini *shell)
 		}
 		i++;
 	}
-	free(shell->env);
+	free_arrplus(shell->env);
 	shell->env = new_env;
 	return (1);
 }
