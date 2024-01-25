@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kevso <kevso@student.42.fr>                +#+  +:+       +#+        */
+/*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 16:48:32 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/23 16:32:02 by kevso            ###   ########.fr       */
+/*   Updated: 2024/01/25 17:07:10 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,32 +60,31 @@ int	unset_check_args(char **cmd)
 
 /*
 This function will delete the variable 'var' from env.
-It will just copy the env but without the variable 'var'.
-
-It will copy only if ft_strncmp returns something else than 0.
-ft_strncmp will compare env[i] and var until the length of var.
+It will just litteraly copy the env and erease the variable 'var' from it.
 */
 int	delete_var(char *var, t_mini *shell)
 {
 	int		i;
+	int		j;
 	char	**new_env;
 
 	i = 0;
+	j = 0;
 	new_env = NULL;
-	new_env = malloc(sizeof(char *) * (env_count(shell->env)));
+	new_env = ft_calloc(env_count(shell->env) + 1, sizeof(char *));
 	if (!new_env)
 		return (0);
 	while (shell->env[i])
 	{
 		if (ft_strncmp(shell->env[i], var, ft_strlen(var)))
 		{
-			new_env[i] = ft_strdup(shell->env[i]);
-			if (!new_env[i])
+			new_env[j] = ft_strdup(shell->env[i]);
+			if (!new_env[j])
 				return (0);
+			j++;
 		}
 		i++;
 	}
-	new_env[i] = NULL;
 	free(shell->env);
 	shell->env = new_env;
 	return (1);
