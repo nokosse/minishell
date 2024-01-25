@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 16:48:04 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/22 12:14:31 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/25 13:46:17 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int	cd_handle_prev_dir(char *cwd)
 	str = trim_last_elem(cwd);
 	if (!str)
 		return (0);
+	printf("str = %s\n", str);
 	if (chdir(str) != 0)
 	{
 		g_sig = 1;
@@ -116,6 +117,7 @@ int	builtin_cd(char **cmd, t_mini *shell)
 		return (0);
 	if (!ft_strcmp(cmd[1], ".."))
 	{
+		printf("you typed ..\n");
 		if (!cd_handle_prev_dir(cwd))
 			return (0);
 	}

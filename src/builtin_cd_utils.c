@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 13:17:21 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/21 13:22:50 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/25 13:50:21 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,10 @@ char	*trim_last_elem(char *cwd)
 		len--;
 	if (len != 0)
 		len--;
-	str = ft_calloc(len + 1, sizeof(char));
+	str = ft_calloc(len + 2, sizeof(char));
 	if (!str)
 		return (NULL);
-	while (i < len)
+	while (i <= len)
 	{
 		str[i] = cwd[i];
 		i++;
@@ -125,7 +125,6 @@ int	cd_handle_relative(char *path, char *cwd)
 	str = ft_strjoin(cwd, "/");
 	if (!str)
 		return (0);
-	free(cwd);
 	cwd = ft_strjoin(str, path);
 	if (!cwd)
 		return (0);
