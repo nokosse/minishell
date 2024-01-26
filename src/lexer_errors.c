@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 12:54:06 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/19 16:15:22 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/26 13:34:23 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,9 @@ Handle errors with tokens that can segfault the parser.
 int	lexer_error(t_mini *shell)
 {
 	if (!handle_pipe_err1(shell))
+	{
+		g_sig = 1;
 		return (ft_putstr_fd("minishell: parsing error\n", 2), 0);
+	}
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 17:21:56 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/24 13:01:25 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/26 13:35:04 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,9 @@ int	parser(t_mini *shell)
 	if (!create_cmd(shell))
 		return (0);
 	if (!parse_error(shell))
+	{
+		g_sig = 1;
 		return (0);
+	}
 	return (1);
 }
