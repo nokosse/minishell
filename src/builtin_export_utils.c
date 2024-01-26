@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 17:57:13 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/25 15:16:14 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/26 13:25:33 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	exp_check_args(char **cmd)
 		while (k < j)
 		{
 			if (k == 0 && (!ft_isalpha(cmd[i][k]) && cmd[i][k] != '_'))
-				return (ft_putstr_fd("export: invalid variable\n", 2), 0);\
+				return (ft_putstr_fd("export: invalid variable\n", 2), 0);
 			if (k > 0 && (!ft_isalnum(cmd[i][k]) && cmd[i][k] != '_'))
 				return (ft_putstr_fd("export: invalid content\n", 2), 0);
 			k++;

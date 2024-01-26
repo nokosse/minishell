@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 13:17:21 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/25 13:50:21 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/26 13:26:18 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	cd_handle_absolute(char *path)
 	if (chdir(path) != 0)
 	{
 		g_sig = 1;
-		ft_putstr_fd("cd: no such file or directory", 2);
+		ft_putstr_fd("cd: no such file or directory\n", 2);
 		return (0);
 	}
 	g_sig = 0;
@@ -133,7 +133,7 @@ int	cd_handle_relative(char *path, char *cwd)
 	{
 		g_sig = 1;
 		free(cwd);
-		ft_putstr_fd("cd: no such file or directory", 2);
+		ft_putstr_fd("cd: no such file or directory\n", 2);
 		return (0);
 	}
 	g_sig = 0;

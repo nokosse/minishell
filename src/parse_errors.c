@@ -6,56 +6,11 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 17:51:12 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/24 14:06:49 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/26 13:18:04 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-int	is_quote(char *str, char c)
-{
-	if (str[0] == c && str[ft_strlen(str) - 1] == c)
-		return (1);
-	return (0);
-}
-
-void	skip_any_quote(char *str, int *i, char c)
-{
-	(*i)++;
-	while (str[*i] && str[*i] != c)
-		(*i)++;
-	(*i)++;
-}
-
-int	handle_sq(char *str, int *i, int *sq)
-{
-	if (str[*i] == '\'')
-	{
-		if (sq_is_closed(str, *i))
-		{
-			*sq = 1;
-			skip_any_quote(str, i, '\'');
-		}
-		else
-			return (0);
-	}
-	return (1);
-}
-
-int	handle_dq(char *str, int *i, int *dq)
-{
-	if (str[*i] == '\"')
-	{
-		if (dq_is_closed(str, *i))
-		{
-			*dq = 1;
-			skip_any_quote(str, i, '\"');
-		}
-		else
-			return (0);
-	}
-	return (1);
-}
 
 /*
 This function will handle the quote errors.
@@ -139,18 +94,7 @@ int	redir_error_str(char *str)
 			i++;
 	}
 	return (1);
-}
-
-/*
-Add junk char here
-*/
-int	is_junk_char(char c)
-{
-	if (c == '\\' || c == '*' || c == ';' || c == '&'
-		|| c == '(' || c == ')' || c == '\0')
-		return (1);
-	return (0);
-}			
+}		
 
 /*
 This function will handle the junk characters errors.

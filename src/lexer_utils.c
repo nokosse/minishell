@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 18:35:15 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/19 12:26:53 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/26 13:29:27 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,4 +87,32 @@ char	*get_token(char *cmdl, int *j, bool *quote)
 	}
 	*j = i;
 	return (token);
+}
+
+/*
+This function will free every 'word' in the t_lex structure.
+As well as every node of the linked list.
+And finally, it will free the last node.
+*/
+void	free_lex(t_mini *shell)
+{
+	t_lex	*tmp;
+	t_lex	*tmp2;
+	int		i;
+
+	i = 0;
+	tmp = shell->lex;
+	tmp2 = tmp;
+	if (shell->nb_tokens == 0)
+		return ;
+	while (i < shell->nb_tokens)
+	{
+		tmp = tmp->next;
+		free(tmp2->word);
+		free(tmp2);
+		tmp2 = tmp;
+		i++;
+	}
+	if (tmp)
+		free(tmp);
 }

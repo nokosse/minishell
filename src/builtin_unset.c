@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 16:48:32 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/25 17:34:40 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/26 13:25:46 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ The variable name have to be valid (see unset_check_name()).
 int	builtin_unset(char **cmd, t_mini *shell)
 {
 	if (unset_count_args(cmd) <= 1)
-		return(ft_putstr_fd("unset: not enough arguments\n", 2), 1);
+		return (ft_putstr_fd("unset: not enough arguments\n", 2), 1);
 	if (!unset_check_args(cmd))
 		return (ft_putstr_fd("unset: not a valid identifier\n", 2), 1);
 	if (unset_handle_args(cmd, shell))

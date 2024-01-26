@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 15:29:05 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/24 13:34:49 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/26 13:23:13 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,10 @@ int		get_cmdlines_in_nodes(t_mini *shell);
 
 /* PARSER : HANDLE SYNTAX ERRORS PART */
 int		is_quote(char *str, char c);
+int		is_junk_char(char c);
+void	skip_any_quote(char *str, int *i, char c);
+int		handle_sq(char *str, int *i, int *sq);
+int		handle_dq(char *str, int *i, int *dq);
 int		parse_error(t_mini *shell);
 int		handle_unclosed_quote_err(char *str);
 
