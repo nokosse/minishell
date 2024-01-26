@@ -6,12 +6,15 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 18:35:15 by kvisouth          #+#    #+#             */
-/*   Updated: 2024/01/26 13:29:27 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/26 19:27:24 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
+/*
+Returns 1 if the quote is closed, 0 if not.
+*/
 int	is_quote_closed(char *str, int i, char quote)
 {
 	int	j;
@@ -40,6 +43,10 @@ void	skip_dq_get_token(char **cmdl, char **token, int *i, int *k)
 	(*i)++;
 }
 
+/*
+Act like skip_dq_get_token but with single quotes, and this one actually
+copies the actual character (') and the last one.
+*/
 void	skip_sq_get_token(char **cmdl, char **token, int *i, int *k)
 {
 	(*token)[*k] = (*cmdl)[*i];
@@ -62,7 +69,7 @@ We take care to ignore the space if it is between simple/double quotes.
 */
 char	*get_token(char *cmdl, int *j, bool *quote)
 {
-	int			i;
+	int			i;	
 	int			k;
 	char		*token;
 
