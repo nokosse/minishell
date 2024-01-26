@@ -6,7 +6,7 @@
 /*   By: kvisouth <kvisouth@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 11:03:13 by kevso             #+#    #+#             */
-/*   Updated: 2024/01/24 15:41:57 by kvisouth         ###   ########.fr       */
+/*   Updated: 2024/01/26 13:16:03 by kvisouth         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ void	minishell_loop(t_mini *shell)
 }
 
 // TODO : test for leaks, search of parsing errors
-// TODO : free env ? (not sure)
 
 // BIG PROBLEMS: (TO FIX!!)
 // parsing : none
@@ -93,5 +92,3 @@ void	minishell_loop(t_mini *shell)
 // - unclosed quote a little bit goofy but ok overall
 // -"$USER"WDD -> expand void intread of kvisouthWDD
 // Make sens because : "$USER"WDD is tokenized as $USERWDD which doesn't exist
-// - cd ../../ doesn't work. only work with 'real' paths.
-// exec : none
